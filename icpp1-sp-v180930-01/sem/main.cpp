@@ -13,6 +13,7 @@
 #include <iostream>
 #include "framework.h"
 #include "interfaces.h"
+#include "mazeSolver.h"
 
 using namespace std;
 

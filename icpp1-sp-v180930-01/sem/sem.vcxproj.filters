@@ -24,6 +24,12 @@
     <ClCompile Include="interfaces.cpp">
       <Filter>Zdrojové soubory</Filter>
     </ClCompile>
+    <ClCompile Include="mazeSolver.cpp">
+      <Filter>Zdrojové soubory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\..\Disk Google (st52531%40student.upce.cz)\Documents\VŠ\5.semestr\IC++\Sem práce\icpp1-sp-v180930-01\sem\maze.cpp">
+      <Filter>Zdrojové soubory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -39,6 +45,18 @@
       <Filter>Hlavičkové soubory</Filter>
     </ClInclude>
     <ClInclude Include="tests.hpp">
+      <Filter>Hlavičkové soubory</Filter>
+    </ClInclude>
+    <ClInclude Include="maze.h">
+      <Filter>Hlavičkové soubory</Filter>
+    </ClInclude>
+    <ClInclude Include="mazeSolver.h">
+      <Filter>Hlavičkové soubory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Disk Google (st52531%40student.upce.cz)\Documents\VŠ\5.semestr\IC++\Sem práce\icpp1-sp-v180930-01\sem\dynArray.h">
+      <Filter>Hlavičkové soubory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\..\Disk Google (st52531%40student.upce.cz)\Documents\VŠ\5.semestr\IC++\Sem práce\icpp1-sp-v180930-01\sem\hashSet.h">
       <Filter>Hlavičkové soubory</Filter>
     </ClInclude>
   </ItemGroup>
