@@ -59,8 +59,5 @@
     <ClInclude Include="point.h">
       <Filter>Hlavičkové soubory</Filter>
     </ClInclude>
-    <ClInclude Include="hfasdfas.h">
-      <Filter>Hlavičkové soubory</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

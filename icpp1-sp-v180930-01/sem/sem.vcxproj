@@ -150,7 +150,6 @@
     <ClInclude Include="dynArray.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="hashSet.h" />
-    <ClInclude Include="hfasdfas.h" />
     <ClInclude Include="interfaces.h" />
     <ClInclude Include="maze.h" />
     <ClInclude Include="mazeSolver.h" />
