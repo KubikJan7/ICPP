@@ -19,7 +19,7 @@ void HashSet<T, HF, EF>::add(T element) {
 
 template<typename T, HashFunction<T> HF, EqualFunction<T> EF>
 bool HashSet<T, HF, EF>::isPresent(T element) const {
-
+	return false;
 }
 template<typename T, HashFunction<T> HF, EqualFunction<T> EF>
 HashSet<T, HF, EF>::HashSet(int internalArraySize) {

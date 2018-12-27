@@ -4,7 +4,7 @@ Point::Point(int x, int y) {
 	_y = y;
 }
 int Point::Hash(Point p) {
-
+	return 0;
 }
 bool Point::Equals(Point p1, Point p2) {
 	return true;

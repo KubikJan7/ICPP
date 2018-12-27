@@ -19,11 +19,11 @@ void DynArray<T>::add(T element) {
 }
 template<typename T>
 T& DynArray<T>::get(int index) {
-
+	return T;
 }
 template<typename T>
 int DynArray<T>::count() const {
-
+	return int;
 }
 
 #endif
