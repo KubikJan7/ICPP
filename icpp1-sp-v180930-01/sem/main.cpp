@@ -67,8 +67,8 @@ int main() {
 	exit(0);
 #else
 	Framework::System::init();
-	
-	for (int level = 0; level <= 2; level++) {
+	int level = 0;
+	//for (int level = 0; level <= 2; level++) {
 		string levelfile = "level0" + to_string(level) + ".dat";
 		string solutionfile = "solution0" + to_string(level) + ".txt";
 
@@ -76,9 +76,10 @@ int main() {
 		MazeSolver* mz = new MazeSolver(m);
 		if (mz->solve())
 			mz->saveMazeAndSolution(solutionfile);
+		mz->show();
 		delete mz;
 		delete m;
-	}
+	//}
 #endif
 	return 0;
 }

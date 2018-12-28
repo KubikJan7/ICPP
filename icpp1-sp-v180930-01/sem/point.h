@@ -9,7 +9,9 @@ struct Point {
 	// veøejnì pøístupné atributy:
 	// - celoèíselné datové složky x, y
 public:
+	Point(){}
 	Point(int x, int y);
+	Point(int x, int y,char prvek);
 	// statická metoda Hash, vyhovující typu HashFunction<Point>
 	// - metoda použita pro hash množinu
 	// - vypoèítá hash jako: h(point) = 11 * point[x] + point[y]
@@ -18,9 +20,10 @@ public:
 	// - metoda použita pro hash množinu
 	// - vrací true, pokud dva body mají shodné obì souøadnice
 	static bool Equals(Point p1,Point p2);
-private:
-	int _x;
-	int _y;
+
+	int x;
+	int y;
+	char prvek;
 };
 
 #endif

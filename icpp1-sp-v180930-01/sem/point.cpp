@@ -1,7 +1,12 @@
 #include "point.h"
 Point::Point(int x, int y) {
-	_x = x;
-	_y = y;
+	this->x = x;
+	this->y = y;
+}
+Point::Point(int x, int y,char prvek) {
+	this->x = x;
+	this->y = y;
+	this->prvek = prvek;
 }
 int Point::Hash(Point p) {
 	return 0;
