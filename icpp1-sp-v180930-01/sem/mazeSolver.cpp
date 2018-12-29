@@ -1,14 +1,14 @@
 #include"mazeSolver.h"
 
 MazeSolver::MazeSolver(Maze* m) {
-
+	this->maze = m;
 }
 
 MazeSolver::~MazeSolver() {
 
 }
 bool MazeSolver::solve() {
-	return false;
+	return true;
 }
 void MazeSolver::saveMazeAndSolution(std::string filename) const {
 
@@ -21,16 +21,15 @@ IDynArray<Point>* MazeSolver::dropMovesInAllPaths(IDynArray<Point>* moves) const
 	return moves;
 }
 bool MazeSolver::isInCurrentHistory(Point pt) const {
-	return false;
+	return true;
 }
 bool MazeSolver::isInAllHistory(Point pt) const {
-	return false;
+	return true;
 }
 void MazeSolver::saveState(Point pt) {
 
 }
-IMaze* MazeSolver::getMaze() const {
-	IMaze* m = nullptr;
-	return m;
+Maze* MazeSolver::getMaze() const {
+	return maze;
 }
 

@@ -13,6 +13,8 @@ public:
 	virtual bool isInCurrentHistory(Point pt) const;
 	virtual bool isInAllHistory(Point pt) const;
 	virtual void saveState(Point pt);
-	virtual IMaze* getMaze() const;
+	virtual Maze* getMaze() const;
+private:
+	Maze* maze;
 };
 #endif

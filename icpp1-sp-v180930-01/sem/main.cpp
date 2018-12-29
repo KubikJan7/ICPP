@@ -76,7 +76,6 @@ int main() {
 		MazeSolver* mz = new MazeSolver(m);
 		if (mz->solve())
 			mz->saveMazeAndSolution(solutionfile);
-		mz->show();
 		delete mz;
 		delete m;
 	//}

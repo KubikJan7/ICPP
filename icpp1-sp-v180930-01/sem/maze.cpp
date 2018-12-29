@@ -26,17 +26,16 @@ Maze* Maze::fromFile(string filename) {
 		}
 	}
 	in.close();
-	/*for (int i = 0; i < pocetR; i++) {
+	for (int i = 0; i < pocetR; i++) {
 		for (int j = 0; j < pocetS; j++) {
 			cout<<prvky[i][j].prvek;
 		}
 		cout << endl;
-	}*/
-	Maze m{pocetR,pocetS,startX,startY,endX,endY,prvky};
-	return &m;
+	}
+	return new Maze{ pocetR,pocetS,startX,startY,endX,endY,prvky };
 }
 bool Maze::isValidPoint(Point pt) const {
-	return false;
+	return true;
 }
 char Maze::getPoint(Point pt) const {
 	return pt.prvek;
