@@ -18,7 +18,7 @@ void IMazeSolver::show() {
 	Framework::vypisProstredi(p, getMaze()->getR(), getMaze()->getC());
 	delete[] p;
 
-	Framework::waitFor(0.02);
+	Framework::waitFor(60);
 }
 
 // Interní metoda createvisualisation() pøipravuje pole pro vykreslení metodou show().
