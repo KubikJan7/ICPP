@@ -8,9 +8,9 @@ Point::Point(int x, int y,char prvek) {
 	this->y = y;
 	this->prvek = prvek;
 }
-int Point::Hash(Point p) {
+int Point::Hash(const Point& p) {
 	return 0;
 }
-bool Point::Equals(Point p1, Point p2) {
+bool Point::Equals(const Point &p1, const Point &p2) {
 	return true;
 }

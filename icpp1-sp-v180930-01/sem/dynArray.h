@@ -2,11 +2,14 @@
 #define DYNARRAY_H
 #include "interfaces.h"
 template<typename T>
-struct DynArray : public IDynArray {
+struct DynArray : public IDynArray<T> {
+public:
 	virtual ~DynArray();
 	virtual void add(T element);
 	virtual T& get(int index);
 	virtual int count() const;
+private:
+	T pole[10];
 };
 
 template<typename T>
@@ -19,11 +22,12 @@ void DynArray<T>::add(T element) {
 }
 template<typename T>
 T& DynArray<T>::get(int index) {
-	return T;
+	return pole[1];
 }
 template<typename T>
 int DynArray<T>::count() const {
-	return int;
+	int i = 0;
+	return i;
 }
 
 #endif
