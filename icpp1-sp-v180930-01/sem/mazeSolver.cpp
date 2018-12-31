@@ -8,7 +8,9 @@ MazeSolver::MazeSolver(Maze* m) {
 }
 
 MazeSolver::~MazeSolver() {
-
+	delete dynArray;
+	delete hashSet;
+	delete linkedList;
 }
 
 // Vyøeš bludištì

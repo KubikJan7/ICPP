@@ -23,7 +23,7 @@ DynArray<T>::DynArray() {
 }
 template<typename T>
 DynArray<T>::~DynArray() {
-	delete array;
+	delete[] array;
 }
 template<typename T>
 void DynArray<T>::add(T element) {

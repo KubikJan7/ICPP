@@ -141,7 +141,6 @@
   <ItemGroup>
     <ClCompile Include="framework.cpp" />
     <ClCompile Include="interfaces.cpp" />
-    <ClCompile Include="linkedList.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="maze.cpp" />
     <ClCompile Include="mazeSolver.cpp" />

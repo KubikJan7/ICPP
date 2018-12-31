@@ -5,9 +5,9 @@ using namespace std;
 
 Maze::~Maze() {
 	for (int i = 0; i < pocet_radku; i++) {
-		delete data[i];
+		delete[] data[i];
 	}
-	delete data;
+	delete[] data;
 }
 Maze* Maze::fromFile(string filename) {
 	int pocetR, pocetS, startX, startY, endX, endY;

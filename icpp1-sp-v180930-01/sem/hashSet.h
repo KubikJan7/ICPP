@@ -1,10 +1,10 @@
-#ifndef INTERFACES_H
-#define INTERFACES_H
+#ifndef HASHSET_H
+#define HASHSET_H
 #include "interfaces.h"
 template<typename T, HashFunction<T> HF, EqualFunction<T> EF>
 struct HashSet: public IHashSet<T,HF,EF> {
 	struct Hashnode {
-		T element;
+		T data;
 		Hashnode* next = nullptr;
 		Hashnode(T element, Hashnode* next);
 		Hashnode(){}
@@ -30,16 +30,15 @@ HashSet<T, HF, EF>::HashSet(int internalArraySize) {
 }
 template<typename T, HashFunction<T> HF, EqualFunction<T> EF>
 HashSet<T, HF, EF>::~HashSet() {
-	Hashnode temp = new Hashnode;
+	Hashnode* temp = new Hashnode;
 	for (int i = 0; i < asize; i++) {
 		while (ahash[i] != nullptr) {
 			temp = ahash[i]->next;
-			delete ahash[i];
+			delete[] ahash[i];
 			ahash[i] = temp;
 		}
 	}
 	delete temp;
-	delete ahash;
 }
 template<typename T, HashFunction<T> HF, EqualFunction<T> EF>
 void HashSet<T, HF, EF>::add(T element) {
@@ -55,7 +54,7 @@ bool HashSet<T, HF, EF>::isPresent(T element) const {
 	Hashnode* node = new Hashnode;
 	node = ahash[index];
 	while(node!=nullptr){
-		if (EF(element, node->element)) {
+		if (EF(element, node->data)) {
 			delete node;
 			return true;
 		}
@@ -66,7 +65,7 @@ bool HashSet<T, HF, EF>::isPresent(T element) const {
 }
 template<typename T, HashFunction<T> HF, EqualFunction<T> EF>
 HashSet<T, HF, EF>::Hashnode::Hashnode(T element, Hashnode* next) {
-	this->element = element;
+	this->data = element;
 	this->next = next;
 }
 #endif
