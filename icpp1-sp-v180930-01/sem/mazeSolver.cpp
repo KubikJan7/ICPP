@@ -1,4 +1,6 @@
 #include"mazeSolver.h"
+#include"fstream"
+using namespace std;
 
 MazeSolver::MazeSolver(Maze* m) {
 	this->maze = m;
@@ -34,22 +36,52 @@ MazeSolver::~MazeSolver() {
 	// ------ pokud není cesta dostupná, prvek je odebrán ze spojového seznamu
 	// ---- pokud je spojový seznam vyprázdnìn a není nalezena další cesta -> bludištì nemá øešení
 bool MazeSolver::solve() {
+
+
 	return true;
 }
 void MazeSolver::saveMazeAndSolution(std::string filename) const {
+	ofstream out{};
+	out.open(filename);
 
+	if (out.is_open())
+	{
+		for (int i = 0; i < maze->getR(); i++) {
+			for (int j = 0; j < maze->getC(); j++) {
+				out << maze->getPoint(Point(j,i));
+			}
+			out << endl;
+		}
+
+		out.close();
+	}
+	else
+		throw("Soubor se nepodarilo otevrit...");
 }
-DynArray<Point>* MazeSolver::getPossibleMoves(Point pt) const{
-	DynArray<Point>* pole = nullptr;
-	return pole;
+// Funkce vrací pole všech dostupných krokù z daného výchozího místa
+	// - krokem se rozumí pohyb NAHORU, DOLÙ, DOLEVA nebo DOPRAVA
+	// - dané místo nesmí pøedstavovat zeï v bludišti a nesmí být mimo rozsah bludištì
+	// - funkce neøeší, jestli místo bylo navštíveno nebo ne. 
+DynArray<Point>* MazeSolver::getPossibleMoves(Point pt) const {
+	DynArray<Point>* ar = new DynArray<Point>;
+	Point up = Point{ pt.x,pt.y - 1 };
+	Point down = Point{ pt.x,pt.y + 1 };
+	Point left = Point{ pt.x - 1,pt.y };
+	Point right = Point{ pt.x + 1,pt.y };
+	Point points[] = { up,down,left,right };
+	for (Point p : points) {
+		if (maze->getPoint(p) != '#'&&p.x > 0 && p.x < maze->getC() && p.y>0 && p.y < maze->getR()) {
+			ar->add(p);
+		}
+	}
+	return ar;
 }
 IDynArray<Point>* MazeSolver::dropMovesInAllPaths(IDynArray<Point>* moves) const {
 	IDynArray<Point>* newAr = new DynArray<Point>;
 	for (int i = 0; i < moves->count(); i++) {
-		if (hashSet->isPresent(moves->get(i))) {
-			continue;
+		if (!hashSet->isPresent(moves->get(i))) {
+			newAr[newAr->count()] = moves[i];
 		}
-		newAr[i] = moves[i];
 	}
 	return dynArray;
 }

@@ -32,13 +32,8 @@ void DynArray<T>::add(T element) {
 		asize += 10;
 		array = new T[asize];
 	}
-	for (int i = 0; i < asize; i++) {
-		if (i == itemcount) {
-			array[i] = element;
-			itemcount++;
-			return;
-		}
-	}
+	array[itemcount] = element;
+	itemcount++;
 }
 template<typename T>
 T& DynArray<T>::get(int index) {

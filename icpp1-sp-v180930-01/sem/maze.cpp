@@ -24,7 +24,7 @@ Maze* Maze::fromFile(string filename) {
 			prvky[i] = new Point[pocetS];
 			for (int j = 0; j < pocetS; j++) {
 				in >> ch;
-				prvky[i][j] = Point{i, j, ch};
+				prvky[i][j] = Point{ i, j, ch };
 			}
 		}
 	}
@@ -32,10 +32,17 @@ Maze* Maze::fromFile(string filename) {
 	return new Maze{ pocetR,pocetS,startX,startY,endX,endY,prvky };
 }
 bool Maze::isValidPoint(Point pt) const {
-	return true;
+	for (int i = 0; i < pocet_radku; i++) {
+		for (int j = 0; j < pocet_sloupcu; j++) {
+			if (i == pt.y && j == pt.x) {
+				return true;
+			}
+		}
+	}
+	return false;
 }
 char Maze::getPoint(Point pt) const {
-	try {
+	if (isValidPoint(pt))
 		for (int i = 0; i < pocet_radku; i++) {
 			for (int j = 0; j < pocet_sloupcu; j++) {
 				if (i == pt.y && j == pt.x) {
@@ -43,11 +50,8 @@ char Maze::getPoint(Point pt) const {
 				}
 			}
 		}
-	}
-	catch(exception e){
+	else
 		throw "Zadane souradnice nejsou platne";
-	}
-	return ' ';
 }
 int Maze::getR() const {
 	return pocet_radku;
