@@ -43,17 +43,24 @@ DynArray<Point>* MazeSolver::getPossibleMoves(Point pt) const{
 	DynArray<Point>* pole = nullptr;
 	return pole;
 }
-DynArray<Point>* MazeSolver::dropMovesInAllPaths(IDynArray<Point>* moves) const {
+IDynArray<Point>* MazeSolver::dropMovesInAllPaths(IDynArray<Point>* moves) const {
+	IDynArray<Point>* newAr = new DynArray<Point>;
+	for (int i = 0; i < moves->count(); i++) {
+		if (hashSet->isPresent(moves->get(i))) {
+			continue;
+		}
+		newAr[i] = moves[i];
+	}
 	return dynArray;
 }
 bool MazeSolver::isInCurrentHistory(Point pt) const {
-	return true;
+	return linkedList->isInList(pt);
 }
 bool MazeSolver::isInAllHistory(Point pt) const {
-	return true;
+	return hashSet->isPresent(pt);
 }
 void MazeSolver::saveState(Point pt) {
-
+	linkedList->insertLast(pt);
 }
 Maze* MazeSolver::getMaze() const {
 	return maze;

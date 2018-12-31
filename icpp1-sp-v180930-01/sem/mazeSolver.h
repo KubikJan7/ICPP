@@ -13,7 +13,7 @@ public:
 	virtual bool solve();
 	virtual void saveMazeAndSolution(std::string filename) const;
 	virtual DynArray<Point>* getPossibleMoves(Point pt) const;
-	virtual DynArray<Point>* dropMovesInAllPaths(IDynArray<Point>* moves) const;
+	virtual IDynArray<Point>* dropMovesInAllPaths(IDynArray<Point>* moves) const;
 	virtual bool isInCurrentHistory(Point pt) const;
 	virtual bool isInAllHistory(Point pt) const;
 	virtual void saveState(Point pt);
