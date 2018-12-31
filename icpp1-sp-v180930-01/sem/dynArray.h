@@ -4,30 +4,54 @@
 template<typename T>
 struct DynArray : public IDynArray<T> {
 public:
+	DynArray();
 	virtual ~DynArray();
 	virtual void add(T element);
 	virtual T& get(int index);
 	virtual int count() const;
 private:
-	T pole[10];
+	int asize;
+	int itemcount;
+	T* array;
 };
 
 template<typename T>
+DynArray<T>::DynArray() {
+	asize = 10;
+	itemcount = 0;
+	array = new T[asize];
+}
+template<typename T>
 DynArray<T>::~DynArray() {
-
+	delete array;
 }
 template<typename T>
 void DynArray<T>::add(T element) {
-
+	if (asize == itemcount) {
+		T* tempAr = array;
+		asize += 10;
+		array = new T[asize];
+	}
+	for (int i = 0; i < asize; i++) {
+		if (i == itemcount) {
+			array[i] = element;
+			itemcount++;
+			return;
+		}
+	}
 }
 template<typename T>
 T& DynArray<T>::get(int index) {
-	return pole[1];
+	for (int i = 0; i < itemcount; i++) {
+		if (i == index) {
+			return array[i];
+		}
+	}
+	throw("Hledany prvek neexistuje.");
 }
 template<typename T>
 int DynArray<T>::count() const {
-	int i = 0;
-	return i;
+	return itemcount;
 }
 
 #endif

@@ -4,7 +4,10 @@
 using namespace std;
 
 Maze::~Maze() {
-
+	for (int i = 0; i < pocet_radku; i++) {
+		delete data[i];
+	}
+	delete data;
 }
 Maze* Maze::fromFile(string filename) {
 	int pocetR, pocetS, startX, startY, endX, endY;
@@ -26,12 +29,6 @@ Maze* Maze::fromFile(string filename) {
 		}
 	}
 	in.close();
-	/*for (int i = 0; i < pocetR; i++) {
-		for (int j = 0; j < pocetS; j++) {
-			cout<<prvky[i][j].prvek;
-		}
-		cout << endl;
-	}*/
 	return new Maze{ pocetR,pocetS,startX,startY,endX,endY,prvky };
 }
 bool Maze::isValidPoint(Point pt) const {

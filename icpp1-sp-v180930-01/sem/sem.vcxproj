@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="framework.cpp" />
     <ClCompile Include="interfaces.cpp" />
+    <ClCompile Include="linkedList.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="maze.cpp" />
     <ClCompile Include="mazeSolver.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="hashSet.h" />
     <ClInclude Include="interfaces.h" />
+    <ClInclude Include="linkedList.h" />
     <ClInclude Include="maze.h" />
     <ClInclude Include="mazeSolver.h" />
     <ClInclude Include="point.h" />

@@ -5,6 +5,7 @@
 #include "dynArray.h"
 #include "hashSet.h"
 #include "interfaces.h"
+#include "linkedList.h"
 struct MazeSolver : public IMazeSolver {
 public:
 	virtual ~MazeSolver();
@@ -19,8 +20,9 @@ public:
 	virtual Maze* getMaze() const;
 private:
 	Maze* maze;
-	DynArray<Point>* current_moves;
-	HashSet <Point,Point::Hash,Point::Equals> all_moves;
+	DynArray<Point>* dynArray;
+	HashSet <Point, Point::Hash, Point::Equals>* hashSet;
+	LinkedList<Point>* linkedList;
 };
 #endif
 

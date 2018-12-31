@@ -2,7 +2,9 @@
 
 MazeSolver::MazeSolver(Maze* m) {
 	this->maze = m;
-	//this->all_moves = HashSet<Point, hashFunction, equalFunction>(10);
+	this->dynArray = new DynArray<Point>;
+	this->hashSet = new HashSet<Point, Point::Hash, Point::Equals>;
+	this->linkedList = new LinkedList<Point>;
 }
 
 MazeSolver::~MazeSolver() {
@@ -40,7 +42,7 @@ DynArray<Point>* MazeSolver::getPossibleMoves(Point pt) const{
 	return pole;
 }
 DynArray<Point>* MazeSolver::dropMovesInAllPaths(IDynArray<Point>* moves) const {
-	return current_moves;
+	return dynArray;
 }
 bool MazeSolver::isInCurrentHistory(Point pt) const {
 	return true;
