@@ -41,14 +41,21 @@ bool MazeSolver::solve() {
 	Point currPoint = maze->getStart();
 	saveState(currPoint);
 	hashSet->add(currPoint);
+	show();
 	while (!Point::Equals(currPoint, maze->getEnd())) {
 		possMoves = dropMovesInAllPaths(getPossibleMoves(currPoint));
-		if (possMoves->count() == 0)
-			return true;
+		if (possMoves->count() == 0) {
+			linkedList->deleteLast();
+			currPoint = linkedList->getPeak();
+			continue;
+			if(currPoint == maze->getStart())
+				return true;
+		}
 		currPoint = possMoves->get(0);
 		saveState(currPoint);
 		hashSet->add(currPoint);
-		cout << currPoint.x << " " << currPoint.y << endl;
+		show();
+
 
 	}
 	return true;
@@ -60,12 +67,12 @@ void MazeSolver::saveMazeAndSolution(std::string filename) const {
 	{
 		for (int i = 0; i < maze->getR(); i++) {
 			for (int j = 0; j < maze->getC(); j++) {
-				if(linkedList->isInList(Point(j, i)))
+				if (linkedList->isInList(Point(j, i)))
 					out << '+';
 				else if (maze->getPoint(Point(j, i)) == '.')
 					out << ' ';
 				else
-					out << maze->getPoint(Point(j,i));
+					out << maze->getPoint(Point(j, i));
 			}
 			out << endl;
 		}
@@ -77,7 +84,7 @@ void MazeSolver::saveMazeAndSolution(std::string filename) const {
 		throw("error");
 	}
 	catch (...) {
-		cout << "Soubor se nepodarilo otevrit..."<<endl;
+		cout << "Soubor se nepodarilo otevrit..." << endl;
 	}
 }
 // Funkce vrací pole všech dostupných krokù z daného výchozího místa
@@ -92,7 +99,7 @@ IDynArray<Point>* MazeSolver::getPossibleMoves(Point pt) const {
 	Point right = Point{ pt.x + 1,pt.y };
 	Point points[] = { up,down,left,right };
 	for (Point p : points) {
-		if (maze->getPoint(p) != NULL &&maze->getPoint(p) != '#') {
+		if (maze->getPoint(p) != NULL && maze->getPoint(p) != '#') {
 			ar->add(p);
 		}
 	}

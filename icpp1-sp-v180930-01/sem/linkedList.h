@@ -66,6 +66,7 @@ template<typename T>
 T LinkedList<T>::getPeak() {
 	return peak->data;
 }
+
 template<typename T>
 bool operator==(T const& a, T const& b) {
 	return a.x == b.x && a.y == b.y;

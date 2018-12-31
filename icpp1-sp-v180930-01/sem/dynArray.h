@@ -42,7 +42,11 @@ T& DynArray<T>::get(int index) {
 			return array[i];
 		}
 	}
-	throw("Hledany prvek neexistuje.");
+	try {
+		throw("Hledany prvek neexistuje.");
+	}
+	catch (...) {
+	}
 }
 template<typename T>
 int DynArray<T>::count() const {
