@@ -54,9 +54,8 @@ char Maze::getPoint(Point pt) const {
 		throw "Zadane souradnice jsou neplatne";
 	}
 	catch (...) {
-		//cout << "Zadane souradnice jsou neplatne";
+		return NULL;
 	}
-	return NULL;
 }
 int Maze::getR() const {
 	return pocet_radku;

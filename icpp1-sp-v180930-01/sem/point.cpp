@@ -11,7 +11,7 @@ Point::Point(int x, int y, char prvek) {
 int Point::Hash(const Point& p) {
 	return 11 * p.x + p.y;
 }
-bool Point::Equals(const Point &p1, const Point &p2) {
+bool Point::Equal(const Point &p1, const Point &p2) {
 	if (p1.x == p2.x && p1.y == p2.y)
 		return true;
 	else

@@ -46,6 +46,7 @@ T& DynArray<T>::get(int index) {
 		throw("Hledany prvek neexistuje.");
 	}
 	catch (...) {
+		return array[0];
 	}
 }
 template<typename T>

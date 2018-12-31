@@ -20,32 +20,32 @@ using namespace std;
 /*
 ================================== ZADÁNÍ - SEMESTRÁLNÍ PRÁCE C++ I. ======================================
 
-Základním poadavkem je dokonèit implementaci pomocí jazyka C++ dle standardu 14882:2017 („C++17“). 
-Není pøípustné vyuívat nestandardizovaná rozšíøení jazyka (napø. C++/CLI). Pouití jakékoliv knihovny 
+Základním poadavkem je dokonèit implementaci pomocí jazyka C++ dle standardu 14882:2017 („C++17“).
+Není pøípustné vyuívat nestandardizovaná rozšíøení jazyka (napø. C++/CLI). Pouití jakékoliv knihovny
 (mimo standard jazyka/STL) je tøeba dopøedu konzultovat, jinak nemùe bıt kód akceptován.
 
-* Struktury, které je tøeba realizovat jsou popsány pomocí rozhraní v souboru point.h a interfaces.h. 
+* Struktury, které je tøeba realizovat jsou popsány pomocí rozhraní v souboru point.h a interfaces.h.
   Implementaci vytvoøte ve Vámi novì vytvoøenıch souborech. Doplòte do main.cpp potøebné direktivy #include.
-* Pøipravené rozhraní je nutné zcela dodret. Detaily vizte pøiloené soubory. Èásteèná implementace 
+* Pøipravené rozhraní je nutné zcela dodret. Detaily vizte pøiloené soubory. Èásteèná implementace
   je ji navrena…
-* Veškerá dynamická pamì musí bıt korektnì dealokována. Není pøípustné nechat pamì alokovanou déle 
+* Veškerá dynamická pamì musí bıt korektnì dealokována. Není pøípustné nechat pamì alokovanou déle
   ne je to nutné.
-* Struktury IHashSet a IDynArray není moné nahradit ekvivalentem z STL nebo jiné knihovny, ani pro jeho 
+* Struktury IHashSet a IDynArray není moné nahradit ekvivalentem z STL nebo jiné knihovny, ani pro jeho
   realizaci pouít knihovny.
-* Pro struktury Point, HashSet a DynArray jsou pøipraveny základní sady testù, které ovìøují základní 
+* Pro struktury Point, HashSet a DynArray jsou pøipraveny základní sady testù, které ovìøují základní
   funkcionalitu.
-* Není dovoleno vyuívat globální a statické promìnné. Program vypracovanı pro platformu Windows musí 
-  obsahovat projektové soubory pro Visual Studio 2013 nebo novìjší, pomocí kterıch jde program pøeloit. 
-  Pro unixové platformy musí bıt pøiloen makefile. Zdrojové kódy, které není moné pøeloit (chybìjící 
+* Není dovoleno vyuívat globální a statické promìnné. Program vypracovanı pro platformu Windows musí
+  obsahovat projektové soubory pro Visual Studio 2013 nebo novìjší, pomocí kterıch jde program pøeloit.
+  Pro unixové platformy musí bıt pøiloen makefile. Zdrojové kódy, které není moné pøeloit (chybìjící
   projektové/zdrojové soubory, syntaktické chyby v kódu), nebudou akceptovány.
 
-Pøed odevzdáním musí bıt projekt uklizen od veškerıch binárních souborù (spustitelnıch, tmp, cache, 
-objektovıch – pomocí Build – Clean solution | make clean). Vyèištìné zdrojové kódy vèetnì souborù projektu 
+Pøed odevzdáním musí bıt projekt uklizen od veškerıch binárních souborù (spustitelnıch, tmp, cache,
+objektovıch – pomocí Build – Clean solution | make clean). Vyèištìné zdrojové kódy vèetnì souborù projektu
 odevzdávejte ve formátu ZIP.
 
 Nejzazší termín odevzdání semestrální práce je 31. 12. 2018 23:59.
 
-Semestrální práce musí bıt vypracována samostatnì, není pøípustná ádná shoda s jinou prací. Student musí 
+Semestrální práce musí bıt vypracována samostatnì, není pøípustná ádná shoda s jinou prací. Student musí
 bıt schopen vytvoøenou práci okomentovat a vysvìtlit pøi ústní obhajobì.
 
 ================================== ZADÁNÍ - SEMESTRÁLNÍ PRÁCE C++ I. ======================================
@@ -67,8 +67,7 @@ int main() {
 	exit(0);
 #else
 	Framework::System::init();
-	int level = 0;
-	//for (int level = 0; level <= 2; level++) {
+	for (int level = 0; level <= 2; level++) {
 		string levelfile = "level0" + to_string(level) + ".dat";
 		string solutionfile = "solution0" + to_string(level) + ".txt";
 
@@ -78,7 +77,7 @@ int main() {
 			mz->saveMazeAndSolution(solutionfile);
 		delete mz;
 		delete m;
-	//}
+	}
 #endif
 	return 0;
 }

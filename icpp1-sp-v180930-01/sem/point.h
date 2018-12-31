@@ -20,7 +20,7 @@ public:
 	// statická metoda Equals, vyhovující typu EqualFunction<Point>
 	// - metoda použita pro hash množinu
 	// - vrací true, pokud dva body mají shodné obì souøadnice
-	static bool Equals(const Point &p1,const Point &p2);
+	static bool Equal(const Point &p1,const Point &p2);
 	int x;
 	int y;
 	char prvek;

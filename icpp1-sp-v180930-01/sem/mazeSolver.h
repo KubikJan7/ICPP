@@ -20,8 +20,7 @@ public:
 	virtual Maze* getMaze() const;
 private:
 	Maze* maze;
-	DynArray<Point>* dynArray;
-	HashSet <Point, Point::Hash, Point::Equals>* hashSet;
+	HashSet <Point, Point::Hash, Point::Equal>* hashSet;
 	LinkedList<Point>* linkedList;
 };
 #endif

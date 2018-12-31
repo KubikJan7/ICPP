@@ -17,6 +17,7 @@ public:
 	void deleteLast();
 	bool isInList(T data)const;
 	T getPeak();
+	bool isEmpty();
 };
 template<typename T>
 LinkedList<T>::LinkedList() {
@@ -66,10 +67,12 @@ template<typename T>
 T LinkedList<T>::getPeak() {
 	return peak->data;
 }
-
+template<typename T>
+bool LinkedList<T>::isEmpty() {
+	return peak == nullptr;
+}
 template<typename T>
 bool operator==(T const& a, T const& b) {
 	return a.x == b.x && a.y == b.y;
 }
-
 #endif
