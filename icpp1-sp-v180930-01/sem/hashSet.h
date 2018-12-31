@@ -5,9 +5,9 @@ template<typename T, HashFunction<T> HF, EqualFunction<T> EF>
 struct HashSet: public IHashSet<T,HF,EF> {
 	struct Hashnode {
 		T data;
-		Hashnode* next = nullptr;
+		Hashnode* next;
 		Hashnode(T element, Hashnode* next);
-		Hashnode(){}
+		Hashnode() { next = nullptr; }
 	};
 public:
 	HashSet() {}
@@ -30,15 +30,13 @@ HashSet<T, HF, EF>::HashSet(int internalArraySize) {
 }
 template<typename T, HashFunction<T> HF, EqualFunction<T> EF>
 HashSet<T, HF, EF>::~HashSet() {
-	Hashnode* temp = new Hashnode;
 	for (int i = 0; i < asize; i++) {
 		while (ahash[i] != nullptr) {
-			temp = ahash[i]->next;
-			delete[] ahash[i];
-			ahash[i] = temp;
+			Hashnode* temp = ahash[i];
+			ahash[i] = ahash[i]->next;
+			delete temp;
 		}
 	}
-	delete temp;
 }
 template<typename T, HashFunction<T> HF, EqualFunction<T> EF>
 void HashSet<T, HF, EF>::add(T element) {
@@ -55,7 +53,6 @@ bool HashSet<T, HF, EF>::isPresent(T element) const {
 	node = ahash[index];
 	while(node!=nullptr){
 		if (EF(element, node->data)) {
-			delete node;
 			return true;
 		}
 		node = node->next;

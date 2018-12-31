@@ -67,7 +67,7 @@ int main() {
 	exit(0);
 #else
 	Framework::System::init();
-	int level = 1;
+	int level = 0;
 	//for (int level = 0; level <= 2; level++) {
 		string levelfile = "level0" + to_string(level) + ".dat";
 		string solutionfile = "solution0" + to_string(level) + ".txt";

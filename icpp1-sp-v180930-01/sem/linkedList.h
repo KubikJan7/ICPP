@@ -5,8 +5,8 @@ struct LinkedList {
 	template<typename T>
 	struct Element {
 		T data;
-		Element<T> *previous = nullptr;
-		Element() {}
+		Element<T> *previous;
+		Element() { previous = nullptr;}
 	};
 private:
 	Element<T> *peak;
@@ -24,13 +24,11 @@ LinkedList<T>::LinkedList() {
 }
 template<typename T>
 LinkedList<T>::~LinkedList() {
-	Element<T>* temp = new Element<T>;
-	while (peak != nullptr) {
-		temp = peak->previous;
-		delete peak;
-		peak = temp;
+	while (peak!=nullptr) {
+		Element<T>* temp = peak;
+		peak = peak->previous;
+		delete temp;
 	}
-	delete temp;
 }
 template<typename T>
 void LinkedList<T>::insertLast(T data) {
@@ -44,7 +42,6 @@ void LinkedList<T>::insertLast(T data) {
 		newE->previous = peak;
 		peak = newE;
 	}
-	delete newE;
 }
 template<typename T>
 void LinkedList<T>::deleteLast() {
@@ -56,16 +53,13 @@ void LinkedList<T>::deleteLast() {
 
 template<typename T>
 bool LinkedList<T>::isInList(T data) const{
-	Element<T>* el = new Element<T>;
-	el = peak;
+	Element<T>* el = peak;
 	while (el != nullptr) {
 		if (operator==(el->data, data)) {
-			delete el;
 			return true;
 		}
 		el = el->previous;
 	}
-	delete el;
 	return false;
 }
 template<typename T>
