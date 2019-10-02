@@ -1,0 +1,3 @@
+struct PrvekVyrazu {
+	virtual ~PrvekVyrazu();
+};
