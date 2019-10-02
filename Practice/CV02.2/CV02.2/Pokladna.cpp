@@ -13,19 +13,18 @@ Pokladna::~Pokladna() {
 
 Uctenka& Pokladna::vystavUctenku(double castka, double dph) {
 	int index = pocetVydanychUctenek;
-	pocetVydanychUctenek++;
 	poleUctenek[index].setCastka(castka);
 	poleUctenek[index].setDph(dph);
 	poleUctenek[index].setCisloUctenky(citacId++);
+	pocetVydanychUctenek++;
 	return poleUctenek[index];
 }
 Uctenka& Pokladna::dejUctenku(int cisloUctenky) {
 	for (int i = 0; i < pocetVydanychUctenek; i++) {
 		if (poleUctenek[i].getCisloUctenky() == cisloUctenky)
-			return poleUctenek[i];
-		else
-			return poleUctenek[1];
+			return poleUctenek[i];	
 	}
+	return poleUctenek[0];
 }
 double Pokladna::dejCastku() const {
 	double suma = 0;

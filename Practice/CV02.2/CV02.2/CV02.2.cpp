@@ -5,6 +5,7 @@
 #include <string>
 #include "Uctenka.h"
 #include "Pokladna.h"
+using namespace std;
 int main()
 {
 	Pokladna p{};
@@ -14,10 +15,14 @@ int main()
 	Uctenka& u3 = p.vystavUctenku(300, 0.22);
 
 	u1.setCastka(1000);
-
+	p.vystavUctenku(10000, 0.66);
+	Uctenka& u4 = p.dejUctenku(1003);
 	u1.precistUctenku();
 	u2.precistUctenku();
 	u3.precistUctenku();
+	u4.precistUctenku();
+
+	cout << endl << "Celkova castka: " << p.dejCastku() << endl << "Celkova castka vcetne dph: " << p.dejCastkuVcDph();
 
 	return 0;
 }
