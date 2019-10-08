@@ -1,10 +1,8 @@
+#pragma once
 struct PohyblivyObjekt {
+private:
 	double uhelNatoceni;
 public:
-	void setUhelNatoceni();
+	void setUhelNatoceni(double uhelNatoceni);
 	double getUhelNatoceni();
-
-};
-struct Objekt :PohyblivyObjekt {
-
 };

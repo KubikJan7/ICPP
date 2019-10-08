@@ -1,19 +1,14 @@
+#pragma once
 #include"Objekt.h"
 #include "PohyblivyObjekt.h"
 
 struct Hra {
 private:
 	Objekt** objekty;
-	int hp;
-	int maxhp;
-
+	int pocetObjektu;
+	int velikostPoleObjektu;
 public:
-	void setHp(int hp);
-	int getHp();
-
-	void setMaxHp(int maxHp);
-	int getMaxHp();
-
+	Hra(int velikostPoleObjektu);
 	void vlozObjekt(Objekt* o);
 	int* najdiIdStatickychObjektu(double xmin, double xmax, double ymin, double ymax);
 	PohyblivyObjekt** najdiPohybliveObjektyVOblasti(double x, double y, double r);

@@ -1,8 +1,8 @@
 #include"PohyblivyObjekt.h"
 
-void PohyblivyObjekt::setUhelNatoceni() {
-
+void PohyblivyObjekt::setUhelNatoceni(double uhelNatoceni) {
+	this->uhelNatoceni = uhelNatoceni;
 }
 double PohyblivyObjekt::getUhelNatoceni() {
-
+	return uhelNatoceni;
 }

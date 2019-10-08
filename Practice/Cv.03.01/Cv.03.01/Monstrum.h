@@ -1,4 +1,6 @@
-struct Monstrum {
+# pragma once
+#include "PohyblivyObjekt.h"
+struct Monstrum : PohyblivyObjekt{
 private:
 	int hp;
 	int maxHp;
@@ -9,8 +11,4 @@ public:
 
 	void setMaxHp(int maxHp);
 	int getMaxHp();
-};
-
-struct PohyblivyObjekt :Monstrum {
-
 };

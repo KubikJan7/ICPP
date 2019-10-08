@@ -1,16 +1,16 @@
-
+# pragma once
 struct Objekt{
-private:
+public:
 	int id;
 	double x;
 	double y;
-
 	Objekt(int id);
+	Objekt(int id, int x, int y);
 	virtual ~Objekt();
-public:
-	void setX();
-	void setY();
+	void setX(double x);
+	void setY(double y);
 	double getX();
 	double getY();
 	int getId();
+	
 };
