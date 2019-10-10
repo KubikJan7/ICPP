@@ -6,3 +6,9 @@ void PohyblivyObjekt::setUhelNatoceni(double uhelNatoceni) {
 double PohyblivyObjekt::getUhelNatoceni() {
 	return uhelNatoceni;
 }
+
+PohyblivyObjekt::PohyblivyObjekt():Objekt(-1)
+{
+	uhelNatoceni = 0;
+}
+
