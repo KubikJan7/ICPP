@@ -1,5 +1,6 @@
 #include "Cas.h"
-
+#include <string>
+#include <iostream>
 using namespace std;
 
 Cas::Cas(int _hodiny, int _minuty, int _sekundy) {
@@ -26,5 +27,5 @@ int Cas::compareTo(IComparable* obj) const
 
 std::string Cas::toString() const
 {
-	return std::string();
+	return "hod: " + to_string(_hodiny) + "min: " + to_string(_minuty) + "sek: " + to_string(_sekundy);
 }

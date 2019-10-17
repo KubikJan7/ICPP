@@ -1,4 +1,7 @@
 #include "Datum.h"
+#include <string>
+
+using namespace std;
 
 int Datum::compareTo(IComparable* obj) const
 {
@@ -7,5 +10,5 @@ int Datum::compareTo(IComparable* obj) const
 
 std::string Datum::toString() const
 {
-	return std::string();
+	return "rok: " + to_string(_rok) + "mes: " + to_string(_mesic) + "den: " + to_string(_den);
 }

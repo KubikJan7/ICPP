@@ -1,4 +1,7 @@
 #include "DatumCas.h"
+#include <string>
+
+using namespace std;
 
 int DatumCas::compareTo(IComparable* obj) const
 {
@@ -7,5 +10,5 @@ int DatumCas::compareTo(IComparable* obj) const
 
 std::string DatumCas::toString() const
 {
-	return std::string();
+	return _datum.toString() + _cas.toString();
 }
