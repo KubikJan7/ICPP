@@ -7,9 +7,10 @@
 
 struct DatumCas:IComparable {
 private:
-	Datum _datum;
-	Cas _cas;
+	Datum* _datum;
+	Cas* _cas;
 public:
+	DatumCas(Datum* _datum, Cas* _cas);
 	int compareTo(IComparable* obj) const;
 	std::string toString() const;
 };

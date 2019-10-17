@@ -3,13 +3,14 @@
 
 #include"IComparable.h"
 struct Cas:IComparable {
-private:
+public:
 	int _hodiny;
 	int _minuty;
 	int _sekundy;
 public:
+	Cas();
 	Cas(int _hodiny, int _minuty, int _sekundy); 
-	int compareTo(IComparable* obj) const;
+	virtual int compareTo(IComparable* obj) const;
 	std::string toString() const;
 };
 
