@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestApp", "TestApp\TestApp.vcxproj", "{D061111A-D5F4-4822-B5A5-B1427711BEEC}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DllExample", "DllExample\DllExample.vcxproj", "{A83ADCE1-74BD-4B4B-B0C2-FF362A598954}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleDB_DLL", "SimpleDB_DLL\SimpleDB_DLL.vcxproj", "{A83ADCE1-74BD-4B4B-B0C2-FF362A598954}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,5 @@
 #include <democlass.h>
+#include <iostream>
 
 int main() {
 	DemoClass dc{};
