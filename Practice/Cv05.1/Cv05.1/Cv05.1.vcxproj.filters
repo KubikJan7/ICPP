@@ -24,9 +24,6 @@
     <ClInclude Include="TelefonniSeznam.h">
       <Filter>Hlavičkové soubory</Filter>
     </ClInclude>
-    <ClInclude Include="PrvekSeznamu.h">
-      <Filter>Hlavičkové soubory</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -35,7 +32,7 @@
     <ClCompile Include="Cv05.1.cpp">
       <Filter>Zdrojové soubory</Filter>
     </ClCompile>
-    <ClCompile Include="PrvekSeznam.cpp">
+    <ClCompile Include="TelefonniSeznam.cpp">
       <Filter>Zdrojové soubory</Filter>
     </ClCompile>
   </ItemGroup>
