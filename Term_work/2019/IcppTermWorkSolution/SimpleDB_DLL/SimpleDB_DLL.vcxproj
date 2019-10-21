@@ -20,12 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dbapi.h" />
-    <ClInclude Include="democlass.h" />
     <ClInclude Include="helpful.h" />
     <ClInclude Include="platform.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="democlass.cpp" />
+    <ClCompile Include="dbapi.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
