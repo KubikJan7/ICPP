@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="MyException.h" />
     <ClInclude Include="Osoba.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="TelefonniSeznam.h" />

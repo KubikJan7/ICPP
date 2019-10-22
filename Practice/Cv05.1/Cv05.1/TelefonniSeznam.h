@@ -4,21 +4,23 @@
 #include"Osoba.h"
 namespace Model {
 	struct TelefonniSeznam {
-		class PrvekSeznamu {
+		struct PrvekSeznamu {
 			PrvekSeznamu* dalsi;
 			Entity::Osoba data;
-		public:
 			PrvekSeznamu() : dalsi(nullptr), data() {}
 		};
 
 	private:
 		PrvekSeznamu* _zacatek;
-		void pridejOsobu(Entity::Osoba o);
-		string najdiTelefon(string jmeno)const;
-		string najdiTelefon(int id)const;
+		
 
 	public:
 		TelefonniSeznam() : _zacatek(nullptr) {}
+		void pridejOsobu(Entity::Osoba o);
+		string najdiTelefon(string jmeno)const;
+		string najdiTelefon(int id)const;
+		Entity::Osoba odeberOsobu(string jmeno);
+		Entity::Osoba odeberOsobu(int id);
 	};
 }
 #endif
