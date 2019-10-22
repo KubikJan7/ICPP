@@ -13,14 +13,12 @@ namespace Model {
 	private:
 		PrvekSeznamu* _zacatek;
 		
-
 	public:
 		TelefonniSeznam() : _zacatek(nullptr) {}
 		void pridejOsobu(Entity::Osoba o);
-		string najdiTelefon(string jmeno)const;
-		string najdiTelefon(int id)const;
-		Entity::Osoba odeberOsobu(string jmeno);
-		Entity::Osoba odeberOsobu(int id);
+		std::string najdiTelefon(std::string jmeno)const;
+		std::string najdiTelefon(int id)const;
+		void smazSeznam()const;
 	};
 }
 #endif

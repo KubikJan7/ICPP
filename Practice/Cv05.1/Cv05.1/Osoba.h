@@ -2,15 +2,15 @@
 #define ENTITY_H
 
 #include <string>
-using namespace std;
 
 namespace Entity {
 	struct Osoba {
-		string jmeno;
-		string telefon;
+		std::string jmeno;
+		std::string telefon;
 		int id;
 
-		Osoba() : jmeno(""), telefon(""), id(0) {}
+		Osoba();
+		Osoba(std::string jmeno, std::string telefon, int id);
 	};
 }
 #endif
