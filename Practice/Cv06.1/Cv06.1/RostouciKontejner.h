@@ -20,7 +20,7 @@ public:
 
 template <typename TypDat, int PocatecniVelikost, int RostouciKoeficient>
 RostouciKontejner<TypDat, PocatecniVelikost, RostouciKoeficient>::RostouciKontejner() {
-	_data = new Typ[PocatecniVelikost];
+	_data = new TypDat[PocatecniVelikost];
 	_velikostPole = PocatecniVelikost;
 	_pocetPlatnychPrvku = 0;
 }
@@ -32,12 +32,12 @@ RostouciKontejner<TypDat, PocatecniVelikost, RostouciKoeficient>::~RostouciKonte
 
 template <typename TypDat, int PocatecniVelikost, int RostouciKoeficient>
 bool RostouciKontejner<TypDat, PocatecniVelikost, RostouciKoeficient>::jeMistoVPoli() const {
-		return (_pocetPlatnychPrvku < _velikostPole);
+	return (_pocetPlatnychPrvku < _velikostPole);
 }
 
 template <typename TypDat, int PocatecniVelikost, int RostouciKoeficient>
 void RostouciKontejner<TypDat, PocatecniVelikost, RostouciKoeficient>::zvetsiPole() {
-	TypDat* pomocne = new TypDat[_velikostPole * RosouciKoeficient];
+	TypDat* pomocne = new TypDat[_velikostPole * RostouciKoeficient];
 	for (int i = 0; i < _pocetPlatnychPrvku; i++) {
 		pomocne[i] = _data[i];
 	}
@@ -48,18 +48,18 @@ void RostouciKontejner<TypDat, PocatecniVelikost, RostouciKoeficient>::zvetsiPol
 
 template <typename TypDat, int PocatecniVelikost, int RostouciKoeficient>
 void RostouciKontejner<TypDat, PocatecniVelikost, RostouciKoeficient>::pridej(const TypDat& o) {
-	if (!jeMistoVPoli) 
-		_unsignedPocetPrvku += 1;
+	if (!jeMistoVPoli())
+		_pocetPlatnychPrvku += 1;
 
-	_data[_pocetPlatnychPrvku] = objekt;
+	_data[_pocetPlatnychPrvku] = o;
 	_pocetPlatnychPrvku++;
 }
 
 template <typename TypDat, int PocatecniVelikost, int RostouciKoeficient>
 TypDat& RostouciKontejner<TypDat, PocatecniVelikost, RostouciKoeficient>::operator[](int index) {
 
-
-
+	TypDat typDat{};
+	return typDat;
 }
 
 template <typename TypDat, int PocatecniVelikost, int RostouciKoeficient>
@@ -76,19 +76,19 @@ template <typename TypDat, int PocatecniVelikost, int RostouciKoeficient>
 void RostouciKontejner<TypDat, PocatecniVelikost, RostouciKoeficient>::pridejNa(int index, const TypDat& o) {
 	// 0-1-2-3-4-5-6-7-8-9
 	// A-B-C-D-_-_-_-_-_-_
-	
+
 
 	for (int i = index; i < _pocetPlatnychPrvku - 1; i--) {
 		_data[i + 1] = _data[i];
 	}
-	_data[index] = objekt;
+	_data[index] = o;
 	_pocetPlatnychPrvku++;
 }
 
 template <typename TypDat, int PocatecniVelikost, int RostouciKoeficient>
 void RostouciKontejner<TypDat, PocatecniVelikost, RostouciKoeficient>::odeber(int index) {
 
-	for (int i = index i < _pocetPlatnychPrvku; i++) {
+	for (int i = index; i < _pocetPlatnychPrvku; i++) {
 		_data[i] = _data[i + 1];
 		_pocetPlatnychPrvku--;
 	}

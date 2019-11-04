@@ -29,8 +29,5 @@
     <ClCompile Include="Cv06.1.cpp">
       <Filter>Zdrojové soubory</Filter>
     </ClCompile>
-    <ClCompile Include="RostouciKontejner.cpp">
-      <Filter>Zdrojové soubory</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
