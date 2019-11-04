@@ -1,3 +1,7 @@
+#ifndef ROSTOUCI_KONTEJNER_H
+#define ROSTOUCI_KONTEJNER_H
+
+#include <stdexcept>
 template<typename TypDat, int PocatecniVelikost = 5, int RostouciKoeficient = 2>
 struct RostouciKontejner {
 public:
@@ -15,7 +19,6 @@ public:
 	unsigned int pocet() const;
 	void pridejNa(int index, const TypDat& o);
 	void odeber(int index);
-
 };
 
 template <typename TypDat, int PocatecniVelikost, int RostouciKoeficient>
@@ -37,19 +40,19 @@ bool RostouciKontejner<TypDat, PocatecniVelikost, RostouciKoeficient>::jeMistoVP
 
 template <typename TypDat, int PocatecniVelikost, int RostouciKoeficient>
 void RostouciKontejner<TypDat, PocatecniVelikost, RostouciKoeficient>::zvetsiPole() {
-	TypDat* pomocne = new TypDat[_velikostPole * RostouciKoeficient];
+	_velikostPole = _velikostPole * RostouciKoeficient;
+	TypDat* pomocne = new TypDat[_velikostPole];
 	for (int i = 0; i < _pocetPlatnychPrvku; i++) {
 		pomocne[i] = _data[i];
 	}
 	delete[] _data;
 	_data = pomocne;
-	_velikostPole = _velikostPole * RostouciKoeficient;
 }
 
 template <typename TypDat, int PocatecniVelikost, int RostouciKoeficient>
 void RostouciKontejner<TypDat, PocatecniVelikost, RostouciKoeficient>::pridej(const TypDat& o) {
 	if (!jeMistoVPoli())
-		_pocetPlatnychPrvku += 1;
+		zvetsiPole();
 
 	_data[_pocetPlatnychPrvku] = o;
 	_pocetPlatnychPrvku++;
@@ -57,14 +60,17 @@ void RostouciKontejner<TypDat, PocatecniVelikost, RostouciKoeficient>::pridej(co
 
 template <typename TypDat, int PocatecniVelikost, int RostouciKoeficient>
 TypDat& RostouciKontejner<TypDat, PocatecniVelikost, RostouciKoeficient>::operator[](int index) {
-
-	TypDat typDat{};
-	return typDat;
+	if (index >= _pocetPlatnychPrvku)
+		throw std::out_of_range("The given index is out of range.");
+	return _data[index];
 }
 
-template <typename TypDat, int PocatecniVelikost, int RostouciKoeficient>
-TypDat RostouciKontejner<TypDat, PocatecniVelikost, RostouciKoeficient>::operator[](int index)const {
-
+template<typename TypDat, int PocatecniVelikost, int RostouciKoeficient>
+TypDat RostouciKontejner<TypDat, PocatecniVelikost, RostouciKoeficient>::operator[](int index) const
+{
+	if (index >= _pocetPlatnychPrvku)
+		throw std::out_of_range("The given index is out of range.");
+	return _data[index];
 }
 
 template <typename TypDat, int PocatecniVelikost, int RostouciKoeficient>
@@ -77,8 +83,10 @@ void RostouciKontejner<TypDat, PocatecniVelikost, RostouciKoeficient>::pridejNa(
 	// 0-1-2-3-4-5-6-7-8-9
 	// A-B-C-D-_-_-_-_-_-_
 
+	if (!jeMistoVPoli())
+		zvetsiPole();
 
-	for (int i = index; i < _pocetPlatnychPrvku - 1; i--) {
+	for (int i = _pocetPlatnychPrvku - 1; i >= index; i--) {
 		_data[i + 1] = _data[i];
 	}
 	_data[index] = o;
@@ -87,10 +95,13 @@ void RostouciKontejner<TypDat, PocatecniVelikost, RostouciKoeficient>::pridejNa(
 
 template <typename TypDat, int PocatecniVelikost, int RostouciKoeficient>
 void RostouciKontejner<TypDat, PocatecniVelikost, RostouciKoeficient>::odeber(int index) {
-
-	for (int i = index; i < _pocetPlatnychPrvku; i++) {
+	if (index >= _pocetPlatnychPrvku)
+		throw std::out_of_range("The given index is out of range.");
+	for (int i = index; i < _pocetPlatnychPrvku - 1; i++) {
 		_data[i] = _data[i + 1];
-		_pocetPlatnychPrvku--;
 	}
+	_pocetPlatnychPrvku--;
 }
+
+#endif
 
