@@ -5,7 +5,7 @@
 template<typename TypDat, int PocatecniVelikost = 5, int RostouciKoeficient = 2>
 struct RostouciKontejner {
 public:
-	TypDat* _data = new TypDat[PocatecniVelikost];
+	TypDat* _data;
 	int _velikostPole;
 	int _pocetPlatnychPrvku;
 
