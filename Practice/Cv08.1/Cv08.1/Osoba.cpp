@@ -11,6 +11,6 @@ Osoba::Osoba(string jmeno, string prijmeni, Adresa trvaleBydliste, Datum datumNa
 	_datumNarozeni = datumNarozeni;
 }
 
-Osoba::Osoba() {
+Osoba::Osoba() : _jmeno(""), _prijmeni(""), _trvaleBydliste(), _datumNarozeni() {
 
 }

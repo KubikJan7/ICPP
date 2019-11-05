@@ -6,6 +6,6 @@ Adresa::Adresa(std::string ulice, std::string mesto, int psc) {
 	_psc = psc;
 }
 
-Adresa::Adresa() {
+Adresa::Adresa() : _ulice(""), _mesto(""), _psc(0) {
 
 }
