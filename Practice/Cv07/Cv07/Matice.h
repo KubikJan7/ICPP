@@ -63,9 +63,9 @@ Matice<T>::Matice(const Matice<T>& m) {
 template<typename T>
 Matice<T>::~Matice() {
 	for (int i = 0; i < radky; i++) {
-		delete data[i];
+		delete[] data[i];
 	}
-	delete data;
+	delete[] data;
 }
 
 template<typename T>
