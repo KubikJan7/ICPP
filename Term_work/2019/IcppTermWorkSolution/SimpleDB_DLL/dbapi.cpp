@@ -6,7 +6,6 @@ using namespace std;
 
 Db* Db::open(std::string database)
 {
-	cout << "sfdfsf" << endl;
 	return nullptr;
 }
 
@@ -126,10 +125,16 @@ void Object::setDouble(double value)
 
 bool Object::isType(FieldType type) const
 {
-	return false;
+	if (this->getDataType() == type)
+		return true;
+	else
+		return false;
 }
 
 bool FieldObject::isType(FieldType type) const
 {
-	return false;
+	if (typeid(this->type) == (typeid(type)))
+		return true;
+	else
+		return false;
 }

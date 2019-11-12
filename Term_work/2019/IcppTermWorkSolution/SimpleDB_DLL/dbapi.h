@@ -33,6 +33,9 @@ public:
 
 	// Vrací true, pokud aktuální objekt představuje daný typ
 	virtual bool isType(FieldType type) const;
+
+	// Will return data type of the derived class
+	virtual FieldType getDataType() const = 0;
 };
 
 class DLL_SPEC IntObject : public Object {
@@ -41,6 +44,7 @@ private:
 public:
 	IntObject() : value(0) {}
 	IntObject(int v) : value(v) {}
+	virtual FieldType getDataType() const { return FieldType::Integer; };
 };
 
 class DLL_SPEC DoubleObject : public Object {
@@ -49,6 +53,7 @@ private:
 public:
 	DoubleObject() : value(0.0) {}
 	DoubleObject(double v) : value(v) {}
+	virtual FieldType getDataType() const { return FieldType::Double; };
 };
 
 class DLL_SPEC StringObject : public Object {
@@ -57,6 +62,7 @@ private:
 public:
 	StringObject() : value("") {}
 	StringObject(std::string v) : value(v) {}
+	virtual FieldType getDataType() const { return FieldType::String; };
 };
 
 // Objekt popisující sloupeček „field“
@@ -69,6 +75,7 @@ public:
 	FieldObject(std::string name, FieldType type) :name(name), type(type) {}
 
 	virtual bool isType(FieldType type) const override;
+	virtual FieldType getDataType() const { return FieldType::Field; };
 
 	// Název sloupečku
 	std::string getName() const { return name; }
