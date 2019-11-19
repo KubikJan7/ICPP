@@ -39,27 +39,24 @@ public:
 };
 
 class DLL_SPEC IntObject : public Object {
-private:
-	int value;
 public:
+	int value;
 	IntObject() : value(0) {}
 	IntObject(int v) : value(v) {}
 	virtual FieldType getDataType() const { return FieldType::Integer; };
 };
 
 class DLL_SPEC DoubleObject : public Object {
-private:
-	double value;
 public:
+	double value;
 	DoubleObject() : value(0.0) {}
 	DoubleObject(double v) : value(v) {}
 	virtual FieldType getDataType() const { return FieldType::Double; };
 };
 
 class DLL_SPEC StringObject : public Object {
-private:
-	std::string value;
 public:
+	std::string value;
 	StringObject() : value("") {}
 	StringObject(std::string v) : value(v) {}
 	virtual FieldType getDataType() const { return FieldType::String; };

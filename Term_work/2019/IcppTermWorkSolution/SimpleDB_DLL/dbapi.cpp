@@ -98,29 +98,38 @@ Object::~Object()
 
 std::string Object::getString() const
 {
-	return std::string();
+	if (this->isType(FieldType::String))
+		return ((StringObject*)this)->value;
 }
 
 void Object::setString(std::string value)
 {
+	if (this->isType(FieldType::String))
+		((StringObject*)this)->value = value;
 }
 
 int Object::getInt() const
 {
-	return 0;
+	if (this->isType(FieldType::Integer))
+		return ((IntObject*)this)->value;
 }
 
 void Object::setInt(int value)
 {
+	if (this->isType(FieldType::Integer))
+		((IntObject*)this)->value = value;
 }
 
 double Object::getDouble() const
 {
-	return 0.0;
+	if (this->isType(FieldType::Double))
+		return ((DoubleObject*)this)->value;
 }
 
 void Object::setDouble(double value)
 {
+	if (this->isType(FieldType::Double))
+		((DoubleObject*)this)->value = value;
 }
 
 bool Object::isType(FieldType type) const
