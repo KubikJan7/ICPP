@@ -47,12 +47,6 @@
     <ClCompile Include="Cv10.1.cpp">
       <Filter>Zdrojové soubory</Filter>
     </ClCompile>
-    <ClCompile Include="APotrubniPrvek.cpp">
-      <Filter>Zdrojové soubory</Filter>
-    </ClCompile>
-    <ClCompile Include="IPotrubi.cpp">
-      <Filter>Zdrojové soubory</Filter>
-    </ClCompile>
     <ClCompile Include="VychodZapad.cpp">
       <Filter>Zdrojové soubory</Filter>
     </ClCompile>

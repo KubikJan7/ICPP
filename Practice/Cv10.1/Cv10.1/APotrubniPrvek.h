@@ -1,3 +1,6 @@
+#ifndef A_POTRUBNI_PRVEK_H
+#define A_POTRUBNI_PRVEK_H
+#include "IPotrubi.h"
 
 struct APotrubniPrvek {
 	virtual ~APotrubniPrvek() {}
@@ -5,3 +8,4 @@ struct APotrubniPrvek {
 	int _x;
 	int _y;
 };
+#endif
