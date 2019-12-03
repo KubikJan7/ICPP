@@ -11,5 +11,5 @@ void Sit::Pripoj(ASitovyPrvek* sitovyPrvek) {
 	}
 }
 void Sit::ProvadejVse() {
-	sitovePrvky.ZpracujPrvky([](ASitovyPrvek* sp) sp.provadej());
+	sitovePrvky.ZpracujPrvky([](ASitovyPrvek* sp) { sp->Provadej(); });
 }

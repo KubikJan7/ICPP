@@ -2,6 +2,10 @@
 
 Hub::~Hub()
 {
+	for (int i = 0; i < maximumPripojenychPrvku; i++)
+	{
+		delete[] pripojenePrvky;
+	}
 }
 
 Hub::Hub(int maximumPripojenychPrvku) {

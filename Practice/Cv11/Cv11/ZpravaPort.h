@@ -2,12 +2,11 @@
 #define ZPRAVA_PORT_H
 
 struct ASitovyPrvek;
-
 struct ZpravaPort {
 public:
 	Zprava* zprava;
 	ASitovyPrvek* port;
-	ZpravaPort() {}
+	ZpravaPort() : zprava(nullptr), port(nullptr) {}
 	ZpravaPort(Zprava* zprava, ASitovyPrvek* port) : zprava(zprava), port(port) {}
 };
 

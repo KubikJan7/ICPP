@@ -74,7 +74,7 @@ public:
 	using ApplyFunkce = void(*) (T);
 
 	void ZpracujPrvky(ApplyFunkce f) const{
-		El el = prvni;
+		El* el = prvni;
 		while (el) {
 			f(el->hodnota);
 
