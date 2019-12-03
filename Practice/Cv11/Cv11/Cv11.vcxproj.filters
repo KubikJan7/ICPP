@@ -50,9 +50,6 @@
     <ClCompile Include="ASitovyPrvek.cpp">
       <Filter>Zdrojové soubory</Filter>
     </ClCompile>
-    <ClCompile Include="Fronta.cpp">
-      <Filter>Zdrojové soubory</Filter>
-    </ClCompile>
     <ClCompile Include="Hub.cpp">
       <Filter>Zdrojové soubory</Filter>
     </ClCompile>

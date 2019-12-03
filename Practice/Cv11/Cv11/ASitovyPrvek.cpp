@@ -1,14 +1,10 @@
 #include"ASitovyPrvek.h"
 
-void ASitovyPrvek::VlozPrichoziZpravu(Zprava *zprava, ASitovyPrvek port) {
-
+ASitovyPrvek::~ASitovyPrvek()
+{
 }
-void ASitovyPrvek::Provadej() {
 
-}
-void ASitovyPrvek::Pripoj(ASitovyPrvek sitovyPrvek) {
-
-}
-void ASitovyPrvek::ZpracujPrichoziZpravu(ZpravaPort zp) {
-
+void ASitovyPrvek::VlozPrichoziZpravu(Zprava *zprava, ASitovyPrvek* port) {
+	ZpravaPort zpravaPort{zprava,port};
+	prichoziZpravy.Vloz(zpravaPort);
 }

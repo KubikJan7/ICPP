@@ -1,3 +1,6 @@
+#ifndef HUB_H
+#define HUB_H
+
 #include"AsitovyPrvek.h"
 #include"Fronta.h"
 
@@ -7,10 +10,12 @@ private:
 	int maximumPripojenychPrvku;
 	Fronta<Zprava*> zpracovaneZpravy;
 
-	virtual void ZpracujPrichoziZpravu(ZpravaPort zp);
-
+	virtual void ZpracujPrichoziZpravu(ZpravaPort zp ) override;
 public:
+	~Hub();
 	Hub(int maximumPripojenychPrvku);
-	virtual void Pripoj(ASitovyPrvek sitovyPrvek);
-	virtual void Provadej();
+	virtual void Pripoj(ASitovyPrvek* sitovyPrvek) override;
+	virtual void Provadej() override;
 };
+
+#endif
