@@ -19,12 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="dbapi.h" />
+    <ClInclude Include="db.h" />
+    <ClInclude Include="fieldType.h" />
     <ClInclude Include="helpful.h" />
+    <ClInclude Include="interfaces.h" />
+    <ClInclude Include="objectTypes.h" />
     <ClInclude Include="platform.h" />
+    <ClInclude Include="table.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dbapi.cpp" />
+    <ClCompile Include="db.cpp" />
+    <ClCompile Include="objectTypes.cpp" />
+    <ClCompile Include="table.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
