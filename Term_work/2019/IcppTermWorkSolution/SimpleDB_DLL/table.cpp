@@ -41,9 +41,9 @@ void Table::remove(int rowid)
 	if (rowid > numberOfEntries)
 		throw std::out_of_range{"Given id is bigger than the number of entries stored in the table."};
 
-	for (int i = 0; i < rowCount; i++)
+	for (int i = rowid; i < numberOfEntries-1; i++)
 	{
-
+		table[i] = table[i + 1];
 	}
 }
 
