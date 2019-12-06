@@ -7,7 +7,6 @@ using namespace std;
 int main() {
 	// Vytvoření db
 	Db* db = Db::open("testdb");
-
 	//// Vytvoření tabulky
 	//auto idField = Db::Field("id", FieldType::Integer);
 	//auto nameField = Db::Field("name", FieldType::String);

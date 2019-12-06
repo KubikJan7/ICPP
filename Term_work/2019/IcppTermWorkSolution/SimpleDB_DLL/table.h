@@ -8,7 +8,14 @@
 
 // Tabulka
 class DLL_SPEC Table {
+private:
+	Object*** table;
+	int rowCount;
+	int fieldCount;
+	int numberOfEntries;
 public:
+	Table(int fieldCount, int rowCount = 10);
+	~Table();
 	// Vložení nového øádku do tabulky (pole Object* (pro jednotlivé hodnoty sloupeèkù))
 	void insert(Object** row);
 	// Smazání vyrabného øádku z tabulky
