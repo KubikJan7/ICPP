@@ -9,12 +9,13 @@
 // Tabulka
 class DLL_SPEC Table {
 private:
+	std::string name;
 	Object*** table;
 	int rowCount;
 	int fieldCount;
 	int numberOfEntries;
 public:
-	Table(int fieldCount, int rowCount = 10);
+	Table(std::string name,int fieldCount, int rowCount = 10);
 	~Table();
 	// Vložení nového øádku do tabulky (pole Object* (pro jednotlivé hodnoty sloupeèkù))
 	void insert(Object** row);
@@ -22,7 +23,7 @@ public:
 	void remove(int rowid);
 
 	// Select – vytvoøí iterátor k procházení tabulky
-	Iterator* select();
+	IIterator* select();
 
 	// Commit – pøenese zmìny z pamìti do datových souborù
 	void commit();
@@ -39,14 +40,15 @@ public:
 	// Vrací poèet sloupeèkù
 	int getFieldCount() const;
 
+	std::string getTableName() const;
 
 	// ============== Bonusové metody: ================
 		// Select s podmínkou
-	Iterator* select(Condition* condition) { throw 0; }
+	IIterator* select(ICondition* condition) { throw 0; }
 	// Nalezení rowId s podmínkou
-	int findRowId(Condition* condition) { throw 0; }
+	int findRowId(ICondition* condition) { throw 0; }
 	// Update – aktualizuje øádky vyhovující podmínce, aktualizaci provádí funkce „callback“
 	// callback na vstupu obdrží data øádku a vrací data
-	void update(Condition* condition, std::function<void(Object**)> callback) { throw 0; }
+	void update(ICondition* condition, std::function<void(Object**)> callback) { throw 0; }
 };
 #endif

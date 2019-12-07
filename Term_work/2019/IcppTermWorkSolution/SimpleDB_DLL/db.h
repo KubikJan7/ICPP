@@ -6,7 +6,13 @@
 
 // Databáze
 class DLL_SPEC Db {
+private:
+	Table** tables;
+	int tablesLength;
+	int tableCount;
 public:
+	Db(int tablesLength = 10);
+	~Db();
 	// Otevøe databázi
 	static Db* open(std::string database);
 	// Uzavøe databázi (dealokuje pamìové prostøedky)

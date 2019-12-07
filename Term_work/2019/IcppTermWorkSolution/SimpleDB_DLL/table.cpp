@@ -1,9 +1,10 @@
 #include<stdexcept>
 #include "table.h"
 
-Table::Table(int fieldCount, int rowCount)
+Table::Table(std::string name, int fieldCount, int rowCount)
 {
 	numberOfEntries = 0;
+	this->name = name;
 	this->rowCount = rowCount;
 	this->fieldCount = fieldCount;
 
@@ -30,7 +31,7 @@ Table::~Table()
 void Table::insert(Object** row)
 {
 	if (row == nullptr)
-		throw std::invalid_argument{"Given row is empty."};
+		throw std::invalid_argument{ "Given row is empty." };
 
 	table[numberOfEntries] = row;
 	numberOfEntries++;
@@ -39,15 +40,16 @@ void Table::insert(Object** row)
 void Table::remove(int rowid)
 {
 	if (rowid > numberOfEntries)
-		throw std::out_of_range{"Given id is bigger than the number of entries stored in the table."};
+		throw std::out_of_range{ "Given id is bigger than the number of entries stored in the table." };
 
-	for (int i = rowid; i < numberOfEntries-1; i++)
+	for (int i = rowid; i < numberOfEntries - 1; i++)
 	{
 		table[i] = table[i + 1];
 	}
+	table[numberOfEntries - 1] = nullptr;
 }
 
-Iterator* Table::select()
+IIterator* Table::select()
 {
 	return nullptr;
 }
@@ -58,6 +60,7 @@ void Table::commit()
 
 void Table::close()
 {
+	Table::~Table();
 }
 
 int Table::getRowCount() const
@@ -67,10 +70,15 @@ int Table::getRowCount() const
 
 FieldObject** Table::getFields() const
 {
-	return nullptr;
+	return (FieldObject**) table[0];
 }
 
 int Table::getFieldCount() const
 {
 	return fieldCount;
+}
+
+std::string Table::getTableName() const
+{
+	return name;
 }

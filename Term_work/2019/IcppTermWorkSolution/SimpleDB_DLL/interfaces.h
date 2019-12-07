@@ -3,16 +3,16 @@
 #include "platform.h"
 
 // Rozhraní definující podmínku – pouze pro bonusové metody
-class DLL_SPEC Condition {
-	virtual ~Condition() { }
+class DLL_SPEC ICondition {
+	virtual ~ICondition() { }
 	virtual bool matches(int fieldCount, FieldObject** fields, Object** row) const = 0;
 };
 // --------------------------------------------------------
 
 // Rozhraní iterátoru (select)
-class DLL_SPEC Iterator {
+class DLL_SPEC IIterator {
 public:
-	virtual ~Iterator() { };
+	virtual ~IIterator() { };
 
 	// Posun na další øádek (vrací true, pokud je iterátor platný; logika podle Java Iterator)
 	virtual bool moveNext() = 0;
