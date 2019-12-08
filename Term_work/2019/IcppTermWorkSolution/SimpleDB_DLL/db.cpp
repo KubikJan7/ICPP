@@ -1,5 +1,8 @@
 #include<stdexcept>
 #include "db.h"
+#include<fstream>
+
+using namespace std;
 
 Db::Db(int tablesLength)
 {
@@ -20,7 +23,16 @@ Db::~Db()
 
 Db* Db::open(std::string database)
 {
-	return nullptr;
+	Db* db = new Db{};
+	ifstream in{};
+	in.open(database, ios_base::binary);
+	if (!in.is_open()) //Checks if the file does exist
+		return db; //Initialize new database
+	else
+	{
+
+	}
+	return db;
 }
 
 void Db::close()
@@ -33,8 +45,8 @@ Table* Db::createTable(std::string name, int fieldsCount, FieldObject** fields)
 	if (name.compare("") == 0 || fieldsCount == 0 || fields == nullptr)
 		throw std::invalid_argument("One of the given parameters is empty.");
 
-	Table* t = new Table{name,fieldsCount};
-	t->insert((Object**) fields);
+	Table* t = new Table{ name,fieldsCount };
+	t->insert((Object**)fields);
 	return t;
 }
 
@@ -85,5 +97,5 @@ Object* Db::String(std::string value)
 
 FieldObject* Db::Field(std::string name, FieldType type)
 {
-	return new FieldObject{name, type};
+	return new FieldObject{ name, type };
 }
