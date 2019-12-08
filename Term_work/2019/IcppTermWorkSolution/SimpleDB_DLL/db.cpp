@@ -24,13 +24,24 @@ Db::~Db()
 Db* Db::open(std::string database)
 {
 	Db* db = new Db{};
+	int tableCount;
+
 	ifstream in{};
 	in.open(database, ios_base::binary);
 	if (!in.is_open()) //Checks if the file does exist
 		return db; //Initialize new database
 	else
 	{
+		Table* t;
+		in.read((char*)&tableCount, sizeof(int));
 
+		for (int i = 0; i < tableCount; i++)
+		{
+			in.read((char*)&t, sizeof(Table*));
+			db->createTable(t->getTableName(), t->getFieldCount(), t->getFields());
+		}
+
+		in.close();
 	}
 	return db;
 }
