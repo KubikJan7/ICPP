@@ -8,9 +8,11 @@ int main() {
 	// Vytvoření db
 	Db* db = Db::open("testdb");
 	//// Vytvoření tabulky
-	//auto idField = Db::Field("id", FieldType::Integer);
-	//auto nameField = Db::Field("name", FieldType::String);
-	//auto userFields = combineToDefinition(idField, nameField);
+	auto idField = Db::Field("id", FieldType::Integer);
+	auto nameField = Db::Field("name", FieldType::String);
+	auto userFields = combineToDefinition(idField, nameField);
+	Table* t = db->createTable("person", 2, userFields);
+	Table* t2 = db->createTable("user",2,userFields);
 	//Table* users = db->openOrCreateTable("users", 2, userFields);
 
 	//// Vložení řádku do tabulky	

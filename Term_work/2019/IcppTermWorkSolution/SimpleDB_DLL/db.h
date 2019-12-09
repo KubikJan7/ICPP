@@ -3,15 +3,20 @@
 #include "platform.h"
 #include <string>
 #include "table.h"
+#include <stdexcept>
 
 // Databáze
 class DLL_SPEC Db {
+
 private:
-	Table** tables;
-	int tablesLength;
+	std::string databaseName;
+	std::string* tableNames;
+	int tableNamesLength;
 	int tableCount;
+	std::string FieldTypeToString(FieldType type);
+	FieldType StringToFieldType(std::string typeName);
 public:
-	Db(int tablesLength = 10);
+	Db(std::string databaseName, int tableNamesLength = 10);
 	~Db();
 	// Otevøe databázi
 	static Db* open(std::string database);

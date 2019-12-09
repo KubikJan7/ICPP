@@ -1,6 +1,7 @@
 #ifndef INTERFACES_H
 #define INTERFACES_H
 #include "platform.h"
+#include "objectTypes.h"
 
 // Rozhraní definující podmínku – pouze pro bonusové metody
 class DLL_SPEC ICondition {

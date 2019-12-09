@@ -1,46 +1,67 @@
 #include<stdexcept>
 #include "db.h"
 #include<fstream>
-
+#include<iostream>
 using namespace std;
 
-Db::Db(int tablesLength)
+std::string Db::FieldTypeToString(FieldType type)
 {
-	this->tableCount = 0;
-	this->tablesLength = tablesLength;
-	tables = new Table * [tablesLength];
+	switch (type) {
+	case FieldType::Integer:
+		return "INT";
+	case FieldType::Double:
+		return "DOUBLE";
+	case FieldType::String:
+		return "STRING";
+	default:
+		throw invalid_argument("Given type is not supported by the database!");
+	}
+}
+
+FieldType Db::StringToFieldType(std::string typeName)
+{
+	if(typeName.compare("INT")==0)
+		return FieldType::Integer;
+	if (typeName.compare("DOUBLE") == 0)
+		return FieldType::Double;
+	if (typeName.compare("STRING") == 0)
+		return FieldType::String;
+	else
+		throw invalid_argument("Given type name does not match any of the database data types!");
+	
+}
+
+Db::Db(string databaseName, int tablesLength)
+{
+	this->databaseName = databaseName;
+	tableCount = 0;
+	this->tableNamesLength = tablesLength;
+	tableNames = new string[tablesLength];
 }
 
 Db::~Db()
 {
-	for (int i = 0; i < tableCount; i++)
-	{
-		delete tables[i];
-	}
-
-	delete[] tables;
+	delete[] tableNames;
 }
 
 Db* Db::open(std::string database)
 {
-	Db* db = new Db{};
-	int tableCount;
-
+	Db* db = new Db{ database };
 	ifstream in{};
-	in.open(database, ios_base::binary);
-	if (!in.is_open()) //Checks if the file does exist
+	in.open("/databases/" + database + ".txt");
+	if (!in.is_open()) //Check if the file does exist
 		return db; //Initialize new database
 	else
 	{
-		Table* t;
-		in.read((char*)&tableCount, sizeof(int));
-
-		for (int i = 0; i < tableCount; i++)
-		{
-			in.read((char*)&t, sizeof(Table*));
-			db->createTable(t->getTableName(), t->getFieldCount(), t->getFields());
+		string s;
+		while (in >> s) {
+			if (db->tableCount == db->tableNamesLength)
+			{
+				//TODO: allocate a bigger array
+			}
+			db->tableNames[db->tableCount] = s;
+			db->tableCount++;
 		}
-
 		in.close();
 	}
 	return db;
@@ -58,6 +79,34 @@ Table* Db::createTable(std::string name, int fieldsCount, FieldObject** fields)
 
 	Table* t = new Table{ name,fieldsCount };
 	t->insert((Object**)fields);
+
+	tableNames[tableCount] = name;
+	tableCount++;
+
+	ofstream out{};
+
+	//Create file with list with all available tables
+	out.open(databaseName + "_structure" + ".txt");
+	if (out.is_open())
+		for (int i = 0; i < tableCount; i++)
+		{
+			out << tableNames[i] << endl;
+		}
+	out.close();
+
+	//Create schema of the new table
+	out.open(databaseName + "_" + name + "_schema" + ".txt");
+	if (out.is_open())
+	{
+		string fieldType;
+		out << "table " << name << endl;
+		for (int i = 0; i < fieldsCount; i++)
+		{
+			fieldType = FieldTypeToString(fields[i]->getType());
+			out << fields[i]->getName() << " " << fieldType << endl;
+		}
+	}
+	out.close();
 	return t;
 }
 
@@ -66,11 +115,11 @@ Table* Db::openTable(std::string name)
 	if (name.compare("") == 0)
 		throw std::invalid_argument("The given name parameter is empty.");
 
-	for (int i = 0; i < tableCount; i++)
+	/*for (int i = 0; i < tableNamesLength; i++)
 	{
-		if (name.compare(tables[i]->getTableName()) == 0)
-			return tables[i];
-	}
+		if (name.compare(tableNames[i]->getTableName()) == 0)
+			return tableNames[i];
+	}*/
 
 	throw  std::invalid_argument("Table with the given name was not found!");
 }
