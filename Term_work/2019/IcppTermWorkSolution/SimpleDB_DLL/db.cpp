@@ -48,7 +48,7 @@ Db* Db::open(std::string database)
 {
 	Db* db = new Db{ database };
 	ifstream in{};
-	in.open("/databases/" + database + ".txt");
+	in.open("../SimpleDB_DLL/" + database + ".txt");
 	if (!in.is_open()) //Check if the file does exist
 		return db; //Initialize new database
 	else
@@ -86,7 +86,7 @@ Table* Db::createTable(std::string name, int fieldsCount, FieldObject** fields)
 	ofstream out{};
 
 	//Create file with list with all available tables
-	out.open(databaseName + "_structure" + ".txt");
+	out.open("../SimpleDB_DLL/" + databaseName + "_tables" + ".txt");
 	if (out.is_open())
 		for (int i = 0; i < tableCount; i++)
 		{
@@ -95,7 +95,7 @@ Table* Db::createTable(std::string name, int fieldsCount, FieldObject** fields)
 	out.close();
 
 	//Create schema of the new table
-	out.open(databaseName + "_" + name + "_schema" + ".txt");
+	out.open("../SimpleDB_DLL/" + databaseName + "_" + name + "_schema" + ".txt");
 	if (out.is_open())
 	{
 		string fieldType;
@@ -130,14 +130,12 @@ Table* Db::openOrCreateTable(std::string name, int fieldsCount, FieldObject** fi
 		throw std::invalid_argument("The given name parameter is empty.");
 
 	try {
-		openTable(name);
+		return openTable(name);
 	}
 	catch (std::invalid_argument e)
 	{
-		createTable(name, fieldsCount, fields);
+		return createTable(name, fieldsCount, fields);
 	}
-
-	return nullptr;
 }
 
 Object* Db::Int(int value)
