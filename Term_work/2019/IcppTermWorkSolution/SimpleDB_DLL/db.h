@@ -13,8 +13,9 @@ private:
 	std::string* tableNames;
 	int tableNamesLength;
 	int tableCount;
-	std::string FieldTypeToString(FieldType type);
-	FieldType StringToFieldType(std::string typeName);
+	std::string fieldTypeToString(FieldType type);
+	FieldType stringToFieldType(std::string typeName);
+	bool isTablePresent(std::string table);
 public:
 	Db(std::string databaseName, int tableNamesLength = 10);
 	~Db();

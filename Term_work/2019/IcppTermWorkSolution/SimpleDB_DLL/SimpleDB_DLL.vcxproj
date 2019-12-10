@@ -26,6 +26,7 @@
     <ClInclude Include="iterator.h" />
     <ClInclude Include="objectTypes.h" />
     <ClInclude Include="platform.h" />
+    <ClInclude Include="simpleDbException.h" />
     <ClInclude Include="table.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,10 +1,11 @@
-#include<stdexcept>
-#include "db.h"
 #include<fstream>
 #include<iostream>
+#include "db.h"
+#include "simpleDbException.h"
+
 using namespace std;
 
-std::string Db::FieldTypeToString(FieldType type)
+std::string Db::fieldTypeToString(FieldType type)
 {
 	switch (type) {
 	case FieldType::Integer:
@@ -14,21 +15,31 @@ std::string Db::FieldTypeToString(FieldType type)
 	case FieldType::String:
 		return "STRING";
 	default:
-		throw invalid_argument("Given type is not supported by the database!");
+		throw WrongInputException("Given type is not supported by the database!");
 	}
 }
 
-FieldType Db::StringToFieldType(std::string typeName)
+FieldType Db::stringToFieldType(std::string typeName)
 {
-	if(typeName.compare("INT")==0)
+	if (typeName.compare("INT") == 0)
 		return FieldType::Integer;
 	if (typeName.compare("DOUBLE") == 0)
 		return FieldType::Double;
 	if (typeName.compare("STRING") == 0)
 		return FieldType::String;
 	else
-		throw invalid_argument("Given type name does not match any of the database data types!");
-	
+		throw WrongInputException("Given type name does not match any of the database data types!");
+
+}
+
+bool Db::isTablePresent(std::string table)
+{
+	for (int i = 0; i < tableCount; i++)
+	{
+		if (table.compare(tableNames[i]) == 0)
+			return true;
+	}
+	return false;
 }
 
 Db::Db(string databaseName, int tablesLength)
@@ -48,7 +59,7 @@ Db* Db::open(std::string database)
 {
 	Db* db = new Db{ database };
 	ifstream in{};
-	in.open("../SimpleDB_DLL/" + database + ".txt");
+	in.open("../SimpleDB_DLL/SimpleDB files/" + database + ".txt");
 	if (!in.is_open()) //Check if the file does exist
 		return db; //Initialize new database
 	else
@@ -74,68 +85,68 @@ void Db::close()
 
 Table* Db::createTable(std::string name, int fieldsCount, FieldObject** fields)
 {
-	if (name.compare("") == 0 || fieldsCount == 0 || fields == nullptr)
-		throw std::invalid_argument("One of the given parameters is empty.");
+	if (!isTablePresent(name)) {
+		if (name.compare("") == 0 || fieldsCount == 0 || fields == nullptr)
+			throw std::invalid_argument("One of the given parameters is empty.");
 
-	Table* t = new Table{ name,fieldsCount };
-	t->insert((Object**)fields);
+		Table* t = new Table{ name,fieldsCount };
+		t->insert((Object**)fields);
 
-	tableNames[tableCount] = name;
-	tableCount++;
+		tableNames[tableCount] = name;
+		tableCount++;
 
-	ofstream out{};
+		ofstream out{};
 
-	//Create file with list with all available tables
-	out.open("../SimpleDB_DLL/" + databaseName + "_tables" + ".txt");
-	if (out.is_open())
-		for (int i = 0; i < tableCount; i++)
+		//Create file with list with all available tables
+		out.open("../SimpleDB_DLL/SimpleDB files/" + databaseName + "_table_list" + ".txt");
+		if (out.is_open())
+			for (int i = 0; i < tableCount; i++)
+			{
+				out << tableNames[i] << endl;
+			}
+		out.close();
+
+		//Create schema of the new table
+		out.open("../SimpleDB_DLL/SimpleDB files/" + databaseName + "_" + name + "_schema" + ".txt");
+		if (out.is_open())
 		{
-			out << tableNames[i] << endl;
+			string fieldType;
+			out << "table " << name << endl;
+			for (int i = 0; i < fieldsCount; i++)
+			{
+				fieldType = fieldTypeToString(fields[i]->getType());
+				out << fields[i]->getName() << " " << fieldType << endl;
+			}
 		}
-	out.close();
-
-	//Create schema of the new table
-	out.open("../SimpleDB_DLL/" + databaseName + "_" + name + "_schema" + ".txt");
-	if (out.is_open())
-	{
-		string fieldType;
-		out << "table " << name << endl;
-		for (int i = 0; i < fieldsCount; i++)
-		{
-			fieldType = FieldTypeToString(fields[i]->getType());
-			out << fields[i]->getName() << " " << fieldType << endl;
-		}
+		out.close();
+		return t;
 	}
-	out.close();
-	return t;
+	throw InvalidOperationException("Table with given name already exists!");
 }
 
 Table* Db::openTable(std::string name)
 {
+	bool tableWasFound = false;
 	if (name.compare("") == 0)
-		throw std::invalid_argument("The given name parameter is empty.");
+		throw WrongInputException("The given name parameter is empty.");
 
-	/*for (int i = 0; i < tableNamesLength; i++)
+	if (isTablePresent(name))
 	{
-		if (name.compare(tableNames[i]->getTableName()) == 0)
-			return tableNames[i];
-	}*/
-
-	throw  std::invalid_argument("Table with the given name was not found!");
+		ifstream in("../SimpleDB_DLL/SimpleDB files/" + databaseName + "_" + name + "_schema" + ".txt");
+	}
+	else
+		throw  WrongInputException("Table with the given name was not found!");
 }
 
 Table* Db::openOrCreateTable(std::string name, int fieldsCount, FieldObject** fields)
 {
 	if (name.compare("") == 0)
-		throw std::invalid_argument("The given name parameter is empty.");
+		throw WrongInputException("The given name parameter is empty.");
 
-	try {
+	if (isTablePresent(name))
 		return openTable(name);
-	}
-	catch (std::invalid_argument e)
-	{
+	else
 		return createTable(name, fieldsCount, fields);
-	}
 }
 
 Object* Db::Int(int value)
