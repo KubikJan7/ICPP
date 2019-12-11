@@ -13,8 +13,8 @@ int main() {
 		auto idField = Db::Field("id", FieldType::Integer);
 		auto nameField = Db::Field("name", FieldType::String);
 		auto userFields = combineToDefinition(idField, nameField);
-		Table* t = db->openTable("person");
-		Table* t2 = db->openTable("user");
+		Table* t = db->openOrCreateTable("person", 2, userFields);
+		Table* t2 = db->openOrCreateTable("user", 2, userFields);
 		//Table* users = db->openOrCreateTable("users", 2, userFields);
 
 		//// Vložení řádku do tabulky	
