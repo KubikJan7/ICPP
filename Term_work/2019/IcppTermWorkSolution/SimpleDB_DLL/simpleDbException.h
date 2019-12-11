@@ -17,4 +17,8 @@ struct InvalidOperationException : SimpleDbException {
 struct WrongInputException : SimpleDbException {
 	WrongInputException(std::string message) : SimpleDbException(message) {}
 };
+
+struct LoadFileException : SimpleDbException {
+	LoadFileException(std::string message) : SimpleDbException(message) {}
+};
 #endif

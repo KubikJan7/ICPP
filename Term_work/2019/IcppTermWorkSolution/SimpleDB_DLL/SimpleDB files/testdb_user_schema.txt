@@ -1,3 +1,4 @@
-table user
-id INT
-name STRING
+user	[ 2 ]
+==============
+id	INT
+name	STRING

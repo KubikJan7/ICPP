@@ -13,8 +13,8 @@ int main() {
 		auto idField = Db::Field("id", FieldType::Integer);
 		auto nameField = Db::Field("name", FieldType::String);
 		auto userFields = combineToDefinition(idField, nameField);
-		Table* t = db->createTable("person", 2, userFields);
-		Table* t2 = db->createTable("user", 2, userFields);
+		Table* t = db->openTable("person");
+		Table* t2 = db->openTable("user");
 		//Table* users = db->openOrCreateTable("users", 2, userFields);
 
 		//// Vložení řádku do tabulky	
@@ -49,6 +49,9 @@ int main() {
 		cout << ex.getMessage() << endl;
 	}
 	catch (InvalidOperationException & ex) {
+		cout << ex.getMessage() << endl;
+	}
+	catch (LoadFileException & ex) {
 		cout << ex.getMessage() << endl;
 	}
 }

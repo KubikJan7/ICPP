@@ -59,7 +59,7 @@ Db* Db::open(std::string database)
 {
 	Db* db = new Db{ database };
 	ifstream in{};
-	in.open("../SimpleDB_DLL/SimpleDB files/" + database + ".txt");
+	in.open("../SimpleDB_DLL/SimpleDB files/" + database + "_table_list" + ".txt");
 	if (!in.is_open()) //Check if the file does exist
 		return db; //Initialize new database
 	else
@@ -89,7 +89,7 @@ Table* Db::createTable(std::string name, int fieldsCount, FieldObject** fields)
 		if (name.compare("") == 0 || fieldsCount == 0 || fields == nullptr)
 			throw std::invalid_argument("One of the given parameters is empty.");
 
-		Table* t = new Table{ name,fieldsCount };
+		Table* t = new Table{ name,fieldsCount, fields };
 		t->insert((Object**)fields);
 
 		tableNames[tableCount] = name;
@@ -111,31 +111,59 @@ Table* Db::createTable(std::string name, int fieldsCount, FieldObject** fields)
 		if (out.is_open())
 		{
 			string fieldType;
-			out << "table " << name << endl;
+			out << name << "\t[ " << fieldsCount << " ]" << endl;
+			out << "==============" << endl;
 			for (int i = 0; i < fieldsCount; i++)
 			{
 				fieldType = fieldTypeToString(fields[i]->getType());
-				out << fields[i]->getName() << " " << fieldType << endl;
+				out << fields[i]->getName() << "\t" << fieldType << endl;
 			}
 		}
 		out.close();
 		return t;
 	}
-	throw InvalidOperationException("Table with given name already exists!");
+	throw InvalidOperationException("Table with name: " + name + " already exists!");
 }
 
 Table* Db::openTable(std::string name)
 {
-	bool tableWasFound = false;
 	if (name.compare("") == 0)
 		throw WrongInputException("The given name parameter is empty.");
 
 	if (isTablePresent(name))
 	{
+		int fieldsCount;
+		FieldObject** fields;
+		string fieldName, fieldType;
+
 		ifstream in("../SimpleDB_DLL/SimpleDB files/" + databaseName + "_" + name + "_schema" + ".txt");
+		if (in.is_open()) {
+			in >> fieldName >> fieldName >> fieldsCount >> fieldName >> fieldName; // variable name is here used for omitting extra strings
+			fields = new FieldObject * [fieldsCount];
+
+			// load table structure
+			for (int i = 0; i < fieldsCount; i++)
+			{
+				in >> fieldName >> fieldType;
+				fields[i] = new FieldObject{ fieldName,stringToFieldType(fieldType) };
+			}
+			Table* t = new Table{ fieldName, fieldsCount, fields };
+
+			// load table data
+			//TODO
+			in.close();
+			for (int i = 0; i < fieldsCount; i++)
+			{
+				delete fields[i];
+			}
+			delete[] fields;
+
+			return t;
+		}
+		throw  LoadFileException("Something went wrong, table: " + name + " couldn't be loaded.");
 	}
 	else
-		throw  WrongInputException("Table with the given name was not found!");
+		throw  InvalidOperationException("Table with the name: " + name + " does not exist!");
 }
 
 Table* Db::openOrCreateTable(std::string name, int fieldsCount, FieldObject** fields)

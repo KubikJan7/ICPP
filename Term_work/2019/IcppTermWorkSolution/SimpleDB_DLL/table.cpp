@@ -1,17 +1,18 @@
 #include<stdexcept>
 #include "table.h"
 
-Table::Table(std::string name, int fieldCount, int rowCount)
+Table::Table(std::string name, int fieldCount, FieldObject** fields, int rowCount)
 {
 	numberOfEntries = 0;
 	this->name = name;
 	this->rowCount = rowCount;
 	this->fieldCount = fieldCount;
+	this->fields = fields;
 
-	table = new Object * *[rowCount];
+	data = new Object * *[rowCount];
 	for (int i = 0; i < rowCount; i++)
 	{
-		table[i] = new Object * [fieldCount];
+		data[i] = new Object * [fieldCount];
 	}
 }
 
@@ -21,11 +22,11 @@ Table::~Table()
 	{
 		for (int j = 0; j < fieldCount; j++)
 		{
-			delete table[i][j];
+			delete data[i][j];
 		}
-		delete[] table[i];
+		delete[] data[i];
 	}
-	delete[] table;
+	delete[] data;
 }
 
 void Table::insert(Object** row)
@@ -33,7 +34,7 @@ void Table::insert(Object** row)
 	if (row == nullptr)
 		throw std::invalid_argument{ "Given row is empty." };
 
-	table[numberOfEntries] = row;
+	data[numberOfEntries] = row;
 	numberOfEntries++;
 }
 
@@ -44,9 +45,9 @@ void Table::remove(int rowid)
 
 	for (int i = rowid; i < numberOfEntries - 1; i++)
 	{
-		table[i] = table[i + 1];
+		data[i] = data[i + 1];
 	}
-	table[numberOfEntries - 1] = nullptr;
+	data[numberOfEntries - 1] = nullptr;
 }
 
 IIterator* Table::select()
@@ -70,7 +71,7 @@ int Table::getRowCount() const
 
 FieldObject** Table::getFields() const
 {
-	return (FieldObject**) table[0];
+	return fields;
 }
 
 int Table::getFieldCount() const
