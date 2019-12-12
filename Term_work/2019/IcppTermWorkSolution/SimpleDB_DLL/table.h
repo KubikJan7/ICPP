@@ -10,13 +10,14 @@
 class DLL_SPEC Table {
 private:
 	std::string name;
+	std::string database;
 	FieldObject** fields;
 	Object*** data;
 	int rowCount;
 	int fieldCount;
-	int numberOfEntries;
+	int numOfEntries;
 public:
-	Table(std::string name,int fieldCount,FieldObject** fields, int rowCount = 10);
+	Table(std::string name, std::string database, int fieldCount, FieldObject** fields, int rowCount = 10);
 	~Table();
 	// Vložení nového øádku do tabulky (pole Object* (pro jednotlivé hodnoty sloupeèkù))
 	void insert(Object** row);

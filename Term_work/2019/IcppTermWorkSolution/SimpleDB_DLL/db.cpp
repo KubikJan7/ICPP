@@ -5,43 +5,6 @@
 
 using namespace std;
 
-std::string Db::fieldTypeToString(FieldType type)
-{
-	switch (type) {
-	case FieldType::Integer:
-		return "INT";
-	case FieldType::Double:
-		return "DOUBLE";
-	case FieldType::String:
-		return "STRING";
-	default:
-		throw WrongInputException("Given type is not supported by the database!");
-	}
-}
-
-FieldType Db::stringToFieldType(std::string typeName)
-{
-	if (typeName.compare("INT") == 0)
-		return FieldType::Integer;
-	if (typeName.compare("DOUBLE") == 0)
-		return FieldType::Double;
-	if (typeName.compare("STRING") == 0)
-		return FieldType::String;
-	else
-		throw WrongInputException("Given type name does not match any of the database data types!");
-
-}
-
-bool Db::isTablePresent(std::string table)
-{
-	for (int i = 0; i < tableCount; i++)
-	{
-		if (table.compare(tableNames[i]) == 0)
-			return true;
-	}
-	return false;
-}
-
 Db::Db(string databaseName, int tablesLength)
 {
 	this->databaseName = databaseName;
@@ -89,7 +52,7 @@ Table* Db::createTable(std::string name, int fieldsCount, FieldObject** fields)
 		if (name.compare("") == 0 || fieldsCount == 0 || fields == nullptr)
 			throw std::invalid_argument("One of the given parameters is empty.");
 
-		Table* t = new Table{ name,fieldsCount, fields };
+		Table* t = new Table{ name,databaseName ,fieldsCount, fields };
 		t->insert((Object**)fields);
 
 		tableNames[tableCount] = name;
@@ -135,32 +98,46 @@ Table* Db::openTable(std::string name)
 		int fieldsCount;
 		FieldObject** fields;
 		string fieldName, fieldType;
+		Table* t;
 
-		ifstream in("../SimpleDB_DLL/SimpleDB files/" + databaseName + "_" + name + "_schema" + ".txt");
-		if (in.is_open()) {
-			in >> fieldName >> fieldName >> fieldsCount >> fieldName >> fieldName; // variable name is here used for omitting extra strings
+		// load table scheme
+		ifstream inTxt("../SimpleDB_DLL/SimpleDB files/" + databaseName + "_" + name + "_schema" + ".txt");
+		if (inTxt.is_open()) {
+			inTxt >> fieldName >> fieldName >> fieldsCount >> fieldName >> fieldName; // variable name is here used for omitting extra strings
 			fields = new FieldObject * [fieldsCount];
 
-			// load table structure
 			for (int i = 0; i < fieldsCount; i++)
 			{
-				in >> fieldName >> fieldType;
+				inTxt >> fieldName >> fieldType;
 				fields[i] = new FieldObject{ fieldName,stringToFieldType(fieldType) };
 			}
-			Table* t = new Table{ fieldName, fieldsCount, fields };
+			t = new Table{ name, databaseName, fieldsCount, fields };
 
-			// load table data
-			//TODO
-			in.close();
+			inTxt.close();
 			for (int i = 0; i < fieldsCount; i++)
 			{
 				delete fields[i];
 			}
 			delete[] fields;
 
-			return t;
 		}
+		else
 		throw  LoadFileException("Something went wrong, table: " + name + " couldn't be loaded.");
+
+		// load table data
+		ifstream inBin("../SimpleDB_DLL/SimpleDB files/" + databaseName + "_" + name + "_data" + ".dat", ios_base::binary);
+		if (inTxt.is_open()) {
+			int numOfEntries = 0;
+			Object** row;
+			inTxt.read((char*)&numOfEntries, sizeof(int));
+			for (int i = 0; i < numOfEntries; i++)
+			{
+				inTxt.read((char*)&row, sizeof(row));
+				t->insert(row);
+			}
+		}
+		return t;
+
 	}
 	else
 		throw  InvalidOperationException("Table with the name: " + name + " does not exist!");
@@ -195,4 +172,41 @@ Object* Db::String(std::string value)
 FieldObject* Db::Field(std::string name, FieldType type)
 {
 	return new FieldObject{ name, type };
+}
+
+std::string Db::fieldTypeToString(FieldType type)
+{
+	switch (type) {
+	case FieldType::Integer:
+		return "INT";
+	case FieldType::Double:
+		return "DOUBLE";
+	case FieldType::String:
+		return "STRING";
+	default:
+		throw WrongInputException("Given type is not supported by the database!");
+	}
+}
+
+FieldType Db::stringToFieldType(std::string typeName)
+{
+	if (typeName.compare("INT") == 0)
+		return FieldType::Integer;
+	if (typeName.compare("DOUBLE") == 0)
+		return FieldType::Double;
+	if (typeName.compare("STRING") == 0)
+		return FieldType::String;
+	else
+		throw WrongInputException("Given type name does not match any of the database data types!");
+
+}
+
+bool Db::isTablePresent(std::string table)
+{
+	for (int i = 0; i < tableCount; i++)
+	{
+		if (table.compare(tableNames[i]) == 0)
+			return true;
+	}
+	return false;
 }

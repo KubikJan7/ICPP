@@ -1,10 +1,14 @@
 #include<stdexcept>
+#include<fstream>
 #include "table.h"
+#include"simpleDbException.h"
 
-Table::Table(std::string name, int fieldCount, FieldObject** fields, int rowCount)
+using namespace std;
+Table::Table(string name, string database, int fieldCount, FieldObject** fields, int rowCount)
 {
-	numberOfEntries = 0;
+	numOfEntries = 0;
 	this->name = name;
+	this->database = database;
 	this->rowCount = rowCount;
 	this->fieldCount = fieldCount;
 	this->fields = fields;
@@ -34,20 +38,20 @@ void Table::insert(Object** row)
 	if (row == nullptr)
 		throw std::invalid_argument{ "Given row is empty." };
 
-	data[numberOfEntries] = row;
-	numberOfEntries++;
+	data[numOfEntries] = row;
+	numOfEntries++;
 }
 
 void Table::remove(int rowid)
 {
-	if (rowid > numberOfEntries)
+	if (rowid > numOfEntries)
 		throw std::out_of_range{ "Given id is bigger than the number of entries stored in the table." };
 
-	for (int i = rowid; i < numberOfEntries - 1; i++)
+	for (int i = rowid; i < numOfEntries - 1; i++)
 	{
 		data[i] = data[i + 1];
 	}
-	data[numberOfEntries - 1] = nullptr;
+	data[numOfEntries - 1] = nullptr;
 }
 
 IIterator* Table::select()
@@ -57,6 +61,19 @@ IIterator* Table::select()
 
 void Table::commit()
 {
+	ofstream out("../SimpleDB_DLL/SimpleDB files/" + database + "_" + name + "_data" + ".dat", ios_base::binary);
+
+	if (out.is_open()) {
+		out.write((char*)&numOfEntries, sizeof(numOfEntries));
+		for (int i = 0; i < numOfEntries; i++)
+		{
+			out.write((char*)&data[i], sizeof(data[i][0]));
+		}
+		out.close();
+	}
+	else
+		throw  LoadFileException("Something went wrong, data of table: " + name + " couldn't be saved.");
+
 }
 
 void Table::close()
