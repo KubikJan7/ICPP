@@ -128,12 +128,16 @@ Table* Db::openTable(std::string name)
 		ifstream inBin("../SimpleDB_DLL/SimpleDB files/" + databaseName + "_" + name + "_data" + ".dat", ios_base::binary);
 		if (inBin.is_open()) {
 			int numOfEntries = 0;
-			Object** row;
+			Object** row = new Object*[fieldsCount];
 			inBin.read((char*)&numOfEntries, sizeof(int));
-			cout << numOfEntries << endl;
 			for (int i = 0; i < numOfEntries; i++)
 			{
-				inBin.read((char*)&row, sizeof(row));
+				/*inBin.read((char*)&row, sizeof(row));
+				t->insert(row);*/
+				for (int j = 0; j < fieldsCount; j++)
+				{
+					inBin.read((char*)&row[j], sizeof(row[j]));
+				}
 				t->insert(row);
 			}
 		}

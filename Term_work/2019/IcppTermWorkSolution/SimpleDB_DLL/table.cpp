@@ -69,7 +69,11 @@ void Table::commit()
 		out.write((char*)&numOfEntries, sizeof(numOfEntries));
 		for (int i = 0; i < numOfEntries; i++)
 		{
-			out.write((char*)&data[i], sizeof(data[i]));
+			//out.write((char*)&data[i], sizeof(data[i]));
+			for (int j = 0; j < fieldCount; j++)
+			{
+				out.write((char*)&data[i][j], sizeof(data[i][j]));
+			}
 		}
 		out.close();
 	}
