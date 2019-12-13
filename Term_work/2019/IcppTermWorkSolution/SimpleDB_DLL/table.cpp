@@ -2,6 +2,7 @@
 #include<fstream>
 #include "table.h"
 #include"simpleDbException.h"
+#include <iostream>
 
 using namespace std;
 Table::Table(string name, string database, int fieldCount, FieldObject** fields, int rowCount)
@@ -39,6 +40,7 @@ void Table::insert(Object** row)
 		throw std::invalid_argument{ "Given row is empty." };
 
 	data[numOfEntries] = row;
+	cout << data[numOfEntries][0]->getInt() << " " <<data[numOfEntries][1]->getString() << endl;
 	numOfEntries++;
 }
 
@@ -67,7 +69,7 @@ void Table::commit()
 		out.write((char*)&numOfEntries, sizeof(numOfEntries));
 		for (int i = 0; i < numOfEntries; i++)
 		{
-			out.write((char*)&data[i], sizeof(data[i][0]));
+			out.write((char*)&data[i], sizeof(data[i]));
 		}
 		out.close();
 	}

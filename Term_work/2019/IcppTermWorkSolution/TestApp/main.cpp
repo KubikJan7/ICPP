@@ -17,6 +17,15 @@ int main() {
 		Table* t2 = db->openOrCreateTable("user", 2, userFields);
 		//Table* users = db->openOrCreateTable("users", 2, userFields);
 
+		auto id = Db::Int(1);
+		auto name = Db::String("Josef");
+		auto row = combineToRow(id, name);
+		t->insert(row);
+		auto id2 = Db::Int(2);
+		auto name2 = Db::String("Karel");
+		auto row2 = combineToRow(id2, name2);
+		t->insert(row2);
+		t->commit();
 		//// Vložení řádku do tabulky	
 		//auto id = Db::Int(15);
 		//auto name = Db::String("Josef");
