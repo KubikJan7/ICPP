@@ -30,6 +30,9 @@ public:
 
 	// Will return data type of the derived class
 	virtual FieldType getDataType() const = 0;
+
+	static std::string fieldTypeToString(FieldType type);
+	static FieldType stringToFieldType(std::string typeName);
 };
 
 

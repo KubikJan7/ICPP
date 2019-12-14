@@ -1,4 +1,5 @@
 #include "objectTypes.h"
+#include "simpleDbException.h"
 
 std::string Object::getString() const
 {
@@ -53,4 +54,31 @@ bool FieldObject::isType(FieldType type) const
 		return true;
 	else
 		return false;
+}
+
+std::string Object::fieldTypeToString(FieldType type)
+{
+	switch (type) {
+	case FieldType::Integer:
+		return "INT";
+	case FieldType::Double:
+		return "DOUBLE";
+	case FieldType::String:
+		return "STRING";
+	default:
+		throw WrongInputException("Given type is not supported by the database!");
+	}
+}
+
+FieldType Object::stringToFieldType(std::string typeName)
+{
+	if (typeName.compare("INT") == 0)
+		return FieldType::Integer;
+	if (typeName.compare("DOUBLE") == 0)
+		return FieldType::Double;
+	if (typeName.compare("STRING") == 0)
+		return FieldType::String;
+	else
+		throw WrongInputException("Given type name does not match any of the database data types!");
+
 }

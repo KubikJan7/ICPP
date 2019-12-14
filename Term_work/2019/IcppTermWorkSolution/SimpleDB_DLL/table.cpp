@@ -62,17 +62,33 @@ IIterator* Table::select()
 
 void Table::commit()
 {
-	ofstream out("../SimpleDB_DLL/SimpleDB files/" + database + "_" + name + "_data" + ".dat", ios_base::binary);
+	FieldType type;
+	ofstream out("../SimpleDB_DLL/SimpleDB files/" + database + "_" + name + "_data" + ".dat");
 
 	if (out.is_open()) {
-		out.write((char*)&numOfEntries, sizeof(numOfEntries));
+		out << numOfEntries << endl;
 		for (int i = 0; i < numOfEntries; i++)
 		{
 			//out.write((char*)&data[i], sizeof(data[i]));
 			for (int j = 0; j < fieldCount; j++)
 			{
-				out.write((char*)&data[i][j], sizeof(data[i][j]));
+				type = data[i][j]->getDataType();
+				switch (type) {
+				case FieldType::Integer:
+					out << Object::fieldTypeToString(FieldType::Integer) << " ";
+					out << data[i][j]->getInt() << "\t";
+					break;
+				case FieldType::Double:
+					out << Object::fieldTypeToString(FieldType::Double) << " ";
+					out << data[i][j]->getDouble() << "\t";
+					break;
+				case FieldType::String:
+					out << Object::fieldTypeToString(FieldType::String) << " ";
+					out << data[i][j]->getString() << "\t";
+					break;
+				}
 			}
+			out << endl;
 		}
 		out.close();
 	}
