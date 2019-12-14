@@ -5,21 +5,24 @@
 #include <iostream>
 
 using namespace std;
-void Table::resizeDataArray()
+void Table::enlargeDataArray()
 {
+	int oldRowCount = rowCount;
+	int entryCount = 0;
 	rowCount *= 2;
 	Object*** newArr = new Object * *[rowCount];
 	for (int i = 0; i < rowCount; i++)
 	{
 		newArr[i] = new Object * [fieldCount];
-		if (rowCount <= numOfEntries)
+		if (entryCount < oldRowCount) {
 			for (int j = 0; j < fieldCount; j++)
 			{
+				cout << Object::fieldTypeToString(data[i][j]->getDataType());
 				switch (data[i][j]->getDataType()) {
 				case FieldType::Integer:
 					newArr[i][j] = new IntObject();
 					newArr[i][j]->setInt(data[i][j]->getInt());
-					cout << newArr[i][j]->getInt();
+					cout << newArr[i][j]->getInt() << endl;
 					break;
 				case FieldType::Double:
 					newArr[i][j] = new DoubleObject();
@@ -28,10 +31,12 @@ void Table::resizeDataArray()
 				case FieldType::String:
 					newArr[i][j] = new StringObject();
 					newArr[i][j]->setString(data[i][j]->getString());
-					cout << newArr[i][j]->getString();
+					cout << newArr[i][j]->getString() << endl;
 					break;
 				}
 			}
+			entryCount++;
+		}
 	}
 
 	for (int i = 0; i < rowCount / 2; i++)
@@ -81,7 +86,7 @@ void Table::insert(Object** row)
 		throw std::invalid_argument{ "Given row is empty." };
 
 	if (numOfEntries >= rowCount)
-		resizeDataArray();
+		enlargeDataArray();
 
 	data[numOfEntries] = row;
 	numOfEntries++;

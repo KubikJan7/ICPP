@@ -24,14 +24,14 @@ Db* Db::open(std::string database)
 	ifstream in{};
 	in.open("../SimpleDB_DLL/SimpleDB files/" + database + "_table_list" + ".txt");
 	if (!in.is_open()) //Check if the file does exist
-		return db; //Initialize new database
+		return db; //Return a new database
 	else
 	{
 		string s;
 		while (in >> s) {
-			if (db->tableCount == db->tableNamesLength)
+			if (db->tableCount >= db->tableNamesLength)
 			{
-				//TODO: allocate a bigger array
+				db->enlargeTableNamesArray(); 
 			}
 			db->tableNames[db->tableCount] = s;
 			db->tableCount++;
@@ -53,6 +53,11 @@ Table* Db::createTable(std::string name, int fieldsCount, FieldObject** fields)
 			throw std::invalid_argument("One of the given parameters is empty.");
 
 		Table* t = new Table{ name,databaseName ,fieldsCount, fields };
+
+		if (tableCount >= tableNamesLength)
+		{
+			enlargeTableNamesArray();
+		}
 
 		tableNames[tableCount] = name;
 		tableCount++;
@@ -207,4 +212,19 @@ bool Db::isTablePresent(std::string table)
 			return true;
 	}
 	return false;
+}
+
+void Db::enlargeTableNamesArray()
+{
+	tableNamesLength *= 2;
+	string* newArr = new string[tableNamesLength];
+
+	for (int i = 0; i < tableCount; i++)
+	{
+		newArr[i] = tableNames[i];
+	}
+
+	delete[]tableNames;
+
+	tableNames = newArr;
 }

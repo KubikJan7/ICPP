@@ -15,6 +15,7 @@ int main() {
 		auto userFields = combineToDefinition(idField, nameField);
 		Table* t = db->openOrCreateTable("person", 2, userFields);
 		Table* t2 = db->openOrCreateTable("user", 2, userFields);
+
 		//Table* users = db->openOrCreateTable("users", 2, userFields);
 
 		auto id = Db::Int(1);

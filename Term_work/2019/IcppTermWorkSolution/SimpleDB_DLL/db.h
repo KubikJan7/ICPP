@@ -14,6 +14,7 @@ private:
 	int tableNamesLength;
 	int tableCount;
 	bool isTablePresent(std::string table);
+	void enlargeTableNamesArray();
 public:
 	Db(std::string databaseName, int tableNamesLength = 10);
 	~Db();
