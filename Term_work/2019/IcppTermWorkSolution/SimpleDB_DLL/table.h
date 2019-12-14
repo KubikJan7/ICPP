@@ -16,6 +16,8 @@ private:
 	int rowCount;
 	int fieldCount;
 	int numOfEntries;
+	// Add more rows to the object array
+	void resizeDataArray();
 public:
 	Table(std::string name, std::string database, int fieldCount, FieldObject** fields, int rowCount = 10);
 	~Table();

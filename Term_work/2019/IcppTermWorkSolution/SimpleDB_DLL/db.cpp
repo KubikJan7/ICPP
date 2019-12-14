@@ -100,19 +100,19 @@ Table* Db::openTable(std::string name)
 		Table* t;
 
 		// load table scheme
-		ifstream inTxt("../SimpleDB_DLL/SimpleDB files/" + databaseName + "_" + name + "_schema" + ".txt");
-		if (inTxt.is_open()) {
-			inTxt >> fieldName >> fieldName >> fieldsCount >> fieldName >> fieldName; // variable name is here used for omitting extra strings
+		ifstream in("../SimpleDB_DLL/SimpleDB files/" + databaseName + "_" + name + "_schema" + ".txt");
+		if (in.is_open()) {
+			in >> fieldName >> fieldName >> fieldsCount >> fieldName >> fieldName; // variable name is here used for omitting extra strings
 			fields = new FieldObject * [fieldsCount];
 
 			for (int i = 0; i < fieldsCount; i++)
 			{
-				inTxt >> fieldName >> fieldType;
+				in >> fieldName >> fieldType;
 				fields[i] = new FieldObject{ fieldName,Object::stringToFieldType(fieldType) };
 			}
 			t = new Table{ name, databaseName, fieldsCount, fields };
 
-			inTxt.close();
+			in.close();
 			for (int i = 0; i < fieldsCount; i++)
 			{
 				delete fields[i];
@@ -124,20 +124,37 @@ Table* Db::openTable(std::string name)
 			throw  LoadFileException("Something went wrong, table: " + name + " couldn't be loaded.");
 
 		// load table data
-		ifstream inBin("../SimpleDB_DLL/SimpleDB files/" + databaseName + "_" + name + "_data" + ".dat");
-		if (inBin.is_open()) {
+		in.open("../SimpleDB_DLL/SimpleDB files/" + databaseName + "_" + name + "_data" + ".dat");
+		if (in.is_open()) {
 			int numOfEntries = 0;
-			Object** row = new Object * [fieldsCount];
-			inBin >> numOfEntries;
+			string typeName;
+			int intVal;
+			double doubleVal;
+			string stringVal;
+			in >> numOfEntries;
 			for (int i = 0; i < numOfEntries; i++)
 			{
-				/*inBin.read((char*)&row, sizeof(row));
-					cout << row[j]->getInt() << row[j]->getString() << endl;
-				t->insert(row);*/
+				Object** row = new Object * [fieldsCount];
 				for (int j = 0; j < fieldsCount; j++)
 				{
-					inBin.read((char*)&row[j], sizeof(row[j]));
-					cout << row[j]->getInt() << row[j]->getString() << endl;
+					in >> typeName;
+					switch (Object::stringToFieldType(typeName)) {
+					case FieldType::Integer:
+						in >> intVal;
+						row[j] = new IntObject();
+						row[j]->setInt(intVal);
+						break;
+					case FieldType::Double:
+						in >> doubleVal;
+						row[j] = new DoubleObject();
+						row[j]->setDouble(doubleVal);
+						break;
+					case FieldType::String:
+						in >> stringVal;
+						row[j] = new StringObject();
+						row[j]->setString(stringVal);
+						break;
+					}
 				}
 				t->insert(row);
 			}
