@@ -40,7 +40,6 @@ void Table::insert(Object** row)
 		throw std::invalid_argument{ "Given row is empty." };
 
 	data[numOfEntries] = row;
-	cout << data[numOfEntries][0]->getInt() << " " <<data[numOfEntries][1]->getString() << endl;
 	numOfEntries++;
 }
 

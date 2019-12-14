@@ -53,7 +53,6 @@ Table* Db::createTable(std::string name, int fieldsCount, FieldObject** fields)
 			throw std::invalid_argument("One of the given parameters is empty.");
 
 		Table* t = new Table{ name,databaseName ,fieldsCount, fields };
-		t->insert((Object**)fields);
 
 		tableNames[tableCount] = name;
 		tableCount++;
@@ -122,21 +121,23 @@ Table* Db::openTable(std::string name)
 
 		}
 		else
-		throw  LoadFileException("Something went wrong, table: " + name + " couldn't be loaded.");
+			throw  LoadFileException("Something went wrong, table: " + name + " couldn't be loaded.");
 
 		// load table data
 		ifstream inBin("../SimpleDB_DLL/SimpleDB files/" + databaseName + "_" + name + "_data" + ".dat", ios_base::binary);
 		if (inBin.is_open()) {
 			int numOfEntries = 0;
-			Object** row = new Object*[fieldsCount];
+			Object** row = new Object * [fieldsCount];
 			inBin.read((char*)&numOfEntries, sizeof(int));
 			for (int i = 0; i < numOfEntries; i++)
 			{
 				/*inBin.read((char*)&row, sizeof(row));
+					cout << row[j]->getInt() << row[j]->getString() << endl;
 				t->insert(row);*/
 				for (int j = 0; j < fieldsCount; j++)
 				{
 					inBin.read((char*)&row[j], sizeof(row[j]));
+					cout << row[j]->getInt() << row[j]->getString() << endl;
 				}
 				t->insert(row);
 			}
