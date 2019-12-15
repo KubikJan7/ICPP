@@ -118,12 +118,6 @@ Table* Db::openTable(std::string name)
 			t = new Table{ name, databaseName, fieldsCount, fields };
 
 			in.close();
-			for (int i = 0; i < fieldsCount; i++)
-			{
-				delete fields[i];
-			}
-			delete[] fields;
-
 		}
 		else
 			throw  LoadFileException("Something went wrong, table: " + name + " couldn't be loaded.");

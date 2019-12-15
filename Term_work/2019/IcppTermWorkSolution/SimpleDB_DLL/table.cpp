@@ -25,12 +25,21 @@ Table::Table(string name, string database, int fieldCount, FieldObject** fields,
 
 Table::~Table()
 {
+	// Deallocate array of FieldObject*
+	for (int i = 0; i < fieldCount; i++)
+	{
+		delete fields[i];
+	}
+	delete[] fields;
+
+	// Deallocate 2D array of Object* 
 	for (int i = 0; i < rowCount; i++)
 	{
-		for (int j = 0; j < fieldCount; j++)
-		{
-			delete data[i][j];
-		}
+		if (i < numOfEntries)
+			for (int j = 0; j < fieldCount; j++)
+			{
+				delete data[i][j];
+			}
 		delete[] data[i];
 	}
 	delete[] data;
@@ -105,6 +114,7 @@ void Table::commit()
 void Table::close()
 {
 	Table::~Table();
+	name = database = "";
 }
 
 int Table::getRowCount() const
@@ -139,12 +149,10 @@ void Table::enlargeDataArray()
 		if (entryCount < oldRowCount) {
 			for (int j = 0; j < fieldCount; j++)
 			{
-				cout << Object::fieldTypeToString(data[i][j]->getDataType());
 				switch (data[i][j]->getDataType()) {
 				case FieldType::Integer:
 					newArr[i][j] = new IntObject();
 					newArr[i][j]->setInt(data[i][j]->getInt());
-					cout << newArr[i][j]->getInt() << endl;
 					break;
 				case FieldType::Double:
 					newArr[i][j] = new DoubleObject();
@@ -153,7 +161,6 @@ void Table::enlargeDataArray()
 				case FieldType::String:
 					newArr[i][j] = new StringObject();
 					newArr[i][j]->setString(data[i][j]->getString());
-					cout << newArr[i][j]->getString() << endl;
 					break;
 				}
 			}

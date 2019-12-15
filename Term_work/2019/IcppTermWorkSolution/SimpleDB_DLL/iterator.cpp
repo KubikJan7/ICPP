@@ -1,8 +1,8 @@
 #include "iterator.h"
-
+#include <iostream>
 Iterator::Iterator(int rowCount, int fieldCount, int numOfEntries, Object*** data)
 {
-	position = 0;
+	position = -1;
 	this->rowCount = rowCount;
 	this->fieldCount = fieldCount;
 	this->numOfEntries = numOfEntries;
@@ -11,21 +11,14 @@ Iterator::Iterator(int rowCount, int fieldCount, int numOfEntries, Object*** dat
 
 Iterator::~Iterator()
 {
-	for (int i = 0; i < rowCount; i++)
-	{
-		for (int j = 0; j < numOfEntries; j++)
-		{
-			delete data[i][j];
-		}
-		delete[] data[i];
-	}
-	delete[] data;
+	data = nullptr;
 }
 
 bool Iterator::moveNext()
 {
-	if (++position < rowCount * fieldCount)
+	if (++position < numOfEntries) {
 		return true;
+	}
 	else
 		return false;
 }
@@ -42,5 +35,9 @@ int Iterator::getRowId()
 
 void Iterator::close()
 {
+	rowCount = 0;
+	fieldCount = 0;
+	numOfEntries = 0;
+	position = 0;
 	Iterator::~Iterator();
 }

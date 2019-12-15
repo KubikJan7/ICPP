@@ -1,4 +1,4 @@
-person	[ 2 ]
+users	[ 2 ]
 ==============
 id	INT
 name	STRING
