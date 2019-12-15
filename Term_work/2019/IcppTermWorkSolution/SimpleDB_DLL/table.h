@@ -47,7 +47,7 @@ public:
 	std::string getTableName() const;
 
 	// ============== Bonusové metody: ================
-		// Select s podmínkou
+	// Select s podmínkou
 	IIterator* select(ICondition* condition) { throw 0; }
 	// Nalezení rowId s podmínkou
 	int findRowId(ICondition* condition) { throw 0; }

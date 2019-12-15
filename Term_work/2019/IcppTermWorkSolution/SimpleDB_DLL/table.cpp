@@ -3,54 +3,10 @@
 #include "table.h"
 #include"simpleDbException.h"
 #include <iostream>
+#include "iterator.h"
 
 using namespace std;
-void Table::enlargeDataArray()
-{
-	int oldRowCount = rowCount;
-	int entryCount = 0;
-	rowCount *= 2;
-	Object*** newArr = new Object * *[rowCount];
-	for (int i = 0; i < rowCount; i++)
-	{
-		newArr[i] = new Object * [fieldCount];
-		if (entryCount < oldRowCount) {
-			for (int j = 0; j < fieldCount; j++)
-			{
-				cout << Object::fieldTypeToString(data[i][j]->getDataType());
-				switch (data[i][j]->getDataType()) {
-				case FieldType::Integer:
-					newArr[i][j] = new IntObject();
-					newArr[i][j]->setInt(data[i][j]->getInt());
-					cout << newArr[i][j]->getInt() << endl;
-					break;
-				case FieldType::Double:
-					newArr[i][j] = new DoubleObject();
-					newArr[i][j]->setDouble(data[i][j]->getDouble());
-					break;
-				case FieldType::String:
-					newArr[i][j] = new StringObject();
-					newArr[i][j]->setString(data[i][j]->getString());
-					cout << newArr[i][j]->getString() << endl;
-					break;
-				}
-			}
-			entryCount++;
-		}
-	}
 
-	for (int i = 0; i < rowCount / 2; i++)
-	{
-		for (int j = 0; j < fieldCount; j++)
-		{
-			delete data[i][j];
-		}
-		delete[] data[i];
-	}
-	delete[] data;
-
-	data = newArr;
-}
 Table::Table(string name, string database, int fieldCount, FieldObject** fields, int rowCount)
 {
 	numOfEntries = 0;
@@ -101,12 +57,12 @@ void Table::remove(int rowid)
 	{
 		data[i] = data[i + 1];
 	}
-	data[numOfEntries - 1] = nullptr;
+	data[--numOfEntries] = nullptr;
 }
 
 IIterator* Table::select()
 {
-	return nullptr;
+	return new Iterator(rowCount, fieldCount, numOfEntries, data);
 }
 
 void Table::commit()
@@ -153,7 +109,7 @@ void Table::close()
 
 int Table::getRowCount() const
 {
-	return rowCount;
+	return numOfEntries;
 }
 
 FieldObject** Table::getFields() const
@@ -169,4 +125,51 @@ int Table::getFieldCount() const
 std::string Table::getTableName() const
 {
 	return name;
+}
+
+void Table::enlargeDataArray()
+{
+	int oldRowCount = rowCount;
+	int entryCount = 0;
+	rowCount *= 2;
+	Object*** newArr = new Object * *[rowCount];
+	for (int i = 0; i < rowCount; i++)
+	{
+		newArr[i] = new Object * [fieldCount];
+		if (entryCount < oldRowCount) {
+			for (int j = 0; j < fieldCount; j++)
+			{
+				cout << Object::fieldTypeToString(data[i][j]->getDataType());
+				switch (data[i][j]->getDataType()) {
+				case FieldType::Integer:
+					newArr[i][j] = new IntObject();
+					newArr[i][j]->setInt(data[i][j]->getInt());
+					cout << newArr[i][j]->getInt() << endl;
+					break;
+				case FieldType::Double:
+					newArr[i][j] = new DoubleObject();
+					newArr[i][j]->setDouble(data[i][j]->getDouble());
+					break;
+				case FieldType::String:
+					newArr[i][j] = new StringObject();
+					newArr[i][j]->setString(data[i][j]->getString());
+					cout << newArr[i][j]->getString() << endl;
+					break;
+				}
+			}
+			entryCount++;
+		}
+	}
+
+	for (int i = 0; i < rowCount / 2; i++)
+	{
+		for (int j = 0; j < fieldCount; j++)
+		{
+			delete data[i][j];
+		}
+		delete[] data[i];
+	}
+	delete[] data;
+
+	data = newArr;
 }
