@@ -1,7 +1,7 @@
-customer	[ 5 ]
-==============
-id	INT
-name	STRING
-surname	STRING
-email	STRING
-password	STRING
+customer           [ 5 ]
+========================
+id                INT
+first_name        STRING
+last_name         STRING
+email             STRING
+password          STRING

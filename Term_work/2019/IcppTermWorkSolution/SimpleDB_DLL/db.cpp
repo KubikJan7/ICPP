@@ -1,7 +1,8 @@
-#include<fstream>
-#include<iostream>
+#include <fstream>
+#include <iostream>
 #include "db.h"
 #include "simpleDbException.h"
+#include <iomanip>
 
 using namespace std;
 
@@ -80,12 +81,12 @@ Table* Db::createTable(std::string name, int fieldsCount, FieldObject** fields)
 		if (out.is_open())
 		{
 			string fieldType;
-			out << name << "\t[ " << fieldsCount << " ]" << endl;
-			out << "==============" << endl;
+			out << left << setw(19) << name << "[ " << fieldsCount << " ]" << endl;
+			out << "========================" << endl;
 			for (int i = 0; i < fieldsCount; i++)
 			{
 				fieldType = Object::fieldTypeToString(fields[i]->getType());
-				out << fields[i]->getName() << "\t" << fieldType << endl;
+				out << left << setw(18) << fields[i]->getName() << fieldType << endl;
 			}
 		}
 		out.close();

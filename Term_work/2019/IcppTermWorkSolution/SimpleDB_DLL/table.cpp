@@ -4,6 +4,7 @@
 #include"simpleDbException.h"
 #include <iostream>
 #include "iterator.h"
+#include <iomanip>
 
 using namespace std;
 
@@ -89,13 +90,13 @@ void Table::commit()
 				type = data[i][j]->getDataType();
 				switch (type) {
 				case FieldType::Integer:
-					out << data[i][j]->getInt() << "\t";
+					out <<left<<setw(5)<< data[i][j]->getInt() << "\t";
 					break;
 				case FieldType::Double:
-					out << data[i][j]->getDouble() << "\t";
+					out << left << setw(10) << data[i][j]->getDouble() << "\t";
 					break;
 				case FieldType::String:
-					out << data[i][j]->getString() << "\t";
+					out << left << setw(25) << data[i][j]->getString() << "\t";
 					break;
 				}
 			}

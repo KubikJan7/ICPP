@@ -1,5 +1,5 @@
-purchase	[ 3 ]
-==============
-id	INT
-name	STRING
-surname	STRING
+purchase           [ 3 ]
+========================
+id                INT
+first_name        STRING
+last_name         STRING
