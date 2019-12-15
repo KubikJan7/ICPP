@@ -31,7 +31,7 @@ Db* Db::open(std::string database)
 		while (in >> s) {
 			if (db->tableCount >= db->tableNamesLength)
 			{
-				db->enlargeTableNamesArray(); 
+				db->enlargeTableNamesArray();
 			}
 			db->tableNames[db->tableCount] = s;
 			db->tableCount++;
@@ -44,6 +44,8 @@ Db* Db::open(std::string database)
 void Db::close()
 {
 	Db::~Db();
+	databaseName = "";
+	tableNamesLength = tableCount = 0;
 }
 
 Table* Db::createTable(std::string name, int fieldsCount, FieldObject** fields)
@@ -208,9 +210,9 @@ bool Db::isTablePresent(std::string table)
 	return false;
 }
 
-void Db::enlargeTableNamesArray()
+void Db::enlargeTableNamesArray(int amount)
 {
-	tableNamesLength *= 2;
+	tableNamesLength += amount;
 	string* newArr = new string[tableNamesLength];
 
 	for (int i = 0; i < tableCount; i++)

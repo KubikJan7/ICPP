@@ -35,9 +35,6 @@ int Iterator::getRowId()
 
 void Iterator::close()
 {
-	rowCount = 0;
-	fieldCount = 0;
-	numOfEntries = 0;
-	position = 0;
 	Iterator::~Iterator();
+	rowCount = fieldCount = numOfEntries = position = 0;
 }

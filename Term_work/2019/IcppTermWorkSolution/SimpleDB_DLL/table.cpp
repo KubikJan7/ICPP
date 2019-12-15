@@ -115,6 +115,8 @@ void Table::close()
 {
 	Table::~Table();
 	name = database = "";
+	cout << numOfEntries << rowCount << endl;
+	rowCount = fieldCount = numOfEntries = 0;
 }
 
 int Table::getRowCount() const
@@ -137,11 +139,12 @@ std::string Table::getTableName() const
 	return name;
 }
 
-void Table::enlargeDataArray()
+void Table::enlargeDataArray(int amount)
 {
 	int oldRowCount = rowCount;
 	int entryCount = 0;
-	rowCount *= 2;
+	rowCount += amount;
+	// Allocate a new array
 	Object*** newArr = new Object * *[rowCount];
 	for (int i = 0; i < rowCount; i++)
 	{
@@ -168,7 +171,8 @@ void Table::enlargeDataArray()
 		}
 	}
 
-	for (int i = 0; i < rowCount / 2; i++)
+	// Deallocate the old array
+	for (int i = 0; i < oldRowCount; i++)
 	{
 		for (int j = 0; j < fieldCount; j++)
 		{
