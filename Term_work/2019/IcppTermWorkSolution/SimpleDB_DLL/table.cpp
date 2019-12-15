@@ -89,15 +89,12 @@ void Table::commit()
 				type = data[i][j]->getDataType();
 				switch (type) {
 				case FieldType::Integer:
-					out << Object::fieldTypeToString(FieldType::Integer) << " ";
 					out << data[i][j]->getInt() << "\t";
 					break;
 				case FieldType::Double:
-					out << Object::fieldTypeToString(FieldType::Double) << " ";
 					out << data[i][j]->getDouble() << "\t";
 					break;
 				case FieldType::String:
-					out << Object::fieldTypeToString(FieldType::String) << " ";
 					out << data[i][j]->getString() << "\t";
 					break;
 				}
@@ -115,7 +112,6 @@ void Table::close()
 {
 	Table::~Table();
 	name = database = "";
-	cout << numOfEntries << rowCount << endl;
 	rowCount = fieldCount = numOfEntries = 0;
 }
 

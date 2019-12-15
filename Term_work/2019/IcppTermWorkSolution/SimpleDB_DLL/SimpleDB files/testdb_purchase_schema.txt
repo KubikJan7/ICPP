@@ -1,0 +1,5 @@
+purchase	[ 3 ]
+==============
+id	INT
+name	STRING
+surname	STRING

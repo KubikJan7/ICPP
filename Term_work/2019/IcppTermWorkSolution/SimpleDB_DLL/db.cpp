@@ -138,8 +138,7 @@ Table* Db::openTable(std::string name)
 				Object** row = new Object * [fieldsCount];
 				for (int j = 0; j < fieldsCount; j++)
 				{
-					in >> typeName;
-					switch (Object::stringToFieldType(typeName)) {
+					switch (fields[j]->getType()) {
 					case FieldType::Integer:
 						in >> intVal;
 						row[j] = new IntObject();
