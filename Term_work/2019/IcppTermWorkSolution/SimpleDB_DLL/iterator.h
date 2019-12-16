@@ -3,7 +3,6 @@
 
 #include "platform.h"
 #include "interfaces.h"
-#include "objectTypes.h"
 
 class DLL_SPEC Iterator : public IIterator {
 private:

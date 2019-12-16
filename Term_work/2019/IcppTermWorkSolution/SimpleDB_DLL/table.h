@@ -48,11 +48,10 @@ public:
 
 	// ============== Bonusové metody: ================
 	// Select s podmínkou
-	IIterator* select(ICondition* condition) { throw 0; }
-	// Nalezení rowId s podmínkou
-	int findRowId(ICondition* condition) { throw 0; }
+	IIterator* select(ICondition* condition);
+	int findRowId(ICondition* condition);
 	// Update – aktualizuje øádky vyhovující podmínce, aktualizaci provádí funkce „callback“
 	// callback na vstupu obdrží data øádku a vrací data
-	void update(ICondition* condition, std::function<void(Object**)> callback) { throw 0; }
+	void update(ICondition* condition, std::function<void(Object**)> callback);
 };
 #endif

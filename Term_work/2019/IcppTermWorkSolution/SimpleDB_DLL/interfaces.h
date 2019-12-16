@@ -5,7 +5,8 @@
 
 // Rozhraní definující podmínku – pouze pro bonusové metody
 class DLL_SPEC ICondition {
-	virtual ~ICondition() { }
+public:
+	virtual ~ICondition() { };
 	virtual bool matches(int fieldCount, FieldObject** fields, Object** row) const = 0;
 };
 // --------------------------------------------------------

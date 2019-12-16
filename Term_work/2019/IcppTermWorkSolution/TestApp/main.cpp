@@ -3,8 +3,14 @@
 #include <iostream>
 #include "simpleDbException.h"
 #include <iomanip>
+#include "condition.h"
 
 using namespace std;
+
+void updateRows(Object** row) {
+	double value = row[2]->getDouble();
+	row[2]->setDouble(value + 599);
+}
 
 int main() {
 	try {
@@ -100,6 +106,9 @@ int main() {
 		}
 		cout << "-------------" << endl;
 		it3->close();
+
+		/*ICondition* condition = new Condition{};
+		products->update(condition, &updateRows);*/
 
 		// Save tables to files
 		customers->commit();

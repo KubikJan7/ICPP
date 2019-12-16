@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="condition.h" />
     <ClInclude Include="db.h" />
     <ClInclude Include="fieldType.h" />
     <ClInclude Include="helpful.h" />
@@ -30,6 +31,7 @@
     <ClInclude Include="table.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="condition.cpp" />
     <ClCompile Include="db.cpp" />
     <ClCompile Include="iterator.cpp" />
     <ClCompile Include="objectTypes.cpp" />
