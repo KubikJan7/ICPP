@@ -3,18 +3,24 @@
 
 using namespace std;
 
-Iterator::Iterator(int rowCount, int fieldCount, int numOfEntries, Object*** data)
+Iterator::Iterator(int rowCount, int fieldCount, int numOfEntries, Object*** data, bool hasCondition)
 {
 	position = -1;
 	this->rowCount = rowCount;
 	this->fieldCount = fieldCount;
 	this->numOfEntries = numOfEntries;
 	this->data = data;
+	this->hasCondition = hasCondition;
 }
 
 Iterator::~Iterator()
 {
-	data = nullptr;
+	if (hasCondition)
+	{
+		delete[] data;
+	}
+	else
+		data = nullptr;
 }
 
 bool Iterator::moveNext()

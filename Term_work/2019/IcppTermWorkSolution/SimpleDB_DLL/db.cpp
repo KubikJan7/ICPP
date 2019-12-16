@@ -122,7 +122,7 @@ Table* Db::openTable(std::string name)
 		// load table scheme
 		ifstream in("../SimpleDB_DLL/SimpleDB files/" + databaseName + "_" + name + "_schema" + ".txt");
 		if (in.is_open()) {
-			in >> fieldName >> fieldName >> fieldsCount >> fieldName >> fieldName; // variable name is here used for omitting extra strings
+			in >> fieldName >> fieldName >> fieldsCount >> fieldName >> fieldName; // variable fieldName is here used for omitting extra strings
 			fields = new FieldObject * [fieldsCount];
 
 			for (int i = 0; i < fieldsCount; i++)

@@ -46,12 +46,12 @@ int main() {
 		customers->insert(combineToRow(Db::Int(4), Db::String("Stepan"), Db::String("Dlouhy"), Db::String("dlouhy@email.cz"), Db::String("dlouhy123")));
 		customers->insert(combineToRow(Db::Int(5), Db::String("David"), Db::String("Vysoky"), Db::String("vysoky@email.cz"), Db::String("vysoky123")));
 		// Insert rows into Product
-		products->insert(combineToRow(Db::Int(100), Db::String("Intel Core i5-9400"), Db::Double(5424)));
-		products->insert(combineToRow(Db::Int(101), Db::String("AMD Athlon 3000G"), Db::Double(1399)));
-		products->insert(combineToRow(Db::Int(102), Db::String("AMD A6-9500"), Db::Double(960)));
-		products->insert(combineToRow(Db::Int(103), Db::String("Intel Core i5-9400F"), Db::Double(3999)));
-		products->insert(combineToRow(Db::Int(104), Db::String("AMD Ryzen 7 3700X"), Db::Double(8980)));
-		products->insert(combineToRow(Db::Int(105), Db::String("Intel Core i7-9700K"), Db::Double(10410)));
+		products->insert(combineToRow(Db::Int(100), Db::String("Intel_Core_i5-9400"), Db::Double(5424)));
+		products->insert(combineToRow(Db::Int(101), Db::String("AMD_Athlon_3000G"), Db::Double(1399)));
+		products->insert(combineToRow(Db::Int(102), Db::String("AMD_A6-9500"), Db::Double(960)));
+		products->insert(combineToRow(Db::Int(103), Db::String("Intel_Core_i5-9400F"), Db::Double(3999)));
+		products->insert(combineToRow(Db::Int(104), Db::String("AMD_Ryzen_7_3700X"), Db::Double(8980)));
+		products->insert(combineToRow(Db::Int(105), Db::String("Intel_Core_i7-9700K"), Db::Double(10410)));
 		// Insert rows into Purchase
 		purchases->insert(combineToRow(Db::Int(321), Db::Int(0), (Db::Int(105))));
 		purchases->insert(combineToRow(Db::Int(322), Db::Int(1), (Db::Int(100))));
@@ -117,6 +117,7 @@ int main() {
 			cout << left << setw(5) << row[0]->getInt() << setw(25) << row[1]->getString() << setw(25)
 				<< row[2]->getString() << setw(25) << row[3]->getString() << setw(25) << row[4]->getString() << endl;
 		}
+		cout << "-------------------------------------------------------------------------------------------" << endl;
 		customIterator->close();
 
 		// Update rows meeting the defined condition

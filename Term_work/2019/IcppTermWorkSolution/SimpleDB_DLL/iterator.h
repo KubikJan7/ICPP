@@ -11,8 +11,9 @@ private:
 	int fieldCount;
 	int numOfEntries;
 	Object*** data;
+	bool hasCondition;
 public:
-	Iterator(int rowCount, int fieldCount, int numOfEntries, Object*** data);
+	Iterator(int rowCount, int fieldCount, int numOfEntries, Object*** data, bool hasCondition = false);
 	virtual ~Iterator();
 	virtual bool moveNext() override;
 	virtual Object** getRow() override;

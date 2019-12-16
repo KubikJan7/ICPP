@@ -193,13 +193,12 @@ IIterator* Table::select(ICondition* condition)
 		//selectedData[i] = new Object * [fieldCount];
 		if (condition->matches(fieldCount, fields, data[i]))
 		{
-			selectedData[i] = data[i];
-			cout << entryCount << endl;
+			selectedData[entryCount] = data[i];
 			entryCount++;
 		}
 	}
 	cout << "Iterator with condition for table '" << name << "' was created." << endl;
-	return new Iterator(numOfEntries, fieldCount, entryCount, selectedData);
+	return new Iterator(numOfEntries, fieldCount, entryCount, selectedData, true);
 }
 
 int Table::findRowId(ICondition* condition)
