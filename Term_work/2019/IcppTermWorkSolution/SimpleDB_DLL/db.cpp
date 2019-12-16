@@ -25,7 +25,12 @@ Db* Db::open(std::string database)
 	ifstream in{};
 	in.open("../SimpleDB_DLL/SimpleDB files/" + database + "_table_list" + ".txt");
 	if (!in.is_open()) //Check if the file does exist
+	{
+		cout << "==============================" << endl;
+		cout << "Database '" << database << "' was created." << endl;
+		cout << "==============================" << endl << endl;
 		return db; //Return a new database
+	}
 	else
 	{
 		string s;
@@ -39,11 +44,17 @@ Db* Db::open(std::string database)
 		}
 		in.close();
 	}
+	cout << "=============================" << endl;
+	cout << "Database '" << database << "' was opened." << endl;
+	cout << "=============================" << endl << endl;
 	return db;
 }
 
 void Db::close()
 {
+	cout << "=============================" << endl;
+	cout << "Database '" << databaseName << "' was closed." << endl;
+	cout << "=============================" << endl;
 	Db::~Db();
 	databaseName = "";
 	tableNamesLength = tableCount = 0;
@@ -90,6 +101,7 @@ Table* Db::createTable(std::string name, int fieldsCount, FieldObject** fields)
 			}
 		}
 		out.close();
+		cout << "Table '" << name << "' was created." << endl << endl;
 		return t;
 	}
 	throw InvalidOperationException("Table with name: " + name + " already exists!");
@@ -160,6 +172,7 @@ Table* Db::openTable(std::string name)
 				t->insert(row);
 			}
 		}
+		cout << "Table '" << name << "' was opened." << endl << endl;
 		return t;
 
 	}

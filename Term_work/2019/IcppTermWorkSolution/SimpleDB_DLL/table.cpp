@@ -72,6 +72,7 @@ void Table::remove(int rowid)
 
 IIterator* Table::select()
 {
+	cout << "Iterator for table '" << name << "' was created." << endl;
 	return new Iterator(rowCount, fieldCount, numOfEntries, data);
 }
 
@@ -90,13 +91,13 @@ void Table::commit()
 				type = data[i][j]->getDataType();
 				switch (type) {
 				case FieldType::Integer:
-					out <<left<<setw(5)<< data[i][j]->getInt() << "\t";
+					out << left << setw(5) << data[i][j]->getInt();
 					break;
 				case FieldType::Double:
-					out << left << setw(10) << data[i][j]->getDouble() << "\t";
+					out << left << setw(10) << data[i][j]->getDouble();
 					break;
 				case FieldType::String:
-					out << left << setw(25) << data[i][j]->getString() << "\t";
+					out << left << setw(25) << data[i][j]->getString();
 					break;
 				}
 			}
@@ -111,6 +112,7 @@ void Table::commit()
 
 void Table::close()
 {
+	cout << "Table '" << name << "' was closed." << endl << endl;
 	Table::~Table();
 	name = database = "";
 	rowCount = fieldCount = numOfEntries = 0;

@@ -1,5 +1,8 @@
 #include "iterator.h"
 #include <iostream>
+
+using namespace std;
+
 Iterator::Iterator(int rowCount, int fieldCount, int numOfEntries, Object*** data)
 {
 	position = -1;
@@ -37,4 +40,5 @@ void Iterator::close()
 {
 	Iterator::~Iterator();
 	rowCount = fieldCount = numOfEntries = position = 0;
+	cout << endl << "Iterator was closed." << endl << endl;
 }
