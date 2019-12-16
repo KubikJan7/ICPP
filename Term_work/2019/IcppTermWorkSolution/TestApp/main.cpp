@@ -9,7 +9,7 @@ using namespace std;
 
 void updateRows(Object** row) {
 	double value = row[2]->getDouble();
-	row[2]->setDouble(value + 599);
+	row[2]->setDouble(value * 1.2);
 }
 
 int main() {
@@ -67,24 +67,24 @@ int main() {
 		purchases->remove(3);
 
 		// Select from Customer
-		auto it = customers->select();
+		auto custIterator = customers->select();
 		cout << "-------------------------------------------------------------------------------------------" << endl;
-		while (it->moveNext())
+		while (custIterator->moveNext())
 		{
-			auto row = it->getRow();
+			auto row = custIterator->getRow();
 
 			cout << left << setw(5) << row[0]->getInt() << setw(25) << row[1]->getString() << setw(25)
 				<< row[2]->getString() << setw(25) << row[3]->getString() << setw(25) << row[4]->getString() << endl;
 		}
 		cout << "-------------------------------------------------------------------------------------------" << endl;
-		it->close();
+		custIterator->close();
 
 		// Select from Product
-		auto it2 = products->select();
+		auto prodIterator = products->select();
 		cout << "-----------------------------------" << endl;
-		while (it2->moveNext())
+		while (prodIterator->moveNext())
 		{
-			auto row = it2->getRow();
+			auto row = prodIterator->getRow();
 
 			// Update price of the product with id 105
 			if (row[0]->getInt() == 105)
@@ -93,22 +93,37 @@ int main() {
 			cout << left << setw(5) << row[0]->getInt() << setw(25) << row[1]->getString() << setw(10) << row[2]->getDouble() << endl;
 		}
 		cout << "-----------------------------------" << endl;
-		it2->close();
+		prodIterator->close();
 
 		// Select from Purchase
-		auto it3 = purchases->select();
+		auto purIterator = purchases->select();
 		cout << "-------------" << endl;
-		while (it3->moveNext())
+		while (purIterator->moveNext())
 		{
-			auto row = it3->getRow();
+			auto row = purIterator->getRow();
 
 			cout << left << setw(5) << row[0]->getInt() << setw(5) << row[1]->getInt() << setw(5) << row[2]->getInt() << endl;
 		}
 		cout << "-------------" << endl;
-		it3->close();
+		purIterator->close();
 
-		/*ICondition* condition = new Condition{};
-		products->update(condition, &updateRows);*/
+		// Select with condition
+		ICondition* condition = new Condition{};
+		auto customIterator = customers->select(condition);
+		cout << "-------------------------------------------------------------------------------------------" << endl;
+		while (customIterator->moveNext())
+		{
+			auto row = customIterator->getRow();
+			cout << left << setw(5) << row[0]->getInt() << setw(25) << row[1]->getString() << setw(25)
+				<< row[2]->getString() << setw(25) << row[3]->getString() << setw(25) << row[4]->getString() << endl;
+		}
+		customIterator->close();
+
+		// Update rows meeting the defined condition
+		products->update(condition, &updateRows);
+
+		// Find a row id by the defined condition
+		cout<<"Id of the row which satisfies the given condition is: "<<purchases->findRowId(condition)<<"."<<endl<<endl;
 
 		// Save tables to files
 		customers->commit();
@@ -120,7 +135,7 @@ int main() {
 		products->close();
 		purchases->close();
 
-		// Uzavření db
+		// Close db
 		db->close();
 
 		cin.get();

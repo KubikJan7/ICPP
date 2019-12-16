@@ -186,14 +186,20 @@ void Table::enlargeDataArray(int amount)
 
 IIterator* Table::select(ICondition* condition)
 {
-	/*Object*** selectedData = new Object**[rowCount];
+	int entryCount = 0;
+	Object*** selectedData = new Object**[numOfEntries];
 	for (int i = 0; i < numOfEntries; i++)
 	{
+		//selectedData[i] = new Object * [fieldCount];
 		if (condition->matches(fieldCount, fields, data[i]))
+		{
 			selectedData[i] = data[i];
+			cout << entryCount << endl;
+			entryCount++;
+		}
 	}
-	cout << "Iterator with condition for table '" << name << "' was created." << endl;*/
-	return new Iterator(rowCount, fieldCount, numOfEntries, data);
+	cout << "Iterator with condition for table '" << name << "' was created." << endl;
+	return new Iterator(numOfEntries, fieldCount, entryCount, selectedData);
 }
 
 int Table::findRowId(ICondition* condition)
@@ -201,7 +207,7 @@ int Table::findRowId(ICondition* condition)
 	for (int i = 0; i < numOfEntries; i++)
 	{
 		if (condition->matches(fieldCount, fields, data[i]))
-			return i;
+			return data[i][0]->getInt();
 	}
 	return 0;
 }
