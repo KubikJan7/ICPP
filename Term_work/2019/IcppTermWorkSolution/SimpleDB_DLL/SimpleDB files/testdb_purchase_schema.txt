@@ -1,5 +1,0 @@
-purchase           [ 3 ]
-========================
-id                INT
-customer_id       INT
-product_id        INT
