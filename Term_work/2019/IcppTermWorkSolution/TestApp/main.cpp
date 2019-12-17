@@ -8,7 +8,7 @@
 
 using namespace std;
 
-int validateIntegerInput() 
+int validateIntegerInput()
 {
 	int input;
 	for (;;)
@@ -32,6 +32,17 @@ double validateDoubleInput()
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		}
+}
+
+int chooseTable(Table* customers, Table* products, Table* purchases) {
+	cout << "Select a table.\n\n";
+	cout << "1) " << "'" << customers->getTableName() << "'\n";
+	cout << "2) " << "'" << products->getTableName() << "'\n";
+	cout << "3) " << "'" << purchases->getTableName() << "'\n";
+	cout << "0) Cancel\n";
+
+	cout << "\nChoice: ";
+	return validateIntegerInput();
 }
 
 void updateRows(Object** row) {
@@ -90,15 +101,16 @@ void insertRowsIntoTables(Table* customers, Table* products, Table* purchases) {
 }
 
 int main() {
-	try {
-		// Create db
-		Db* db = Db::open("SimpleEshop");
-		Table* customers, * products, * purchases;
-		tie(customers, products, purchases) = createTables(db);
-		insertRowsIntoTables(customers, products, purchases);
 
-		int choice;
-		do {
+	// Create db
+	Db* db = Db::open("SimpleEshop");
+	Table* customers, * products, * purchases;
+	tie(customers, products, purchases) = createTables(db);
+	insertRowsIntoTables(customers, products, purchases);
+
+	int choice;
+	do {
+		try {
 			system("cls");
 			cout << "=================================" << endl;
 			cout << "Welcome to '" << db->getDatabaseName() << "' database" << endl;
@@ -112,7 +124,7 @@ int main() {
 			cout << "0) Cancel\n";
 
 			cout << "\nChoice: ";
-			cin >> choice;
+			choice = validateIntegerInput();
 
 			switch (choice) {
 			case 1:
@@ -120,15 +132,8 @@ int main() {
 				cout << "======\n";
 				cout << "Insert\n";
 				cout << "======\n\n";
-				cout << "Select a table.\n\n";
-				cout << "1) " << "'" << customers->getTableName() << "'\n";
-				cout << "2) " << "'" << products->getTableName() << "'\n";
-				cout << "3) " << "'" << purchases->getTableName() << "'\n";
-				cout << "0) Cancel\n";
-
+				choice = chooseTable(customers, products, purchases);
 				int id;
-				cout << "\nChoice: ";
-				cin >> choice;
 				switch (choice) {
 				case 1:
 				{
@@ -146,10 +151,6 @@ int main() {
 					cin >> passwd;
 					cout << endl;
 					customers->insert(combineToRow(Db::Int(id), Db::String(fName), Db::String(lName), Db::String(email), Db::String(passwd)));
-					if (cin.fail())
-					{
-						cout << "Wrong input!" << endl;
-					}
 					break;
 				}
 				case 2:
@@ -187,13 +188,72 @@ int main() {
 				}
 				break;
 			case 2:
+				system("cls");
+				cout << "======\n";
+				cout << "Select\n";
+				cout << "======\n\n";
+				choice = chooseTable(customers, products, purchases);
+				switch (choice)
+				{
+				case 1:
+				{
+					auto custIterator = customers->select();
+					cout << "-------------------------------------------------------------------------------------------" << endl;
+					while (custIterator->moveNext())
+					{
+						auto row = custIterator->getRow();
+
+						cout << left << setw(5) << row[0]->getInt() << setw(25) << row[1]->getString() << setw(25)
+							<< row[2]->getString() << setw(25) << row[3]->getString() << setw(25) << row[4]->getString() << endl;
+					}
+					cout << "-------------------------------------------------------------------------------------------" << endl;
+					custIterator->close();
+					cout << endl << "<<Press enter to go to the main menu>>";
+					cin.get(); cin.get();
+					break;
+				}
+				case 2:
+					cout << "\nType in the id of a row to remove." << endl;
+					products->remove(validateIntegerInput());
+					break;
+				case 3:
+					cout << "\nType in the id of a row to remove." << endl;
+					purchases->remove(validateIntegerInput());
+					break;
+				case 0:
+					choice = -1;
+					break;
+				}
 				break;
 			case 3:
 				break;
 			case 4:
-
+				system("cls");
+				cout << "======\n";
+				cout << "Delete\n";
+				cout << "======\n\n";
+				choice = chooseTable(customers, products, purchases);
+				switch (choice)
+				{
+				case 1:
+					cout << "\nType in the id of a row to remove." << endl;
+					customers->remove(validateIntegerInput());
+					break;
+				case 2:
+					cout << "\nType in the id of a row to remove." << endl;
+					products->remove(validateIntegerInput());
+					break;
+				case 3:
+					cout << "\nType in the id of a row to remove." << endl;
+					purchases->remove(validateIntegerInput());
+					break;
+				case 0:
+					choice = -1;
+					break;
+				}
 				break;
 			case 5:
+				cout << "\nTables were saved to files." << endl;
 				customers->commit();
 				products->commit();
 				purchases->commit();
@@ -207,96 +267,85 @@ int main() {
 			case 9:
 				break;
 			}
-		} while (choice != 0);
-
-		// Delete row from Customer
-		customers->remove(3);
-		// Delete row from Purchase
-		purchases->remove(3);
-
-		// Select from Customer
-		auto custIterator = customers->select();
-		cout << "-------------------------------------------------------------------------------------------" << endl;
-		while (custIterator->moveNext())
-		{
-			auto row = custIterator->getRow();
-
-			cout << left << setw(5) << row[0]->getInt() << setw(25) << row[1]->getString() << setw(25)
-				<< row[2]->getString() << setw(25) << row[3]->getString() << setw(25) << row[4]->getString() << endl;
 		}
-		cout << "-------------------------------------------------------------------------------------------" << endl;
-		custIterator->close();
-
-		// Select from Product
-		auto prodIterator = products->select();
-		cout << "-----------------------------------" << endl;
-		while (prodIterator->moveNext())
-		{
-			auto row = prodIterator->getRow();
-
-			// Update price of the product with id 105
-			if (row[0]->getInt() == 105)
-				row[2]->setDouble(12000);
-
-			cout << left << setw(5) << row[0]->getInt() << setw(25) << row[1]->getString() << setw(10) << row[2]->getDouble() << endl;
+		catch (WrongInputException & ex) {
+			cout << endl << ex.getMessage() << endl;
+			cout << endl << "<<Press any key to go to the main menu>>";
+			cin.get(); cin.get();
 		}
-		cout << "-----------------------------------" << endl;
-		prodIterator->close();
-
-		// Select from Purchase
-		auto purIterator = purchases->select();
-		cout << "-------------" << endl;
-		while (purIterator->moveNext())
-		{
-			auto row = purIterator->getRow();
-
-			cout << left << setw(5) << row[0]->getInt() << setw(5) << row[1]->getInt() << setw(5) << row[2]->getInt() << endl;
+		catch (InvalidOperationException & ex) {
+			cout << endl << ex.getMessage() << endl;
+			cout << endl << "<<Press any key to go to the main menu>>";
+			cin.get(); cin.get();
 		}
-		cout << "-------------" << endl;
-		purIterator->close();
-
-		// Select with condition
-		ICondition* condition = new Condition{};
-		auto customIterator = customers->select(condition);
-		cout << "-------------------------------------------------------------------------------------------" << endl;
-		while (customIterator->moveNext())
-		{
-			auto row = customIterator->getRow();
-			cout << left << setw(5) << row[0]->getInt() << setw(25) << row[1]->getString() << setw(25)
-				<< row[2]->getString() << setw(25) << row[3]->getString() << setw(25) << row[4]->getString() << endl;
+		catch (LoadFileException & ex) {
+			cout << endl << ex.getMessage() << endl;
+			cout << endl << "<<Press enter to go to the main menu>>";
+			cin.get(); cin.get();
 		}
-		cout << "-------------------------------------------------------------------------------------------" << endl;
-		customIterator->close();
+	} while (choice != 0);
 
-		// Update rows meeting the defined condition
-		products->update(condition, &updateRows);
+	// Select from Product
+	auto prodIterator = products->select();
+	cout << "-----------------------------------" << endl;
+	while (prodIterator->moveNext())
+	{
+		auto row = prodIterator->getRow();
 
-		// Find a row id by the defined condition
-		cout << "Id of the row which satisfies the given condition is: " << purchases->findRowId(condition) << "." << endl << endl;
+		// Update price of the product with id 105
+		if (row[0]->getInt() == 105)
+			row[2]->setDouble(12000);
 
-		// Save tables to files
-		customers->commit();
-		products->commit();
-		purchases->commit();
-
-		// Close tables
-		customers->close();
-		products->close();
-		purchases->close();
-
-		// Close db
-		db->close();
-
-		cin.get();
-		return 0;
+		cout << left << setw(5) << row[0]->getInt() << setw(25) << row[1]->getString() << setw(10) << row[2]->getDouble() << endl;
 	}
-	catch (WrongInputException & ex) {
-		cout << ex.getMessage() << endl;
+	cout << "-----------------------------------" << endl;
+	prodIterator->close();
+
+	// Select from Purchase
+	auto purIterator = purchases->select();
+	cout << "-------------" << endl;
+	while (purIterator->moveNext())
+	{
+		auto row = purIterator->getRow();
+
+		cout << left << setw(5) << row[0]->getInt() << setw(5) << row[1]->getInt() << setw(5) << row[2]->getInt() << endl;
 	}
-	catch (InvalidOperationException & ex) {
-		cout << ex.getMessage() << endl;
+	cout << "-------------" << endl;
+	purIterator->close();
+
+	// Select with condition
+	ICondition* condition = new Condition{};
+	auto customIterator = customers->select(condition);
+	cout << "-------------------------------------------------------------------------------------------" << endl;
+	while (customIterator->moveNext())
+	{
+		auto row = customIterator->getRow();
+		cout << left << setw(5) << row[0]->getInt() << setw(25) << row[1]->getString() << setw(25)
+			<< row[2]->getString() << setw(25) << row[3]->getString() << setw(25) << row[4]->getString() << endl;
 	}
-	catch (LoadFileException & ex) {
-		cout << ex.getMessage() << endl;
-	}
+	cout << "-------------------------------------------------------------------------------------------" << endl;
+	customIterator->close();
+
+	// Update rows meeting the defined condition
+	products->update(condition, &updateRows);
+
+	// Find a row id by the defined condition
+	cout << "Id of the row which satisfies the given condition is: " << purchases->findRowId(condition) << "." << endl << endl;
+
+	// Save tables to files
+	customers->commit();
+	products->commit();
+	purchases->commit();
+
+	// Close tables
+	customers->close();
+	products->close();
+	purchases->close();
+
+	// Close db
+	db->close();
+
+	cin.get();
+	return 0;
+
 }

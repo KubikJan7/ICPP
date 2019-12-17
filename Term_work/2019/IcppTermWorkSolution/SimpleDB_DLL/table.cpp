@@ -1,4 +1,3 @@
-#include<stdexcept>
 #include<fstream>
 #include "table.h"
 #include"simpleDbException.h"
@@ -49,7 +48,7 @@ Table::~Table()
 void Table::insert(Object** row)
 {
 	if (row == nullptr)
-		throw std::invalid_argument{ "Given row is empty." };
+		throw WrongInputException{ "Given row is empty." };
 
 	if (numOfEntries >= rowCount)
 		enlargeDataArray();
@@ -60,10 +59,21 @@ void Table::insert(Object** row)
 
 void Table::remove(int rowid)
 {
-	if (rowid > numOfEntries)
-		throw std::out_of_range{ "Given id is bigger than the number of entries stored in the table." };
+	int index = 0;
+	bool isPresent = false;
+	for (int i = 0; i < numOfEntries; i++)
+	{
+		if (data[i][0]->getInt() == rowid) {
+			isPresent = true;
+			index = i;
+			break;
+		}
+	}
 
-	for (int i = rowid; i < numOfEntries - 1; i++)
+	if(!isPresent)
+		throw WrongInputException{ "Given id is bigger than the number of entries stored in the table." };
+
+	for (int i = index; i < numOfEntries - 1; i++)
 	{
 		data[i] = data[i + 1];
 	}
@@ -73,7 +83,6 @@ void Table::remove(int rowid)
 
 IIterator* Table::select()
 {
-	cout << "Iterator for table '" << name << "' was created." << endl;
 	return new Iterator(rowCount, fieldCount, numOfEntries, data);
 }
 

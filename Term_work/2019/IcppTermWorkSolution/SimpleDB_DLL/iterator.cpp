@@ -46,5 +46,4 @@ void Iterator::close()
 {
 	Iterator::~Iterator();
 	rowCount = fieldCount = numOfEntries = position = 0;
-	cout << endl << "Iterator was closed." << endl << endl;
 }
