@@ -68,6 +68,7 @@ void Table::remove(int rowid)
 		data[i] = data[i + 1];
 	}
 	data[--numOfEntries] = nullptr;
+	cout << "Row with id: " << rowid << " in the table '" << name <<"' was removed." << endl << endl;
 }
 
 IIterator* Table::select()
@@ -187,7 +188,7 @@ void Table::enlargeDataArray(int amount)
 IIterator* Table::select(ICondition* condition)
 {
 	int entryCount = 0;
-	Object*** selectedData = new Object**[numOfEntries];
+	Object*** selectedData = new Object * *[numOfEntries];
 	for (int i = 0; i < numOfEntries; i++)
 	{
 		//selectedData[i] = new Object * [fieldCount];
@@ -218,4 +219,6 @@ void Table::update(ICondition* condition, std::function<void(Object**)> callback
 		if (condition->matches(fieldCount, fields, data[i]))
 			callback(data[i]);
 	}
+
+	cout << "Rows satisfying the given condition were updated." << endl << endl;
 }

@@ -29,6 +29,8 @@ public:
 	Table* openTable(std::string name);
 	// Otevøe tabulku (pokud neexistuje, vytvoøí automaticky novou)
 	Table* openOrCreateTable(std::string name, int fieldsCount, FieldObject** fields);
+	// Get database name
+	std::string getDatabaseName();
 
 	// Alokuje objekt „int“
 	static Object* Int(int value);

@@ -4,62 +4,122 @@
 #include "simpleDbException.h"
 #include <iomanip>
 #include "condition.h"
+#include <tuple>
 
 using namespace std;
 
 void updateRows(Object** row) {
 	double value = row[2]->getDouble();
-	row[2]->setDouble(value * 1.2);
+	row[2]->setDouble(value * 1.5);
+}
+
+tuple<Table*, Table*, Table*>createTables(Db* db) {
+	// Create table Customer
+	auto customerId = Db::Field("id", FieldType::Integer);
+	auto customerFirstName = Db::Field("first_name", FieldType::String);
+	auto customerLastName = Db::Field("last_name", FieldType::String);
+	auto customerEmail = Db::Field("email", FieldType::String);
+	auto customerPasswd = Db::Field("password", FieldType::String);
+	auto customerFields = combineToDefinition(customerId, customerFirstName, customerLastName, customerEmail, customerPasswd);
+	Table* customers = db->openOrCreateTable("customer", 5, customerFields);
+	// Create table Product
+	auto productId = Db::Field("id", FieldType::Integer);
+	auto productName = Db::Field("name", FieldType::String);
+	auto productPrice = Db::Field("price", FieldType::Double);
+	auto productFields = combineToDefinition(productId, productName, productPrice);
+	Table* products = db->openOrCreateTable("product", 3, productFields);
+	// Create table Purchase
+	auto purchaseId = Db::Field("id", FieldType::Integer);
+	auto customerIdFK = Db::Field("customer_id", FieldType::Integer);
+	auto productIdFK = Db::Field("product_id", FieldType::Integer);
+	auto purchaseFields = combineToDefinition(purchaseId, customerIdFK, productIdFK);
+	Table* purchases = db->openOrCreateTable("purchase", 3, purchaseFields);
+	return make_tuple(customers, products, purchases);
+}
+
+void insertRowsIntoTables(Table* customers, Table* products, Table* purchases) {
+	// Insert rows into Customer	
+	customers->insert(combineToRow(Db::Int(0), Db::String("Karel"), Db::String("Novak"), Db::String("novak@email.cz"), Db::String("novak123")));
+	customers->insert(combineToRow(Db::Int(1), Db::String("Jan"), Db::String("Stary"), Db::String("stary@email.cz"), Db::String("stary123")));
+	customers->insert(combineToRow(Db::Int(2), Db::String("Josef"), Db::String("Vyskocil"), Db::String("vyskocil@email.cz"), Db::String("vyskocil123")));
+	customers->insert(combineToRow(Db::Int(3), Db::String("Frantisek"), Db::String("Jedly"), Db::String("jedly@email.cz"), Db::String("jedly123")));
+	customers->insert(combineToRow(Db::Int(4), Db::String("Stepan"), Db::String("Dlouhy"), Db::String("dlouhy@email.cz"), Db::String("dlouhy123")));
+	customers->insert(combineToRow(Db::Int(5), Db::String("David"), Db::String("Vysoky"), Db::String("vysoky@email.cz"), Db::String("vysoky123")));
+	// Insert rows into Product
+	products->insert(combineToRow(Db::Int(100), Db::String("Intel_Core_i5-9400"), Db::Double(5424)));
+	products->insert(combineToRow(Db::Int(101), Db::String("AMD_Athlon_3000G"), Db::Double(1399)));
+	products->insert(combineToRow(Db::Int(102), Db::String("AMD_A6-9500"), Db::Double(960)));
+	products->insert(combineToRow(Db::Int(103), Db::String("Intel_Core_i5-9400F"), Db::Double(3999)));
+	products->insert(combineToRow(Db::Int(104), Db::String("AMD_Ryzen_7_3700X"), Db::Double(8980)));
+	products->insert(combineToRow(Db::Int(105), Db::String("Intel_Core_i7-9700K"), Db::Double(10410)));
+	// Insert rows into Purchase
+	purchases->insert(combineToRow(Db::Int(321), Db::Int(0), (Db::Int(105))));
+	purchases->insert(combineToRow(Db::Int(322), Db::Int(1), (Db::Int(100))));
+	purchases->insert(combineToRow(Db::Int(323), Db::Int(2), (Db::Int(102))));
+	purchases->insert(combineToRow(Db::Int(324), Db::Int(3), (Db::Int(101))));
+	purchases->insert(combineToRow(Db::Int(325), Db::Int(4), (Db::Int(104))));
+	purchases->insert(combineToRow(Db::Int(326), Db::Int(5), (Db::Int(103))));
+	purchases->insert(combineToRow(Db::Int(327), Db::Int(0), (Db::Int(101))));
+
 }
 
 int main() {
 	try {
 		// Create db
-		Db* db = Db::open("testdb");
+		Db* db = Db::open("SimpleEshop");
+		Table* customers, * products, * purchases;
+		tie(customers, products, purchases) = createTables(db);
+		insertRowsIntoTables(customers, products, purchases);
 
-		// Create table Customer
-		auto customerId = Db::Field("id", FieldType::Integer);
-		auto customerFirstName = Db::Field("first_name", FieldType::String);
-		auto customerLastName = Db::Field("last_name", FieldType::String);
-		auto customerEmail = Db::Field("email", FieldType::String);
-		auto customerPasswd = Db::Field("password", FieldType::String);
-		auto customerFields = combineToDefinition(customerId, customerFirstName, customerLastName, customerEmail, customerPasswd);
-		Table* customers = db->openOrCreateTable("customer", 5, customerFields);
-		// Create table Product
-		auto productId = Db::Field("id", FieldType::Integer);
-		auto productName = Db::Field("name", FieldType::String);
-		auto productPrice = Db::Field("price", FieldType::Double);
-		auto productFields = combineToDefinition(productId, productName, productPrice);
-		Table* products = db->openOrCreateTable("product", 3, productFields);
-		// Create table Purchase
-		auto purchaseId = Db::Field("id", FieldType::Integer);
-		auto customerIdFK = Db::Field("customer_id", FieldType::Integer);
-		auto productIdFK = Db::Field("product_id", FieldType::Integer);
-		auto purchaseFields = combineToDefinition(purchaseId, customerIdFK, productIdFK);
-		Table* purchases = db->openOrCreateTable("purchase", 3, purchaseFields);
+		int choice;
+		do {
+			system("cls");
+			cout << "=================================" << endl;
+			cout << "Welcome to '" << db->getDatabaseName() << "' database" << endl;
+			cout << "=================================" << endl << endl;
+			cout << "Please, use digits (0-9) for the application control.\n\n";
+			cout << "1) Insert new data into a table\n";
+			cout << "2) Select\n";
+			cout << "3) Update\n";
+			cout << "4) Delete\n";
 
-		// Insert rows into Customer	
-		customers->insert(combineToRow(Db::Int(0), Db::String("Karel"), Db::String("Novak"), Db::String("novak@email.cz"), Db::String("novak123")));
-		customers->insert(combineToRow(Db::Int(1), Db::String("Jan"), Db::String("Stary"), Db::String("stary@email.cz"), Db::String("stary123")));
-		customers->insert(combineToRow(Db::Int(2), Db::String("Josef"), Db::String("Vyskocil"), Db::String("vyskocil@email.cz"), Db::String("vyskocil123")));
-		customers->insert(combineToRow(Db::Int(3), Db::String("Frantisek"), Db::String("Jedly"), Db::String("jedly@email.cz"), Db::String("jedly123")));
-		customers->insert(combineToRow(Db::Int(4), Db::String("Stepan"), Db::String("Dlouhy"), Db::String("dlouhy@email.cz"), Db::String("dlouhy123")));
-		customers->insert(combineToRow(Db::Int(5), Db::String("David"), Db::String("Vysoky"), Db::String("vysoky@email.cz"), Db::String("vysoky123")));
-		// Insert rows into Product
-		products->insert(combineToRow(Db::Int(100), Db::String("Intel_Core_i5-9400"), Db::Double(5424)));
-		products->insert(combineToRow(Db::Int(101), Db::String("AMD_Athlon_3000G"), Db::Double(1399)));
-		products->insert(combineToRow(Db::Int(102), Db::String("AMD_A6-9500"), Db::Double(960)));
-		products->insert(combineToRow(Db::Int(103), Db::String("Intel_Core_i5-9400F"), Db::Double(3999)));
-		products->insert(combineToRow(Db::Int(104), Db::String("AMD_Ryzen_7_3700X"), Db::Double(8980)));
-		products->insert(combineToRow(Db::Int(105), Db::String("Intel_Core_i7-9700K"), Db::Double(10410)));
-		// Insert rows into Purchase
-		purchases->insert(combineToRow(Db::Int(321), Db::Int(0), (Db::Int(105))));
-		purchases->insert(combineToRow(Db::Int(322), Db::Int(1), (Db::Int(100))));
-		purchases->insert(combineToRow(Db::Int(323), Db::Int(2), (Db::Int(102))));
-		purchases->insert(combineToRow(Db::Int(324), Db::Int(3), (Db::Int(101))));
-		purchases->insert(combineToRow(Db::Int(325), Db::Int(4), (Db::Int(104))));
-		purchases->insert(combineToRow(Db::Int(326), Db::Int(5), (Db::Int(103))));
-		purchases->insert(combineToRow(Db::Int(327), Db::Int(0), (Db::Int(101))));
+			cout << "\nChoice: ";
+			cin >> choice;
+
+			switch (choice) {
+			case 1:
+				system("cls");
+				cout << "\nSelect a table.\n";
+				cout << "1) " <<"Table '"<< customers->getTableName() << "'\n";
+				cout << "2) " << "Table '" << products->getTableName() << "'\n";
+				cout << "3) " << "Table '" << purchases->getTableName() << "'\n";
+				cout << "4) Cancel\n";
+				cout << "\nChoice: ";
+				cin >> choice;
+				switch (choice) {
+				case 0:
+					break;
+				}
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 5:
+				break;
+			case 6:
+				break;
+			case 7:
+				break;
+			case 8:
+				break;
+			case 9:
+				break;
+			}
+			choice = -1;
+		} while (choice != 0);
 
 		// Delete row from Customer
 		customers->remove(3);
@@ -124,7 +184,7 @@ int main() {
 		products->update(condition, &updateRows);
 
 		// Find a row id by the defined condition
-		cout<<"Id of the row which satisfies the given condition is: "<<purchases->findRowId(condition)<<"."<<endl<<endl;
+		cout << "Id of the row which satisfies the given condition is: " << purchases->findRowId(condition) << "." << endl << endl;
 
 		// Save tables to files
 		customers->commit();
