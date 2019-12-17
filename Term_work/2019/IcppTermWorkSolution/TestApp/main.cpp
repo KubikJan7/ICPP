@@ -8,6 +8,32 @@
 
 using namespace std;
 
+int validateIntegerInput() 
+{
+	int input;
+	for (;;)
+		if (cin >> input) { return input; }
+		else
+		{
+			cout << "Please enter a valid integer value!" << endl;
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
+}
+
+double validateDoubleInput()
+{
+	double input;
+	for (;;)
+		if (cin >> input) { return input; }
+		else
+		{
+			cout << "Please enter a valid double value!" << endl;
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
+}
+
 void updateRows(Object** row) {
 	double value = row[2]->getDouble();
 	row[2]->setDouble(value * 1.5);
@@ -78,10 +104,12 @@ int main() {
 			cout << "Welcome to '" << db->getDatabaseName() << "' database" << endl;
 			cout << "=================================" << endl << endl;
 			cout << "Please, use digits (0-9) for the application control.\n\n";
-			cout << "1) Insert new data into a table\n";
+			cout << "1) Insert\n";
 			cout << "2) Select\n";
 			cout << "3) Update\n";
 			cout << "4) Delete\n";
+			cout << "5) Commit\n";
+			cout << "0) Cancel\n";
 
 			cout << "\nChoice: ";
 			cin >> choice;
@@ -89,15 +117,72 @@ int main() {
 			switch (choice) {
 			case 1:
 				system("cls");
-				cout << "\nSelect a table.\n";
-				cout << "1) " <<"Table '"<< customers->getTableName() << "'\n";
-				cout << "2) " << "Table '" << products->getTableName() << "'\n";
-				cout << "3) " << "Table '" << purchases->getTableName() << "'\n";
-				cout << "4) Cancel\n";
+				cout << "======\n";
+				cout << "Insert\n";
+				cout << "======\n\n";
+				cout << "Select a table.\n\n";
+				cout << "1) " << "'" << customers->getTableName() << "'\n";
+				cout << "2) " << "'" << products->getTableName() << "'\n";
+				cout << "3) " << "'" << purchases->getTableName() << "'\n";
+				cout << "0) Cancel\n";
+
+				int id;
 				cout << "\nChoice: ";
 				cin >> choice;
 				switch (choice) {
+				case 1:
+				{
+					string fName, lName, email, passwd;
+					cout << "\nType in data for each row." << endl;
+					cout << customers->getFields()[0]->getName() << ": ";
+					id = validateIntegerInput();
+					cout << customers->getFields()[1]->getName() << ": ";
+					cin >> fName;
+					cout << customers->getFields()[2]->getName() << ": ";
+					cin >> lName;
+					cout << customers->getFields()[3]->getName() << ": ";
+					cin >> email;
+					cout << customers->getFields()[4]->getName() << ": ";
+					cin >> passwd;
+					cout << endl;
+					customers->insert(combineToRow(Db::Int(id), Db::String(fName), Db::String(lName), Db::String(email), Db::String(passwd)));
+					if (cin.fail())
+					{
+						cout << "Wrong input!" << endl;
+					}
+					break;
+				}
+				case 2:
+				{
+					string name;
+					double price;
+					cout << "\nType in data for each row." << endl;
+					cout << products->getFields()[0]->getName() << ": ";
+					id = validateIntegerInput();
+					cout << products->getFields()[1]->getName() << ": ";
+					cin >> name;
+					cout << products->getFields()[2]->getName() << ": ";
+					price = validateDoubleInput();
+					cout << endl;
+					products->insert(combineToRow(Db::Int(id), Db::String(name), Db::Double(price)));
+					break;
+				}
+				break;
+				case 3:
+					int customerId;
+					int productId;
+					cout << "\nType in data for each row." << endl;
+					cout << purchases->getFields()[0]->getName() << ": ";
+					id = validateIntegerInput();
+					cout << purchases->getFields()[1]->getName() << ": ";
+					customerId = validateIntegerInput();
+					cout << purchases->getFields()[2]->getName() << ": ";
+					productId = validateIntegerInput();
+					cout << endl;
+					purchases->insert(combineToRow(Db::Int(id), Db::Int(customerId), Db::Int(productId)));
+					break;
 				case 0:
+					choice = -1;
 					break;
 				}
 				break;
@@ -106,8 +191,12 @@ int main() {
 			case 3:
 				break;
 			case 4:
+
 				break;
 			case 5:
+				customers->commit();
+				products->commit();
+				purchases->commit();
 				break;
 			case 6:
 				break;
@@ -118,7 +207,6 @@ int main() {
 			case 9:
 				break;
 			}
-			choice = -1;
 		} while (choice != 0);
 
 		// Delete row from Customer
