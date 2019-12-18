@@ -1,7 +1,0 @@
-customer           [ 5 ]
-========================
-id                INT
-first_name        STRING
-last_name         STRING
-email             STRING
-password          STRING
