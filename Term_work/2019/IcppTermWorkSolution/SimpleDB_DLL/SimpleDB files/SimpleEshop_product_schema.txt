@@ -1,0 +1,5 @@
+product            [ 3 ]
+========================
+id                INT
+name              STRING
+price             DOUBLE

@@ -59,21 +59,10 @@ void Table::insert(Object** row)
 
 void Table::remove(int rowid)
 {
-	int index = 0;
-	bool isPresent = false;
-	for (int i = 0; i < numOfEntries; i++)
-	{
-		if (data[i][0]->getInt() == rowid) {
-			isPresent = true;
-			index = i;
-			break;
-		}
-	}
-
-	if(!isPresent)
+	if(rowid>=numOfEntries)
 		throw WrongInputException{ "Given id is bigger than the number of entries stored in the table." };
 
-	for (int i = index; i < numOfEntries - 1; i++)
+	for (int i = rowid; i < numOfEntries - 1; i++)
 	{
 		data[i] = data[i + 1];
 	}
@@ -156,37 +145,12 @@ void Table::enlargeDataArray(int amount)
 	Object*** newArr = new Object * *[rowCount];
 	for (int i = 0; i < rowCount; i++)
 	{
-		newArr[i] = new Object * [fieldCount];
 		if (entryCount < oldRowCount) {
-			for (int j = 0; j < fieldCount; j++)
-			{
-				switch (data[i][j]->getDataType()) {
-				case FieldType::Integer:
-					newArr[i][j] = new IntObject();
-					newArr[i][j]->setInt(data[i][j]->getInt());
-					break;
-				case FieldType::Double:
-					newArr[i][j] = new DoubleObject();
-					newArr[i][j]->setDouble(data[i][j]->getDouble());
-					break;
-				case FieldType::String:
-					newArr[i][j] = new StringObject();
-					newArr[i][j]->setString(data[i][j]->getString());
-					break;
-				}
-			}
+			newArr[i] = data[i];
 			entryCount++;
-		}
-	}
+		}else
+			newArr[i] = new Object * [fieldCount];
 
-	// Deallocate the old array
-	for (int i = 0; i < oldRowCount; i++)
-	{
-		for (int j = 0; j < fieldCount; j++)
-		{
-			delete data[i][j];
-		}
-		delete[] data[i];
 	}
 	delete[] data;
 
