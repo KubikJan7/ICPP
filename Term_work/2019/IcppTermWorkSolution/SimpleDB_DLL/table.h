@@ -56,5 +56,7 @@ public:
 
 	// Will find row by the given id
 	Object** findRowById(int id);
+
+	void eraseData();
 };
 #endif

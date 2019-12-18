@@ -122,7 +122,6 @@ void Table::commit()
 
 void Table::close()
 {
-	cout << "Table '" << name << "' was closed." << endl << endl;
 	Table::~Table();
 	name = database = "";
 	rowCount = fieldCount = numOfEntries = 0;
@@ -240,4 +239,13 @@ Object** Table::findRowById(int id)
 			return data[i];
 	}
 	throw WrongInputException("Row with the given id does not exist!");
+}
+
+void Table::eraseData()
+{
+	for (int i = 0; i < numOfEntries; i++)
+	{
+		data[i] = nullptr;
+	}
+	numOfEntries = 0;
 }

@@ -87,6 +87,25 @@ void iterateThroughTable(Table* table, function<void(Object**)> callback)
 	cin.get(); cin.get();
 }
 
+void eraseTable(Table* table, int choice) {
+	cout << "Select type of update.\n\n";
+	cout << "1) Delete one row\n";
+	cout << "2) Delete the whole table\n";
+	cout << "0) Cancel";
+
+	cout << "\nChoice: ";
+	choice = validateIntegerInput();
+	switch (choice) {
+	case 1:
+		cout << "\nType in the id of a row to remove." << endl;
+		table->remove(validateIntegerInput());
+		break;
+	case 2:
+		table->eraseData();
+		break;
+	}
+}
+
 void updateRows(Object** row) {
 	double value = row[2]->getDouble();
 	row[2]->setDouble(value * 1.5);
@@ -149,6 +168,7 @@ int main() {
 	Table* customers, * products, * purchases;
 	tie(customers, products, purchases) = createTables(db);
 	insertRowsIntoTables(customers, products, purchases);
+	ICondition* condition = new Condition{};
 
 	int choice;
 	do {
@@ -288,12 +308,181 @@ int main() {
 
 					cout << "\nChoice: ";
 					choice = validateIntegerInput();
+					switch (choice)
+					{
+					case 1:
+					{
+						cout << "\nType in row id.\n";
+						Object** row = customers->findRowById(validateIntegerInput());
+						string fName, lName, email, passwd;
+						cout << "\nType in data for each row." << endl;
+						cout << row[0]->getInt() << ": ";
+						id = validateIntegerInput();
+						cout << row[1]->getString() << ": ";
+						cin >> fName;
+						cout << row[2]->getString() << ": ";
+						cin >> lName;
+						cout << row[3]->getString() << ": ";
+						cin >> email;
+						cout << row[4]->getString() << ": ";
+						cin >> passwd;
+						cout << endl;
+						row[0]->setInt(id); row[1]->setString(fName); row[2]->setString(lName); row[3]->setString(email); row[4]->setString(passwd);
+						break;
+					}
+					case 2:
+					{
+						auto it = customers->select();
+						cout << "-------------------------------------------------------------------------------------------" << endl;
+						while (it->moveNext())
+						{
+							cout << "\nType in row id.\n";
+							Object** row = it->getRow();
+							string fName, lName, email, passwd;
+							cout << "\nType in data for each row." << endl;
+							cout << row[0]->getInt() << ": ";
+							id = validateIntegerInput();
+							cout << row[1]->getString() << ": ";
+							cin >> fName;
+							cout << row[2]->getString() << ": ";
+							cin >> lName;
+							cout << row[3]->getString() << ": ";
+							cin >> email;
+							cout << row[4]->getString() << ": ";
+							cin >> passwd;
+							cout << endl;
+							row[0]->setInt(id); row[1]->setString(fName); row[2]->setString(lName); row[3]->setString(email); row[4]->setString(passwd);
+						}
+						cout << "-------------------------------------------------------------------------------------------" << endl;
+						it->close();
+						break; 
+					}
+					case 3:
+						customers->update(condition, &updateRows);
+						cout << "\nRows were updated.\n\n";
+						cout << endl << "<<Press enter to go to the main menu>>";
+						cin.get(); cin.get();
+						break;
+					}
 					break;
 
 				case 2:
-					iterateThroughTable(products, printProductRow);
+					cout << "Select type of update.\n\n";
+					cout << "1) Update one row\n";
+					cout << "2) Update whole table\n";
+					cout << "3) Update rows specified by condition\n";
+					cout << "0) Cancel";
+
+					cout << "\nChoice: ";
+					choice = validateIntegerInput();
+					switch (choice)
+					{
+					case 1:
+					{
+						cout << "\nType in row id.\n";
+						Object** row = products->findRowById(validateIntegerInput());
+						string name;
+						double price;
+						cout << "\nType in data for each row." << endl;
+						cout << row[0]->getInt() << ": ";
+						id = validateIntegerInput();
+						cout << row[1]->getString() << ": ";
+						cin >> name;
+						cout << row[2]->getDouble() << ": ";
+						cin >> price;
+						cout << endl;
+						row[0]->setInt(id); row[1]->setString(name); row[2]->setDouble(price);
+						break;
+					}
+					case 2:
+					{
+						auto it = products->select();
+						cout << "-------------------------------------------------------------------------------------------" << endl;
+						while (it->moveNext())
+						{
+							cout << "\nType in row id.\n";
+							Object** row = it->getRow();
+							string name;
+							double price;
+							cout << "\nType in data for each row." << endl;
+							cout << row[0]->getInt() << ": ";
+							id = validateIntegerInput();
+							cout << row[1]->getString() << ": ";
+							cin >> name;
+							cout << row[2]->getDouble() << ": ";
+							cin >> price;
+							cout << endl;
+							row[0]->setInt(id); row[1]->setString(name); row[2]->setDouble(price);
+						}
+						cout << "-------------------------------------------------------------------------------------------" << endl;
+						it->close();
+						break;
+					}
+					case 3:
+						products->update(condition, &updateRows);
+						cout << "\nRows were updated.\n\n";
+						cout << endl << "<<Press enter to go to the main menu>>";
+						cin.get(); cin.get();
+						break;
+					}
 					break;
 				case 3:
+					cout << "Select type of update.\n\n";
+					cout << "1) Update one row\n";
+					cout << "2) Update whole table\n";
+					cout << "3) Update rows specified by condition\n";
+					cout << "0) Cancel";
+
+					cout << "\nChoice: ";
+					choice = validateIntegerInput();
+					switch (choice)
+					{
+					case 1:
+					{
+						cout << "\nType in row id.\n";
+						Object** row = purchases->findRowById(validateIntegerInput());
+						int customerId, productId;
+						cout << "\nType in data for each row." << endl;
+						cout << row[0]->getInt() << ": ";
+						id = validateIntegerInput();
+						cout << row[1]->getInt() << ": ";
+						cin >> customerId;
+						cout << row[2]->getInt() << ": ";
+						cin >> productId;
+						cout << endl;
+						row[0]->setInt(id); row[1]->setInt(customerId); row[2]->setInt(productId);
+						break;
+					}
+					case 2:
+					{
+						auto it = purchases->select();
+						cout << "-------------------------------------------------------------------------------------------" << endl;
+						while (it->moveNext())
+						{
+							cout << "\nType in row id.\n";
+							Object** row = it->getRow();
+							int customerId, productId;
+							cout << "\nType in data for each row." << endl;
+							cout << row[0]->getInt() << ": ";
+							id = validateIntegerInput();
+							cout << row[1]->getInt() << ": ";
+							cin >> customerId;
+							cout << row[2]->getInt() << ": ";
+							cin >> productId;
+							cout << endl;
+							row[0]->setInt(id); row[1]->setInt(customerId); row[2]->setInt(productId);
+						}
+						cout << "-------------------------------------------------------------------------------------------" << endl;
+						it->close();
+						break;
+					}
+					case 3:
+						purchases->update(condition, &updateRows);
+						cout << "\nRows were updated.\n\n";
+						cout << endl << "<<Press enter to go to the main menu>>";
+						cin.get(); cin.get();
+						break;
+					}
 					break;
 				case 0:
 					choice = -1;
@@ -309,16 +498,13 @@ int main() {
 				switch (choice)
 				{
 				case 1:
-					cout << "\nType in the id of a row to remove." << endl;
-					customers->remove(validateIntegerInput());
+					eraseTable(customers, choice);
 					break;
 				case 2:
-					cout << "\nType in the id of a row to remove." << endl;
-					products->remove(validateIntegerInput());
+					eraseTable(products, choice);
 					break;
 				case 3:
-					cout << "\nType in the id of a row to remove." << endl;
-					purchases->remove(validateIntegerInput());
+					eraseTable(purchases, choice);
 					break;
 				case 0:
 					choice = -1;
@@ -358,29 +544,20 @@ int main() {
 		}
 	} while (choice != 0);
 
-	// Select with condition
-	ICondition* condition = new Condition{};
-	auto customIterator = customers->select(condition);
-	cout << "-------------------------------------------------------------------------------------------" << endl;
-	while (customIterator->moveNext())
-	{
-		auto row = customIterator->getRow();
-		cout << left << setw(5) << row[0]->getInt() << setw(25) << row[1]->getString() << setw(25)
-			<< row[2]->getString() << setw(25) << row[3]->getString() << setw(25) << row[4]->getString() << endl;
-	}
-	cout << "-------------------------------------------------------------------------------------------" << endl;
-	customIterator->close();
+	//// Select with condition
+	//auto customIterator = customers->select(condition);
+	//cout << "-------------------------------------------------------------------------------------------" << endl;
+	//while (customIterator->moveNext())
+	//{
+	//	auto row = customIterator->getRow();
+	//	cout << left << setw(5) << row[0]->getInt() << setw(25) << row[1]->getString() << setw(25)
+	//		<< row[2]->getString() << setw(25) << row[3]->getString() << setw(25) << row[4]->getString() << endl;
+	//}
+	//cout << "-------------------------------------------------------------------------------------------" << endl;
+	//customIterator->close();
 
-	// Update rows meeting the defined condition
-	products->update(condition, &updateRows);
-
-	// Find a row id by the defined condition
-	cout << "Id of the row which satisfies the given condition is: " << purchases->findRowId(condition) << "." << endl << endl;
-
-	// Save tables to files
-	customers->commit();
-	products->commit();
-	purchases->commit();
+	//// Find a row id by the defined condition
+	//cout << "Id of the row which satisfies the given condition is: " << purchases->findRowId(condition) << "." << endl << endl;
 
 	// Close tables
 	customers->close();
