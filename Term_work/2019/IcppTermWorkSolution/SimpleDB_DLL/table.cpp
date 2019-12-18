@@ -231,3 +231,13 @@ void Table::update(ICondition* condition, std::function<void(Object**)> callback
 
 	cout << "Rows satisfying the given condition were updated." << endl << endl;
 }
+
+Object** Table::findRowById(int id)
+{
+	for (int i = 0; i < numOfEntries; i++)
+	{
+		if (data[i][0]->getInt() == id)
+			return data[i];
+	}
+	throw WrongInputException("Row with the given id does not exist!");
+}

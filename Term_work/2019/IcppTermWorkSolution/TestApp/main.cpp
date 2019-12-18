@@ -45,6 +45,48 @@ int chooseTable(Table* customers, Table* products, Table* purchases) {
 	return validateIntegerInput();
 }
 
+void printCustomerRow(Object** row) 
+{
+	cout << left << setw(5) << row[0]->getInt() << setw(25) << row[1]->getString() << setw(25)
+		<< row[2]->getString() << setw(25) << row[3]->getString() << setw(25) << row[4]->getString() << endl;
+}
+
+void printProductRow(Object** row)
+{
+	cout << left << setw(5) << row[0]->getInt() << setw(25) << row[1]->getString() << setw(10) << row[2]->getDouble() << endl;
+}
+
+void iterateThroughTable(Table* table, function<void(Object**)> callback) 
+{
+	cout << endl;
+	//Print field names
+	int width;
+	for (int i = 0; i < table->getFieldCount(); i++)
+	{
+		if (table->getFields()[i]->getType() == FieldType::Integer)
+			width = 5;
+		else if (table->getFields()[i]->getType() == FieldType::Double)
+			width = 10;
+		else
+			width = 25;
+
+		cout << left << setw(width) << table->getFields()[i]->getName();
+	}
+	cout << endl;
+	auto it = table->select();
+	cout << "-------------------------------------------------------------------------------------------" << endl;
+	while (it->moveNext())
+	{
+		auto row = it->getRow();
+
+		callback(row);
+	}
+	cout << "-------------------------------------------------------------------------------------------" << endl;
+	it->close();
+	cout << endl << "<<Press enter to go to the main menu>>";
+	cin.get(); cin.get();
+}
+
 void updateRows(Object** row) {
 	double value = row[2]->getDouble();
 	row[2]->setDouble(value * 1.5);
@@ -197,29 +239,33 @@ int main() {
 				{
 				case 1:
 				{
-					auto custIterator = customers->select();
+					iterateThroughTable(customers, printCustomerRow);
+					break;
+				}
+				case 2:
+					iterateThroughTable(products, printProductRow);
+					break;
+				case 3:
+				{
+					cout << endl;
+					//Print field names
+					cout << left << setw(5) << purchases->getFields()[0]->getName() << setw(25) << "customer"<< setw(25) << "product";
+					cout << endl;
+					auto it = purchases->select();
 					cout << "-------------------------------------------------------------------------------------------" << endl;
-					while (custIterator->moveNext())
+					while (it->moveNext())
 					{
-						auto row = custIterator->getRow();
+						auto row = it->getRow();
 
-						cout << left << setw(5) << row[0]->getInt() << setw(25) << row[1]->getString() << setw(25)
-							<< row[2]->getString() << setw(25) << row[3]->getString() << setw(25) << row[4]->getString() << endl;
+						cout << left << setw(5) << row[0]->getInt() << setw(25) << customers->findRowById(row[1]->getInt())[2]->getString()
+							<< setw(25) << products->findRowById(row[2]->getInt())[1]->getString() << endl;
 					}
 					cout << "-------------------------------------------------------------------------------------------" << endl;
-					custIterator->close();
+					it->close();
 					cout << endl << "<<Press enter to go to the main menu>>";
 					cin.get(); cin.get();
 					break;
 				}
-				case 2:
-					cout << "\nType in the id of a row to remove." << endl;
-					products->remove(validateIntegerInput());
-					break;
-				case 3:
-					cout << "\nType in the id of a row to remove." << endl;
-					purchases->remove(validateIntegerInput());
-					break;
 				case 0:
 					choice = -1;
 					break;
@@ -284,34 +330,6 @@ int main() {
 			cin.get(); cin.get();
 		}
 	} while (choice != 0);
-
-	// Select from Product
-	auto prodIterator = products->select();
-	cout << "-----------------------------------" << endl;
-	while (prodIterator->moveNext())
-	{
-		auto row = prodIterator->getRow();
-
-		// Update price of the product with id 105
-		if (row[0]->getInt() == 105)
-			row[2]->setDouble(12000);
-
-		cout << left << setw(5) << row[0]->getInt() << setw(25) << row[1]->getString() << setw(10) << row[2]->getDouble() << endl;
-	}
-	cout << "-----------------------------------" << endl;
-	prodIterator->close();
-
-	// Select from Purchase
-	auto purIterator = purchases->select();
-	cout << "-------------" << endl;
-	while (purIterator->moveNext())
-	{
-		auto row = purIterator->getRow();
-
-		cout << left << setw(5) << row[0]->getInt() << setw(5) << row[1]->getInt() << setw(5) << row[2]->getInt() << endl;
-	}
-	cout << "-------------" << endl;
-	purIterator->close();
 
 	// Select with condition
 	ICondition* condition = new Condition{};

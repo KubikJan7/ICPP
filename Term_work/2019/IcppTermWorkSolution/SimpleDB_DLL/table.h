@@ -53,5 +53,8 @@ public:
 	// Update – aktualizuje øádky vyhovující podmínce, aktualizaci provádí funkce „callback“
 	// callback na vstupu obdrží data øádku a vrací data
 	void update(ICondition* condition, std::function<void(Object**)> callback);
+
+	// Will find row by the given id
+	Object** findRowById(int id);
 };
 #endif
