@@ -45,7 +45,7 @@ int chooseTable(Table* customers, Table* products, Table* purchases) {
 	return validateIntegerInput();
 }
 
-void printCustomerRow(Object** row) 
+void printCustomerRow(Object** row)
 {
 	cout << left << setw(5) << row[0]->getInt() << setw(25) << row[1]->getString() << setw(25)
 		<< row[2]->getString() << setw(25) << row[3]->getString() << setw(25) << row[4]->getString() << endl;
@@ -56,7 +56,7 @@ void printProductRow(Object** row)
 	cout << left << setw(5) << row[0]->getInt() << setw(25) << row[1]->getString() << setw(10) << row[2]->getDouble() << endl;
 }
 
-void iterateThroughTable(Table* table, function<void(Object**)> callback) 
+void iterateThroughTable(Table* table, function<void(Object**)> callback)
 {
 	cout << endl;
 	//Print field names
@@ -163,7 +163,7 @@ int main() {
 			cout << "3) Update\n";
 			cout << "4) Delete\n";
 			cout << "5) Commit\n";
-			cout << "0) Cancel\n";
+			cout << "0) Close\n";
 
 			cout << "\nChoice: ";
 			choice = validateIntegerInput();
@@ -238,10 +238,10 @@ int main() {
 				switch (choice)
 				{
 				case 1:
-				{
+
 					iterateThroughTable(customers, printCustomerRow);
 					break;
-				}
+
 				case 2:
 					iterateThroughTable(products, printProductRow);
 					break;
@@ -249,7 +249,7 @@ int main() {
 				{
 					cout << endl;
 					//Print field names
-					cout << left << setw(5) << purchases->getFields()[0]->getName() << setw(25) << "customer"<< setw(25) << "product";
+					cout << left << setw(5) << purchases->getFields()[0]->getName() << setw(25) << "customer" << setw(25) << "product";
 					cout << endl;
 					auto it = purchases->select();
 					cout << "-------------------------------------------------------------------------------------------" << endl;
@@ -272,6 +272,33 @@ int main() {
 				}
 				break;
 			case 3:
+				system("cls");
+				cout << "======\n";
+				cout << "Update\n";
+				cout << "======\n\n";
+				choice = chooseTable(customers, products, purchases);
+				switch (choice)
+				{
+				case 1:
+					cout << "Select type of update.\n\n";
+					cout << "1) Update one row\n";
+					cout << "2) Update whole table\n";
+					cout << "3) Update rows specified by condition\n";
+					cout << "0) Cancel";
+
+					cout << "\nChoice: ";
+					choice = validateIntegerInput();
+					break;
+
+				case 2:
+					iterateThroughTable(products, printProductRow);
+					break;
+				case 3:
+					break;
+				case 0:
+					choice = -1;
+					break;
+				}
 				break;
 			case 4:
 				system("cls");
