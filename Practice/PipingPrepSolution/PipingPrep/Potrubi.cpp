@@ -1,8 +1,7 @@
 #include "Potrubi.h"
 #include "PrvkyPotrubi.h"
 
-using namespace std;
-Potrubi::Potrubi(istringstream& iss)
+Potrubi::Potrubi(std::istringstream& iss)
 {
 	char znak;
 	iss >> rozmer;
@@ -39,6 +38,7 @@ Potrubi::Potrubi(istringstream& iss)
 		}
 	}
 }
+
 Potrubi::~Potrubi()
 {
 	for (int i = 0; i < rozmer; i++)
@@ -47,21 +47,24 @@ Potrubi::~Potrubi()
 	}
 	delete[] prvky;
 }
-APotrubniPrvek* Potrubi::DejPrvek(int x, int y)const
+
+APotrubniPrvek* Potrubi::DejPrvek(int x, int y) const
 {
-	if (x >= 0 && x < rozmer && y>=0 && y < rozmer)
+	if (x >= 0 && x < rozmer && y >= 0 && y < rozmer)
+	{
 		return prvky[y * rozmer + x];
+	}
 	else
 		return nullptr;
 }
 
-bool Potrubi::JePotrubiOk()const
+bool Potrubi::JePotrubiOk() const
 {
-	for (int i = 0; i < rozmer*rozmer; i++)
+	for (int i = 0; i < rozmer * rozmer; i++)
 	{
-			if (prvky[i])
-				if (!prvky[i]->JeKorektneZapojen(this))
-					return false;
+		if (prvky[i])
+			if (!prvky[i]->JeKorektneZapojen(this))
+				return false;
 	}
 	return true;
 }
