@@ -151,7 +151,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Operator.cpp" />
     <ClCompile Include="TestApplication.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Hodnota.h" />
+    <ClInclude Include="Kalkulator.h" />
+    <ClInclude Include="Operator.h" />
+    <ClInclude Include="PrvekVyrazu.h" />
+    <ClInclude Include="VyjimkaKalkulatoru.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
